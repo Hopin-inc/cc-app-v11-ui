@@ -1,0 +1,303 @@
+//// ------------------------------------------------------
+//// THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+//// ------------------------------------------------------
+
+Table users {
+  id String [pk]
+  name String [not null]
+  slug String [not null]
+  image String
+  bio String
+  sysRole SysRole [not null, default: 'USER']
+  urlWebsite String
+  urlX String
+  urlFacebook String
+  urlInstagram String
+  urlYoutube String
+  urlTiktok String
+  identities identities [not null]
+  memberships memberships [not null]
+  participations participations [not null]
+  opportunitiesCreatedByMe opportunities [not null]
+  wallets wallets [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime
+  participationStatusChangedByMe participation_status_histories [not null]
+}
+
+Table identities {
+  uid String [pk]
+  platform IdentityPlatform [not null]
+  userId String [not null]
+  user users [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime
+}
+
+Table communities {
+  id String [pk]
+  name String [not null]
+  pointName String [not null]
+  image String
+  bio String
+  establishedAt DateTime
+  website String
+  cityCode String [not null]
+  city m_cities [not null]
+  memberships memberships [not null]
+  opportunities opportunities [not null]
+  participations participations [not null]
+  wallets wallets [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime
+  utility utilities [not null]
+  state m_states
+  stateCode String
+  stateCountryCode String
+}
+
+Table memberships {
+  userId String [not null]
+  user users [not null]
+  communityId String [not null]
+  community communities [not null]
+  status MembershipStatus [not null]
+  role Role [not null, default: 'MEMBER']
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime
+
+  indexes {
+    (userId, communityId) [pk]
+  }
+}
+
+Table wallets {
+  id String [pk]
+  type WalletType [not null, default: 'MEMBER']
+  communityId String [not null]
+  community communities [not null]
+  userId String
+  user users
+  currentPointView mv_currenpoints
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime
+  fromTransactions transactions [not null]
+  toTransactions transactions [not null]
+}
+
+Table opportunities {
+  id String [pk]
+  title String [not null]
+  description String
+  category OpportunityCategory [not null]
+  publishStatus PublishStatus [not null, default: 'PUBLIC']
+  requireApproval Boolean [not null, default: false]
+  capacity Int
+  pointsPerParticipation Int [not null]
+  image String
+  files Json [not null, default: '[]', note: '[ArrayOfString]']
+  startsAt DateTime
+  endsAt DateTime
+  communityId String [not null]
+  community communities [not null]
+  createdBy String [not null]
+  createdByUser users [not null]
+  cityCode String [not null]
+  city m_cities [not null]
+  participations participations [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime
+  state m_states
+  stateCode String
+  stateCountryCode String
+}
+
+Table participations {
+  id String [pk]
+  status ParticipationStatus [not null]
+  userId String
+  user users
+  communityId String
+  community communities
+  opportunityId String
+  opportunity opportunities
+  statusHistories participation_status_histories [not null]
+  transactions transactions [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime
+}
+
+Table participation_status_histories {
+  id String [pk]
+  status ParticipationStatus [not null]
+  participationId String [not null]
+  participation participations [not null]
+  createdBy String
+  createdByUser users
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime
+}
+
+Table utilities {
+  id String [pk]
+  name String [not null]
+  description String
+  image String
+  pointsRequired Int [not null]
+  communityId String [not null]
+  community communities [not null]
+  transactions transactions [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime
+}
+
+Table transactions {
+  id String [pk]
+  reason TransactionReason [not null]
+  from String
+  fromWallet wallets
+  fromPointChange Int
+  to String
+  toWallet wallets
+  toPointChange Int
+  participationId String
+  participation participations
+  utilityId String
+  utility utilities
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime
+}
+
+Table m_cities {
+  code String [pk]
+  name String [not null]
+  stateCode String [not null]
+  countryCode String [not null]
+  state m_states [not null]
+  communities communities [not null]
+  opportunities opportunities [not null]
+}
+
+Table m_states {
+  code String [not null]
+  countryCode String [not null]
+  name String [not null]
+  cities m_cities [not null]
+  communities communities [not null]
+  opportunities opportunities [not null]
+
+  indexes {
+    (code, countryCode) [pk]
+  }
+}
+
+Table mv_currenpoints {
+  walletId String [pk]
+  currentPoint Int [not null]
+  wallet wallets [not null]
+}
+
+Enum IdentityPlatform {
+  LINE
+  FACEBOOK
+}
+
+Enum SysRole {
+  SYS_ADMIN
+  USER
+}
+
+Enum Role {
+  OWNER
+  MANAGER
+  MEMBER
+}
+
+Enum PublishStatus {
+  PUBLIC
+  COMMUNITY_INTERNAL
+  PRIVATE
+}
+
+Enum OpportunityCategory {
+  EVENT
+  TASK
+  CONVERSATION
+}
+
+Enum MembershipStatus {
+  INVITED
+  CANCELED
+  JOINED
+  WITHDRAWED
+}
+
+Enum ParticipationStatus {
+  INVITED
+  APPLIED
+  CANCELED
+  PARTICIPATING
+  NOPARTICIPATING
+  APPROVED
+  DENIED
+}
+
+Enum WalletType {
+  COMMUNITY
+  MEMBER
+}
+
+Enum TransactionReason {
+  POINISSUED
+  PARTICIPATION_APPROVED
+  UTILITY_USAGE
+  MEMBERSHIP_DELETED
+  GIFT
+  OTHER
+}
+
+Ref: identities.userId > users.id [delete: Cascade]
+
+Ref: communities.cityCode > m_cities.code [delete: Restrict]
+
+Ref: communities.(stateCode, stateCountryCode) > m_states.(code, countryCode)
+
+Ref: memberships.userId > users.id [delete: Cascade]
+
+Ref: memberships.communityId > communities.id [delete: Cascade]
+
+Ref: wallets.communityId > communities.id [delete: Cascade]
+
+Ref: wallets.userId > users.id [delete: Set Null]
+
+Ref: opportunities.communityId > communities.id
+
+Ref: opportunities.createdBy > users.id [delete: Set Null]
+
+Ref: opportunities.cityCode > m_cities.code [delete: Restrict]
+
+Ref: opportunities.(stateCode, stateCountryCode) > m_states.(code, countryCode)
+
+Ref: participations.userId > users.id [delete: Set Null]
+
+Ref: participations.communityId > communities.id [delete: Set Null]
+
+Ref: participations.opportunityId > opportunities.id [delete: Set Null]
+
+Ref: participation_status_histories.participationId > participations.id [delete: Cascade]
+
+Ref: participation_status_histories.createdBy > users.id [delete: Set Null]
+
+Ref: utilities.communityId > communities.id [delete: Cascade]
+
+Ref: transactions.from > wallets.id [delete: Set Null]
+
+Ref: transactions.to > wallets.id [delete: Set Null]
+
+Ref: transactions.participationId > participations.id [delete: Set Null]
+
+Ref: transactions.utilityId > utilities.id [delete: Set Null]
+
+Ref: m_cities.(stateCode, countryCode) > m_states.(code, countryCode) [delete: Restrict]
+
+Ref: mv_currenpoints.walletId - wallets.id
