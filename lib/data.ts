@@ -122,7 +122,8 @@ export const mockOpportunities: Opportunity[] = [
     status: "open",
     projectId: "1",
     hostId: "host1",
-    durationMinutes: 60,
+    startsAt: "2025-02-01T13:00:00+09:00",
+    endsAt: "2025-02-01T14:00:00+09:00",
     categories: [
       categories.find((c) => c.id === "welfare-health") ?? categories[0],
       categories.find((c) => c.id === "tourism-culture") ?? categories[0],
@@ -167,7 +168,8 @@ export const mockOpportunities: Opportunity[] = [
     status: "open",
     projectId: "2",
     hostId: "host2",
-    durationMinutes: 60,
+    startsAt: "2025-02-02T15:00:00+09:00",
+    endsAt: "2025-02-02T16:00:00+09:00",
     categories: [
       categories.find((c) => c.id === "tourism-culture") ?? categories[0],
       categories.find((c) => c.id === "industry-economy") ?? categories[0],
@@ -212,7 +214,8 @@ export const mockOpportunities: Opportunity[] = [
     status: "open",
     projectId: "3",
     hostId: "host3",
-    durationMinutes: 30,
+    startsAt: "2025-02-03T10:00:00+09:00",
+    endsAt: "2025-02-03T10:30:00+09:00",
     categories: [
       categories.find((c) => c.id === "administration") ?? categories[0],
     ],
@@ -253,7 +256,8 @@ export const mockOpportunities: Opportunity[] = [
     status: "open",
     projectId: "4",
     hostId: "host4",
-    durationMinutes: 30,
+    startsAt: "2025-02-04T14:00:00+09:00",
+    endsAt: "2025-02-04T14:30:00+09:00",
     categories: [
       categories.find((c) => c.id === "education-children") ?? categories[0],
       categories.find((c) => c.id === "agriculture") ?? categories[0],
@@ -298,7 +302,8 @@ export const mockOpportunities: Opportunity[] = [
     status: "open",
     projectId: "5",
     hostId: "host5",
-    durationMinutes: 30,
+    startsAt: "2025-02-05T16:00:00+09:00",
+    endsAt: "2025-02-05T16:30:00+09:00",
     categories: [
       categories.find((c) => c.id === "agriculture") ?? categories[0],
       categories.find((c) => c.id === "environment") ?? categories[0],
@@ -435,7 +440,7 @@ export const messages = [
     senderName: "田中さん",
     senderImage: "/placeholder.svg?height=40&width=40",
     content:
-      "壁打ちの機会をいただき、ありがとうございました。スケジュールの調整をさせていただきたいのですが、来週の火曜日か木曜日でご都合はいかがでしょうか？",
+      "関わり方の機会をいただき、ありがとうございました。スケジュールの調整をさせていただきたいのですが、来週の火曜日か木曜日でご都合はいかがでしょうか？",
     createdAt: new Date(2023, 6, 1, 14, 30),
     unreadCount: 1,
   },
@@ -445,7 +450,7 @@ export const messages = [
     senderName: "佐藤さん",
     senderImage: "/placeholder.svg?height=40&width=40",
     content:
-      "先日の壁打ちセッション、大変参考になりました。いただいたアドバイスを元にプロジェクトを進めています。また、懇親会の際にお話しした地域のイベントに参加させていただきたいのですが、詳細を教えていただけますか？",
+      "先日の関わり方セッション、大変参考になりました。いただいたアドバイスを元にプロジェクトを進めています。また、懇親会の際にお話しした地域のイベントに参加させていただきたいのですが、詳細を教えていただけますか？",
     createdAt: new Date(2023, 6, 2, 9, 15),
     unreadCount: 3,
   },
@@ -455,7 +460,7 @@ export const messages = [
     senderName: "鈴木さん",
     senderImage: "/placeholder.svg?height=40&width=40",
     content:
-      "壁打ちセッションでのフィードバック、ありがとうございました。早速、提案いただいたアイデアを取り入れて進めています。来月、プロジェクトの経過報告会を予定していますので、ぜひ遊びに来ていただけると嬉しいです。日程が決まり次第、ご連絡させていただきます。",
+      "関わり方セッションでのフィードバック、ありがとうございました。早速、提案いただいたアイデアを取り入れて進めています。来月、プロジェクトの経過報告会を予定していますので、ぜひ遊びに来ていただけると嬉しいです。日程が決まり次第、ご連絡させていただきます。",
     createdAt: new Date(2023, 6, 3, 16, 45),
     unreadCount: 0,
   },

@@ -1,17 +1,17 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import Image from "next/image"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Pencil } from "lucide-react"
-import { PointsModal } from "@/components/points-modal"
-import { EditProfileModal } from "@/components/edit-profile-modal"
-import { categories, skills } from "@/lib/data"
-import { dummyUser } from "@/lib/dummyUser"
-import OpportunityCard from "@/components/OpportunityCard"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { useState } from "react";
+import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Pencil } from "lucide-react";
+import { PointsModal } from "@/components/points-modal";
+import { EditProfileModal } from "@/components/edit-profile-modal";
+import { categories, mockOpportunities, skills } from "@/lib/data";
+import { dummyUser } from "@/lib/dummyUser";
+import OpportunityCard from "@/components/OpportunityCard";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 // This would typically come from an API
 const user = {
@@ -31,46 +31,25 @@ const user = {
     { id: "it", level: 2 },
     { id: "marketing", level: 1 },
   ],
-  appliedSessions: [
-    {
-      id: "1",
-      title: "木材を活用した健康体験イベント、アイデアください！",
-      status: "承認済み",
-      date: "2023-07-15",
-      description: "地元の木材を使って、高齢者が楽しめる健康イベントを考えています。",
-      categories: [{ id: "welfare-health", name: "福祉・健康" }],
-      skills: [{ id: "event-planning", name: "イベント企画" }],
-      durationMinutes: 60,
-      host: { name: "森田 葉子", image: "/placeholder.svg?height=40&width=40" },
-    },
-    {
-      id: "2",
-      title: "地元の木造建築を生かした観光プラン、相談させてください！",
-      status: "申請中",
-      date: "2023-07-20",
-      description: "地域に残る木造建築をもっと観光客に知ってもらいたい！",
-      categories: [{ id: "tourism-culture", name: "観光・文化振興" }],
-      skills: [{ id: "marketing", name: "マーケティング" }],
-      durationMinutes: 45,
-      host: { name: "山田 太郎", image: "/placeholder.svg?height=40&width=40" },
-    },
-  ],
-}
+  appliedSessions: [mockOpportunities[0], mockOpportunities[1]],
+};
 
 export default function MyPage() {
-  const [isPointsModalOpen, setIsPointsModalOpen] = useState(false)
-  const [isEditProfileOpen, setIsEditProfileOpen] = useState(false)
+  const [isPointsModalOpen, setIsPointsModalOpen] = useState(false);
+  const [isEditProfileOpen, setIsEditProfileOpen] = useState(false);
 
-  const groupedSessions = user.appliedSessions.reduce((acc, session) => {
-    acc[session.status] = [...(acc[session.status] || []), session]
-    return acc
-  }, {})
+  const groupedSessions = user.appliedSessions.reduce<
+    Record<string, typeof user.appliedSessions>
+  >((acc, session) => {
+    acc[session.status] = [...(acc[session.status] || []), session];
+    return acc;
+  }, {});
 
   const statusTabs = Object.keys(groupedSessions).map((status) => ({
     value: status,
     label: status,
     count: groupedSessions[status].length,
-  }))
+  }));
 
   return (
     <div className="container mx-auto px-4 py-6 space-y-6 max-w-3xl">
@@ -108,11 +87,17 @@ export default function MyPage() {
               <div>
                 <h2 className="text-lg font-semibold mb-1">ポイント</h2>
                 <div className="flex items-baseline gap-2">
-                  <span className="text-3xl font-bold">{user.points.available}</span>
-                  <span className="text-muted-foreground">/ {user.points.total} pt</span>
+                  <span className="text-3xl font-bold">
+                    {user.points.available}
+                  </span>
+                  <span className="text-muted-foreground">
+                    / {user.points.total} pt
+                  </span>
                 </div>
               </div>
-              <Button onClick={() => setIsPointsModalOpen(true)}>ポイントを利用する</Button>
+              <Button onClick={() => setIsPointsModalOpen(true)}>
+                ポイントを利用する
+              </Button>
             </div>
           </CardContent>
         </Card>
@@ -134,13 +119,19 @@ export default function MyPage() {
         </div>
         <div className="flex flex-wrap gap-2">
           {user.skills.map((userSkill) => {
-            const skill = skills.find((s) => s.id === userSkill.id)
+            const skill = skills.find((s) => s.id === userSkill.id);
             return skill ? (
-              <Badge key={skill.id} variant="outline" className="flex items-center gap-1">
+              <Badge
+                key={skill.id}
+                variant="outline"
+                className="flex items-center gap-1"
+              >
                 {skill.name}
-                <span className="bg-primary/10 text-primary text-xs px-1 rounded">Lv{userSkill.level}</span>
+                <span className="bg-primary/10 text-primary text-xs px-1 rounded">
+                  Lv{userSkill.level}
+                </span>
               </Badge>
-            ) : null
+            ) : null;
           })}
         </div>
       </div>
@@ -161,15 +152,19 @@ export default function MyPage() {
         </div>
         <div className="flex flex-wrap gap-2">
           {user.badges.map((badge) => {
-            const category = categories.find((c) => c.id === badge.id)
+            const category = categories.find((c) => c.id === badge.id);
             return category ? (
-              <Badge key={category.id} variant="secondary" className="flex items-center gap-1">
+              <Badge
+                key={category.id}
+                variant="secondary"
+                className="flex items-center gap-1"
+              >
                 {category.name}
                 <span className="bg-secondary-foreground/10 text-secondary-foreground text-xs px-1 rounded">
                   Lv{badge.level}
                 </span>
               </Badge>
-            ) : null
+            ) : null;
           })}
         </div>
       </div>
@@ -203,8 +198,16 @@ export default function MyPage() {
         availablePoints={user.points.available}
       />
 
-      <EditProfileModal open={isEditProfileOpen} onOpenChange={setIsEditProfileOpen} user={user} />
+      <EditProfileModal
+        open={isEditProfileOpen}
+        onOpenChange={setIsEditProfileOpen}
+        user={{
+          name: user.name,
+          bio: user.bio,
+          skills: user.skills.map((skill) => skill.id),
+          interests: user.badges.map((badge) => badge.id),
+        }}
+      />
     </div>
-  )
+  );
 }
-

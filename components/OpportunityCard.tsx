@@ -23,7 +23,9 @@ export default function OpportunityCard({ session }: OpportunityCardProps) {
             </div>
             <div className="flex items-center text-sm text-muted-foreground">
               <Clock className="w-4 h-4 mr-1" />
-              {session.durationMinutes}分
+              {new Date(session.startsAt).toLocaleString('ja-JP', { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
+              ~
+              {new Date(session.endsAt).toLocaleString('ja-JP', { hour: '2-digit', minute: '2-digit' })}
             </div>
           </div>
 
@@ -62,4 +64,3 @@ export default function OpportunityCard({ session }: OpportunityCardProps) {
     </Link>
   )
 }
-

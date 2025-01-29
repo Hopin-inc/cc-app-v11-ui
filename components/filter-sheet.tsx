@@ -1,9 +1,9 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { X, Search } from 'lucide-react'
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
+import * as React from "react";
+import { X, Search } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   Sheet,
   SheetContent,
@@ -11,19 +11,19 @@ import {
   SheetTitle,
   SheetFooter,
   SheetClose,
-} from "@/components/ui/sheet"
-import { categories, skills } from '@/lib/data'
-import { usePathname } from 'next/navigation'
+} from "@/components/ui/sheet";
+import { categories, skills } from "@/lib/data";
+import { usePathname } from "next/navigation";
 
 interface FilterSheetProps {
-  open: boolean
-  onOpenChange: (open: boolean) => void
-  selectedCategories: string[]
-  selectedSkills: string[]
-  searchQuery: string
-  onCategoriesChange: (value: string[]) => void
-  onSkillsChange: (value: string[]) => void
-  onSearchChange: (value: string) => void
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  selectedCategories: string[];
+  selectedSkills: string[];
+  searchQuery: string;
+  onCategoriesChange: (value: string[]) => void;
+  onSkillsChange: (value: string[]) => void;
+  onSearchChange: (value: string) => void;
 }
 
 export function FilterSheet({
@@ -36,45 +36,43 @@ export function FilterSheet({
   onSkillsChange,
   onSearchChange,
 }: FilterSheetProps) {
-  const pathname = usePathname()
-  const [localCategories, setLocalCategories] = React.useState<string[]>(selectedCategories)
-  const [localSkills, setLocalSkills] = React.useState<string[]>(selectedSkills)
-  const [localSearch, setLocalSearch] = React.useState<string>(searchQuery)
+  const pathname = usePathname();
+  const [localCategories, setLocalCategories] =
+    React.useState<string[]>(selectedCategories);
+  const [localSkills, setLocalSkills] =
+    React.useState<string[]>(selectedSkills);
+  const [localSearch, setLocalSearch] = React.useState<string>(searchQuery);
 
   React.useEffect(() => {
-    setLocalCategories(selectedCategories)
-    setLocalSkills(selectedSkills)
-    setLocalSearch(searchQuery)
-  }, [selectedCategories, selectedSkills, searchQuery])
+    setLocalCategories(selectedCategories);
+    setLocalSkills(selectedSkills);
+    setLocalSearch(searchQuery);
+  }, [selectedCategories, selectedSkills, searchQuery]);
 
   const handleApply = () => {
-    onCategoriesChange(localCategories)
-    onSkillsChange(localSkills)
-    onSearchChange(localSearch)
-    onOpenChange(false)
-  }
+    onCategoriesChange(localCategories);
+    onSkillsChange(localSkills);
+    onSearchChange(localSearch);
+    onOpenChange(false);
+  };
 
   const handleClear = () => {
-    setLocalCategories([])
-    setLocalSkills([])
-    setLocalSearch('')
-  }
+    setLocalCategories([]);
+    setLocalSkills([]);
+    setLocalSearch("");
+  };
 
   const handleCategoryChange = (value: string) => {
-    setLocalCategories(prev => 
-      prev.includes(value) 
-        ? prev.filter(c => c !== value)
-        : [...prev, value]
-    )
-  }
+    setLocalCategories((prev) =>
+      prev.includes(value) ? prev.filter((c) => c !== value) : [...prev, value]
+    );
+  };
 
   const handleSkillChange = (value: string) => {
-    setLocalSkills(prev => 
-      prev.includes(value) 
-        ? prev.filter(s => s !== value)
-        : [...prev, value]
-    )
-  }
+    setLocalSkills((prev) =>
+      prev.includes(value) ? prev.filter((s) => s !== value) : [...prev, value]
+    );
+  };
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
@@ -90,7 +88,9 @@ export function FilterSheet({
           <div className="relative">
             <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
             <Input
-              placeholder={`${pathname === '/explore' ? 'プロジェクト' : '壁打ち'}を検索`}
+              placeholder={`${
+                pathname === "/explore" ? "プロジェクト" : "関わり方"
+              }を検索`}
               value={localSearch}
               onChange={(e) => setLocalSearch(e.target.value)}
               className="pl-8"
@@ -104,7 +104,11 @@ export function FilterSheet({
               {categories.map((category) => (
                 <Button
                   key={category.id}
-                  variant={localCategories.includes(category.id) ? "default" : "outline"}
+                  variant={
+                    localCategories.includes(category.id)
+                      ? "default"
+                      : "outline"
+                  }
                   onClick={() => handleCategoryChange(category.id)}
                   className="justify-start"
                 >
@@ -119,7 +123,9 @@ export function FilterSheet({
               {skills.map((skill) => (
                 <Button
                   key={skill.id}
-                  variant={localSkills.includes(skill.id) ? "default" : "outline"}
+                  variant={
+                    localSkills.includes(skill.id) ? "default" : "outline"
+                  }
                   onClick={() => handleSkillChange(skill.id)}
                   className="justify-start"
                 >
@@ -131,15 +137,16 @@ export function FilterSheet({
         </div>
         <SheetFooter className="border-t">
           <div className="flex w-full gap-2">
-            <Button
-              variant="outline"
-              onClick={handleClear}
-              className="flex-1"
-            >
+            <Button variant="outline" onClick={handleClear} className="flex-1">
               クリア
-              {(localCategories.length > 0 || localSkills.length > 0 || localSearch) && 
-                ` (${localCategories.length + localSkills.length + (localSearch ? 1 : 0)})`
-              }
+              {(localCategories.length > 0 ||
+                localSkills.length > 0 ||
+                localSearch) &&
+                ` (${
+                  localCategories.length +
+                  localSkills.length +
+                  (localSearch ? 1 : 0)
+                })`}
             </Button>
             <Button onClick={handleApply} className="flex-1">
               絞り込み
@@ -148,6 +155,5 @@ export function FilterSheet({
         </SheetFooter>
       </SheetContent>
     </Sheet>
-  )
+  );
 }
-

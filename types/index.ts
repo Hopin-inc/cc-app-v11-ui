@@ -26,7 +26,8 @@ export type Opportunity = {
   status: "open" | "in_progress" | "closed"
   projectId: string
   hostId: string
-  durationMinutes: 30 | 60 | 90
+  startsAt: string
+  endsAt: string
   categories: Category[]
   skills: Skill[]
   createdAt: Date
@@ -82,4 +83,3 @@ export type Notification = {
   read: boolean
   createdAt: Date
 }
-

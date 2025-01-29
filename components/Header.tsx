@@ -1,9 +1,6 @@
-import Link from 'next/link'
-import Image from 'next/image'
-import { Search, Menu } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import NotificationBell from '@/components/NotificationBell'
-import { dummyUser } from '@/lib/dummyUser'
+import Link from "next/link";
+import Image from "next/image";
+import { dummyUser } from "@/lib/dummyUser";
 
 export default function Header() {
   return (
@@ -16,7 +13,6 @@ export default function Header() {
           <p className="font-bold">APP_NAME</p>
         </Link>
         <div className="flex items-center space-x-4">
-          <NotificationBell />
           <Link href="/mypage">
             <Image
               src={dummyUser.image}
@@ -29,6 +25,5 @@ export default function Header() {
         </div>
       </div>
     </header>
-  )
+  );
 }
-
