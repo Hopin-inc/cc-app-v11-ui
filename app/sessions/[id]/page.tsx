@@ -77,16 +77,31 @@ export default function OpportunityDetailPage() {
               <Share2 className="h-6 w-6" />
             </button>
           </div>
-          <div className="bg-yellow-500/10 px-6 py-4 flex justify-between items-center border-b border-yellow-500/30">
-            <div className="flex items-center gap-3">
-              <Trophy className="h-8 w-8 text-yellow-500" />
-              <Badge variant="secondary" className="bg-yellow-500 text-white">
-                クエスト
-              </Badge>
+          <div className="bg-yellow-500/10 px-6 py-4 flex flex-col gap-4 border-b border-yellow-500/30">
+            <div className="mt-14 flex justify-between items-center">
+              <div className="flex items-center gap-3">
+                <Badge variant="secondary" className="bg-yellow-500 text-white">
+                  クエスト
+                </Badge>
+              </div>
+              <div className="flex items-center gap-2">
+                <Trophy className="w-5 h-5 text-yellow-700" />
+                <span className="text-lg font-bold text-yellow-700">
+                  獲得トークン: 100pt
+                </span>
+              </div>
             </div>
-            <div className="flex items-center gap-2 text-yellow-700">
-              <Trophy className="w-5 h-5" />
-              <span className="text-lg font-bold">報酬ポイント: 100pt</span>
+            <h1 className="text-2xl font-bold">{opportunity.title}</h1>
+            <div className="flex flex-wrap gap-2">
+              {opportunity.categories.map((category) => (
+                <Badge
+                  key={category.id}
+                  variant="secondary"
+                  className="bg-yellow-500/10 text-yellow-700"
+                >
+                  {category.name}
+                </Badge>
+              ))}
             </div>
           </div>
         </div>
@@ -94,22 +109,6 @@ export default function OpportunityDetailPage() {
 
       {/* Content */}
       <div className={`px-4 py-6 space-y-8 ${isEvent ? "pt-12" : ""}`}>
-        {/* Title and Categories */}
-        <div>
-          <h1 className="text-2xl font-bold mb-4">{opportunity.title}</h1>
-          <div className="flex flex-wrap gap-2">
-            {opportunity.categories.map((category) => (
-              <Badge
-                key={category.id}
-                variant="secondary"
-                className={isEvent ? "" : "bg-yellow-500/10 text-yellow-700"}
-              >
-                {category.name}
-              </Badge>
-            ))}
-          </div>
-        </div>
-
         {/* Opportunity Info */}
         <div
           className={`space-y-2 rounded-lg border ${
@@ -158,23 +157,29 @@ export default function OpportunityDetailPage() {
         {/* Host Message */}
         <div>
           <h2 className="text-lg font-semibold mb-4">
-            {isEvent ? "イベント詳細" : "クエスト詳細"}
+            {isEvent
+              ? "参加にあたってのメッセージ"
+              : "参加にあたってのメッセージ"}
           </h2>
-          <div className="flex items-start gap-4">
-            <Image
-              src={opportunity.host.image || "/placeholder.svg"}
-              alt={opportunity.host.name}
-              width={48}
-              height={48}
-              className="rounded-full"
-            />
-            <div className="flex-1">
-              <p className="font-medium mb-1">{opportunity.host.name}</p>
-              <p className="text-muted-foreground text-sm whitespace-pre-wrap">
-                {opportunity.description}
-              </p>
-            </div>
-          </div>
+          <Card>
+            <CardContent className="p-4">
+              <div className="flex items-start gap-4">
+                <Image
+                  src={opportunity.host.image || "/placeholder.svg"}
+                  alt={opportunity.host.name}
+                  width={48}
+                  height={48}
+                  className="rounded-full"
+                />
+                <div className="flex-1">
+                  <p className="font-medium mb-2">{opportunity.host.name}</p>
+                  <p className="text-muted-foreground text-sm whitespace-pre-wrap">
+                    {opportunity.description}
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
         </div>
 
         {/* Required Skills */}
