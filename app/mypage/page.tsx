@@ -26,11 +26,13 @@ const user = {
     { id: "tourism-culture", level: 3 },
     { id: "environment", level: 1 },
   ],
+
   skills: [
     { id: "event-planning", level: 3 },
     { id: "it", level: 2 },
     { id: "marketing", level: 1 },
   ],
+
   appliedSessions: [mockOpportunities[0], mockOpportunities[1]],
 };
 
@@ -64,6 +66,7 @@ export default function MyPage() {
               height={80}
               className="rounded-full"
             />
+
             <div>
               <h1 className="text-2xl font-bold">{user.name}</h1>
               <p className="text-muted-foreground mt-1">{user.bio}</p>

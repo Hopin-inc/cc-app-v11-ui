@@ -86,6 +86,7 @@ export default function OpportunityDetailPage() {
               </div>
               <div className="flex items-center gap-2">
                 <Trophy className="w-5 h-5 text-yellow-700" />
+
                 <span className="text-lg font-bold text-yellow-700">
                   獲得トークン: 100pt
                 </span>
@@ -171,6 +172,7 @@ export default function OpportunityDetailPage() {
                   height={48}
                   className="rounded-full"
                 />
+
                 <div className="flex-1">
                   <p className="font-medium mb-2">{opportunity.host.name}</p>
                   <p className="text-muted-foreground text-sm whitespace-pre-wrap">
@@ -220,6 +222,7 @@ export default function OpportunityDetailPage() {
                           height={40}
                           className="rounded-lg"
                         />
+
                         <div className="flex-1">
                           <h3 className="font-medium mb-1">{article.title}</h3>
                           <p className="text-sm text-muted-foreground">

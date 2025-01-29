@@ -1,16 +1,15 @@
-'use client'
+"use client";
 
-import { usePathname } from 'next/navigation'
-import BottomNav from './BottomNav'
+import { usePathname } from "next/navigation";
+import BottomNav from "./BottomNav";
 
 export default function ClientBottomNav() {
-  const pathname = usePathname()
-  
+  const pathname = usePathname();
+
   // Hide BottomNav on session detail pages
-  if (pathname?.startsWith('/sessions/')) {
-    return null
+  if (pathname?.startsWith("/sessions/")) {
+    return null;
   }
 
-  return <BottomNav />
+  return <BottomNav />;
 }
-

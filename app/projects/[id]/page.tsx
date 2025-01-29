@@ -1,23 +1,29 @@
-"use client"
+"use client";
 
-import { useParams } from "next/navigation"
-import Image from "next/image"
-import Link from "next/link"
-import { ArrowLeft, Share2 } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import OpportunityCard from "@/components/OpportunityCard"
-import { mockProjects, mockOpportunities } from "@/lib/data"
+import { useParams } from "next/navigation";
+import Image from "next/image";
+import Link from "next/link";
+import { ArrowLeft, Share2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import OpportunityCard from "@/components/OpportunityCard";
+import { mockProjects, mockOpportunities } from "@/lib/data";
 
 export default function ProjectDetailPage() {
-  const { id } = useParams()
-  const project = mockProjects.find((p) => p.id === id)
+  const { id } = useParams();
+  const project = mockProjects.find((p) => p.id === id);
 
   if (!project) {
-    return <div className="container mx-auto px-4 py-8">プロジェクトが見つかりません</div>
+    return (
+      <div className="container mx-auto px-4 py-8">
+        プロジェクトが見つかりません
+      </div>
+    );
   }
 
-  const projectOpportunities = mockOpportunities.filter((w) => w.projectId === project.id)
+  const projectOpportunities = mockOpportunities.filter(
+    (w) => w.projectId === project.id,
+  );
 
   return (
     <div className="min-h-screen pb-20">
@@ -79,6 +85,5 @@ export default function ProjectDetailPage() {
         </div>
       </div>
     </div>
-  )
+  );
 }
-

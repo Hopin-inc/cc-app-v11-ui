@@ -25,6 +25,7 @@ export default function EventCard({ event }: EventCardProps) {
             fill
             className="object-cover"
           />
+
           <div className="absolute top-4 left-4 flex gap-2">
             {event.categories.map((category) => (
               <Badge
@@ -42,7 +43,9 @@ export default function EventCard({ event }: EventCardProps) {
           {project && (
             <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2">
               <span>プロジェクト：</span>
-              <span className="font-medium text-foreground">{project.title}</span>
+              <span className="font-medium text-foreground">
+                {project.title}
+              </span>
             </div>
           )}
           <div className="flex flex-col gap-3 text-sm text-muted-foreground">
@@ -76,6 +79,7 @@ export default function EventCard({ event }: EventCardProps) {
               height={32}
               className="rounded-full"
             />
+
             <span className="text-sm">{event.host.name}</span>
           </div>
         </CardFooter>

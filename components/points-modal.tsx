@@ -1,73 +1,76 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import Image from 'next/image'
-import { Check, Download, X } from 'lucide-react'
-import { Button } from '@/components/ui/button'
+import { useState } from "react";
+import Image from "next/image";
+import { Check, Download, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog'
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
-import { Label } from '@/components/ui/label'
-import { cn } from '@/lib/utils'
+} from "@/components/ui/dialog";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Label } from "@/components/ui/label";
+import { cn } from "@/lib/utils";
 
 interface PointsModalProps {
-  open: boolean
-  onOpenChange: (open: boolean) => void
-  availablePoints: number
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  availablePoints: number;
 }
 
 const rewards = [
   {
-    id: '1',
-    title: '地域カフェでのコーヒー1杯無料券',
-    description: '地元で人気の「まちカフェ」でお好きなコーヒー1杯と交換できます',
-    image: '/placeholder.svg?height=80&width=80',
+    id: "1",
+    title: "地域カフェでのコーヒー1杯無料券",
+    description:
+      "地元で人気の「まちカフェ」でお好きなコーヒー1杯と交換できます",
+    image: "/placeholder.svg?height=80&width=80",
     points: 50,
   },
   {
-    id: '2',
-    title: 'コワーキングスペース3時間無料券',
-    description: '地域のコワーキングスペース「みんなの仕事場」で3時間無料で利用できます',
-    image: '/placeholder.svg?height=80&width=80',
+    id: "2",
+    title: "コワーキングスペース3時間無料券",
+    description:
+      "地域のコワーキングスペース「みんなの仕事場」で3時間無料で利用できます",
+    image: "/placeholder.svg?height=80&width=80",
     points: 100,
   },
   {
-    id: '3',
-    title: '地元農家の規格外野菜セット(1kg)',
-    description: '地元農家さんの採れたて新鮮野菜の詰め合わせです。形は不揃いでもおいしさは抜群！',
-    image: '/placeholder.svg?height=80&width=80',
+    id: "3",
+    title: "地元農家の規格外野菜セット(1kg)",
+    description:
+      "地元農家さんの採れたて新鮮野菜の詰め合わせです。形は不揃いでもおいしさは抜群！",
+    image: "/placeholder.svg?height=80&width=80",
     points: 150,
   },
   {
-    id: '4',
-    title: '地域の伝統工芸品ミニ体験チケット',
-    description: '地元の職人さんから伝統工芸品の作り方を学べる体験チケットです',
-    image: '/placeholder.svg?height=80&width=80',
+    id: "4",
+    title: "地域の伝統工芸品ミニ体験チケット",
+    description: "地元の職人さんから伝統工芸品の作り方を学べる体験チケットです",
+    image: "/placeholder.svg?height=80&width=80",
     points: 200,
   },
-]
+];
 
 export function PointsModal({
   open,
   onOpenChange,
   availablePoints,
 }: PointsModalProps) {
-  const [selectedReward, setSelectedReward] = useState<string>('')
-  const [isConfirmed, setIsConfirmed] = useState(false)
+  const [selectedReward, setSelectedReward] = useState<string>("");
+  const [isConfirmed, setIsConfirmed] = useState(false);
 
   const handleExchange = () => {
-    setIsConfirmed(true)
-  }
+    setIsConfirmed(true);
+  };
 
   const handleClose = () => {
-    setSelectedReward('')
-    setIsConfirmed(false)
-    onOpenChange(false)
-  }
+    setSelectedReward("");
+    setIsConfirmed(false);
+    onOpenChange(false);
+  };
 
   if (isConfirmed) {
     return (
@@ -78,7 +81,8 @@ export function PointsModal({
               <Check className="h-6 w-6" />
             </div>
             <DialogTitle className="text-center">
-              {rewards.find(r => r.id === selectedReward)?.title}と交換しました！
+              {rewards.find((r) => r.id === selectedReward)?.title}
+              と交換しました！
             </DialogTitle>
           </DialogHeader>
           <div className="flex flex-col items-center gap-4">
@@ -97,7 +101,7 @@ export function PointsModal({
               className="w-full"
               onClick={() => {
                 // Here you would typically trigger the QR code download
-                handleClose()
+                handleClose();
               }}
             >
               <Download className="mr-2 h-4 w-4" />
@@ -106,7 +110,7 @@ export function PointsModal({
           </div>
         </DialogContent>
       </Dialog>
-    )
+    );
   }
 
   return (
@@ -124,7 +128,8 @@ export function PointsModal({
           </DialogTitle>
         </DialogHeader>
         <div className="text-sm mb-4">
-          利用可能ポイント: <span className="font-bold">{availablePoints}pt</span>
+          利用可能ポイント:{" "}
+          <span className="font-bold">{availablePoints}pt</span>
         </div>
         <div className="flex-1 overflow-auto">
           <RadioGroup
@@ -133,13 +138,15 @@ export function PointsModal({
             className="space-y-2"
           >
             {rewards.map((reward) => {
-              const isDisabled = reward.points > availablePoints
+              const isDisabled = reward.points > availablePoints;
               return (
                 <Label
                   key={reward.id}
                   className={cn(
                     "flex items-start space-x-4 rounded-lg border p-4",
-                    isDisabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer hover:bg-accent"
+                    isDisabled
+                      ? "opacity-50 cursor-not-allowed"
+                      : "cursor-pointer hover:bg-accent",
                   )}
                 >
                   <RadioGroupItem
@@ -147,6 +154,7 @@ export function PointsModal({
                     disabled={isDisabled}
                     className="mt-1"
                   />
+
                   <div className="flex flex-1 gap-4">
                     <Image
                       src={reward.image}
@@ -155,6 +163,7 @@ export function PointsModal({
                       height={80}
                       className="rounded-lg object-cover"
                     />
+
                     <div className="flex-1 space-y-1">
                       <p className="font-medium">{reward.title}</p>
                       <p className="text-sm text-muted-foreground">
@@ -164,7 +173,7 @@ export function PointsModal({
                     </div>
                   </div>
                 </Label>
-              )
+              );
             })}
           </RadioGroup>
         </div>
@@ -177,6 +186,5 @@ export function PointsModal({
         </Button>
       </DialogContent>
     </Dialog>
-  )
+  );
 }
-

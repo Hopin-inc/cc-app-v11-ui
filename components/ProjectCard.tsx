@@ -26,6 +26,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
                 height={24}
                 className="mr-2"
               />
+
               <h3 className="text-lg font-medium">{project.title}</h3>
             </div>
             <p className="text-sm text-muted-foreground mb-4">

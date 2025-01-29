@@ -1,5 +1,11 @@
 import { Dispatch, SetStateAction, useState } from "react";
-import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "./ui/sheet";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+} from "./ui/sheet";
 import { Textarea } from "./ui/textarea";
 import { Button } from "./ui/button";
 import { Opportunity } from "@/types";

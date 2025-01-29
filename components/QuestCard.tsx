@@ -14,7 +14,9 @@ interface QuestCardProps {
 }
 
 export default function QuestCard({ quest }: QuestCardProps) {
-  const project: Project | undefined = mockProjects.find((p) => p.id === quest.projectId);
+  const project: Project | undefined = mockProjects.find(
+    (p) => p.id === quest.projectId,
+  );
 
   return (
     <Link href={`/sessions/${quest.id}`}>
@@ -38,13 +40,22 @@ export default function QuestCard({ quest }: QuestCardProps) {
           {project && (
             <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
               <span>プロジェクト：</span>
-              <span className="font-medium text-foreground">{project.title}</span>
+              <span className="font-medium text-foreground">
+                {project.title}
+              </span>
             </div>
           )}
           <div className="flex flex-col gap-3 text-sm text-muted-foreground">
             <div className="flex items-center gap-2">
               <Clock className="w-4 h-4" />
-              <span>所要時間: {format(new Date(quest.endsAt).getTime() - new Date(quest.startsAt).getTime(), "H時間mm分")}</span>
+              <span>
+                所要時間:{" "}
+                {format(
+                  new Date(quest.endsAt).getTime() -
+                    new Date(quest.startsAt).getTime(),
+                  "H時間mm分",
+                )}
+              </span>
             </div>
             <div className="flex items-center gap-2">
               <Users className="w-4 h-4" />
@@ -67,6 +78,7 @@ export default function QuestCard({ quest }: QuestCardProps) {
               height={32}
               className="rounded-full"
             />
+
             <span className="text-sm">{quest.host.name}</span>
           </div>
         </CardFooter>

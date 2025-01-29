@@ -144,16 +144,16 @@ export default function OpportunityCard({ session }: OpportunityCardProps) {
 
           {/* Categories */}
           {/* <div className="flex flex-wrap gap-1.5 mb-3">
-            {session.categories.map((category) => (
-              <Badge
-                key={category.id}
-                variant="secondary"
-                className="bg-yellow-500/10 text-yellow-700 text-xs"
-              >
-                {category.name}
-              </Badge>
-            ))}
-          </div> */}
+                {session.categories.map((category) => (
+                  <Badge
+                    key={category.id}
+                    variant="secondary"
+                    className="bg-yellow-500/10 text-yellow-700 text-xs"
+                  >
+                    {category.name}
+                  </Badge>
+                ))}
+               </div> */}
 
           {/* Quest Details */}
           <div className="grid grid-cols-2 gap-2 text-xs text-muted-foreground">

@@ -27,21 +27,21 @@ export default function Home() {
         !searchQuery ||
         opportunity.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
         opportunity.categories.some((c) =>
-          c?.name.toLowerCase().includes(searchQuery.toLowerCase())
+          c?.name.toLowerCase().includes(searchQuery.toLowerCase()),
         ) ||
         opportunity.skills.some((s) =>
-          s?.name.toLowerCase().includes(searchQuery.toLowerCase())
+          s?.name.toLowerCase().includes(searchQuery.toLowerCase()),
         );
 
       const categoryMatch =
         selectedCategories.length === 0 ||
         selectedCategories.some((categoryId) =>
-          opportunity.categories.some((c) => c?.id === categoryId)
+          opportunity.categories.some((c) => c?.id === categoryId),
         );
       const skillMatch =
         selectedSkills.length === 0 ||
         selectedSkills.some((skillId) =>
-          opportunity.skills.some((s) => s?.id === skillId)
+          opportunity.skills.some((s) => s?.id === skillId),
         );
       return searchMatch && categoryMatch && skillMatch;
     });
@@ -67,6 +67,7 @@ export default function Home() {
         <div className="flex items-center gap-2">
           <div className="relative flex-1">
             <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+
             <Input
               placeholder="関わり方を検索"
               value={searchQuery}

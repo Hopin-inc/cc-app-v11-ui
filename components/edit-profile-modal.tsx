@@ -1,30 +1,30 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { X } from 'lucide-react'
-import { Button } from '@/components/ui/button'
+import { useState } from "react";
+import { X } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogFooter,
-} from '@/components/ui/dialog'
-import { Input } from '@/components/ui/input'
-import { Textarea } from '@/components/ui/textarea'
-import { Label } from '@/components/ui/label'
-import { MultiSelect } from '@/components/ui/multi-select'
-import { categories, skills } from '@/lib/data'
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { MultiSelect } from "@/components/ui/multi-select";
+import { categories, skills } from "@/lib/data";
 
 interface EditProfileModalProps {
-  open: boolean
-  onOpenChange: (open: boolean) => void
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
   user: {
-    name: string
-    bio: string
-    skills: string[]
-    interests: string[]
-  }
+    name: string;
+    bio: string;
+    skills: string[];
+    interests: string[];
+  };
 }
 
 export function EditProfileModal({
@@ -32,15 +32,15 @@ export function EditProfileModal({
   onOpenChange,
   user,
 }: EditProfileModalProps) {
-  const [name, setName] = useState(user.name)
-  const [bio, setBio] = useState(user.bio)
-  const [selectedSkills, setSelectedSkills] = useState(user.skills)
-  const [selectedInterests, setSelectedInterests] = useState(user.interests)
+  const [name, setName] = useState(user.name);
+  const [bio, setBio] = useState(user.bio);
+  const [selectedSkills, setSelectedSkills] = useState(user.skills);
+  const [selectedInterests, setSelectedInterests] = useState(user.interests);
 
   const handleSubmit = () => {
     // Here you would typically save the changes to your backend
-    onOpenChange(false)
-  }
+    onOpenChange(false);
+  };
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -77,7 +77,7 @@ export function EditProfileModal({
           <div className="space-y-2">
             <Label>スキル</Label>
             <MultiSelect
-              options={skills.map(skill => ({
+              options={skills.map((skill) => ({
                 value: skill.name,
                 label: skill.name,
               }))}
@@ -89,7 +89,7 @@ export function EditProfileModal({
           <div className="space-y-2">
             <Label>興味のある分野</Label>
             <MultiSelect
-              options={categories.map(category => ({
+              options={categories.map((category) => ({
                 value: category.name,
                 label: category.name,
               }))}
@@ -100,15 +100,11 @@ export function EditProfileModal({
           </div>
         </div>
         <DialogFooter>
-          <Button
-            className="w-full"
-            onClick={handleSubmit}
-          >
+          <Button className="w-full" onClick={handleSubmit}>
             保存する
           </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
-  )
+  );
 }
-
