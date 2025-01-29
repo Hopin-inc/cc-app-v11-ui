@@ -22,7 +22,6 @@ import { ApplyModal } from "@/components/ApplyModal";
 import Link from "next/link";
 import { format } from "date-fns";
 import { ja } from "date-fns/locale";
-import { getCategoryEmoji } from "@/lib/utils/emoji-mapper";
 
 export default function OpportunityDetailPage() {
   const { id } = useParams();
@@ -30,7 +29,6 @@ export default function OpportunityDetailPage() {
 
   const opportunity = mockOpportunities.find((w) => w.id === id) as Opportunity;
   const isEvent = opportunity?.type === "EVENT";
-  const emoji = getCategoryEmoji(opportunity?.categories || []);
 
   if (!opportunity) {
     return (
@@ -55,11 +53,6 @@ export default function OpportunityDetailPage() {
             <button className="bg-white/80 backdrop-blur-sm rounded-full p-2">
               <Share2 className="h-6 w-6" />
             </button>
-          </div>
-          <div className="absolute -bottom-8 left-8">
-            <div className="w-24 h-24 rounded-xl bg-white shadow-md flex items-center justify-center text-4xl">
-              {emoji}
-            </div>
           </div>
         </div>
       ) : (
@@ -86,24 +79,12 @@ export default function OpportunityDetailPage() {
               </div>
               <div className="flex items-center gap-2">
                 <Trophy className="w-5 h-5 text-yellow-700" />
-
                 <span className="text-lg font-bold text-yellow-700">
                   獲得トークン: 100pt
                 </span>
               </div>
             </div>
             <h1 className="text-2xl font-bold">{opportunity.title}</h1>
-            <div className="flex flex-wrap gap-2">
-              {opportunity.categories.map((category) => (
-                <Badge
-                  key={category.id}
-                  variant="secondary"
-                  className="bg-yellow-500/10 text-yellow-700"
-                >
-                  {category.name}
-                </Badge>
-              ))}
-            </div>
           </div>
         </div>
       )}
@@ -172,7 +153,6 @@ export default function OpportunityDetailPage() {
                   height={48}
                   className="rounded-full"
                 />
-
                 <div className="flex-1">
                   <p className="font-medium mb-2">{opportunity.host.name}</p>
                   <p className="text-muted-foreground text-sm whitespace-pre-wrap">
@@ -184,59 +164,17 @@ export default function OpportunityDetailPage() {
           </Card>
         </div>
 
-        {/* Required Skills */}
-        {opportunity.skills.length > 0 && (
-          <div>
-            <h2 className="text-lg font-semibold mb-4">
-              {isEvent ? "関連スキル" : "必要なスキル"}
-            </h2>
-            <div className="flex flex-wrap gap-2">
-              {opportunity.skills.map((skill) => (
-                <span
-                  key={skill.id}
-                  className={`text-sm px-3 py-1 rounded-full ${
-                    isEvent ? "bg-muted" : "bg-yellow-500/5 text-yellow-700"
-                  }`}
-                >
-                  #{skill.name}
-                </span>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Related Articles */}
-        {opportunity.relatedArticles &&
-          opportunity.relatedArticles.length > 0 && (
-            <div>
-              <h2 className="text-lg font-semibold mb-4">関連記事</h2>
-              <div className="space-y-4">
-                {opportunity.relatedArticles.map((article) => (
-                  <Card key={article.id}>
-                    <CardContent className="p-4">
-                      <div className="flex items-center gap-4">
-                        <Image
-                          src={article.source.icon}
-                          alt={article.source.name}
-                          width={40}
-                          height={40}
-                          className="rounded-lg"
-                        />
-
-                        <div className="flex-1">
-                          <h3 className="font-medium mb-1">{article.title}</h3>
-                          <p className="text-sm text-muted-foreground">
-                            {article.description}
-                          </p>
-                        </div>
-                        <ChevronRight className="h-5 w-5 text-muted-foreground" />
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            </div>
-          )}
+        {/* Apply Button */}
+        <Button
+          className={`w-full ${
+            isEvent
+              ? "bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600"
+              : "bg-yellow-500 hover:bg-yellow-600 text-white"
+          }`}
+          onClick={() => setIsApplyModalOpen(true)}
+        >
+          {isEvent ? "イベントに参加する" : "クエストに応募する"}
+        </Button>
       </div>
 
       {/* Fixed Apply Button */}
