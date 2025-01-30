@@ -189,46 +189,75 @@ export default function OpportunityDetailPage({
             </div>
           </div>
 
+          {/* Project Info */}
+          <div className="space-y-4">
+            <h2 className="text-xl font-semibold">プロジェクトについて</h2>
+            <Link href={`/projects/${project?.id}`} className="mt-8 block">
+              <div className="border rounded-xl p-4 hover:bg-muted/10 transition-colors">
+                <div className="flex items-start space-x-4">
+                  <div className="relative h-16 w-16 rounded-xl overflow-hidden">
+                    <Image
+                      src={"/placeholder.svg"}
+                      alt={project?.title || ""}
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2">
+                      <h3 className="font-medium">{project?.title}</h3>
+                    </div>
+                    <p className="text-sm text-muted-foreground mt-2">
+                      {project?.description}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </Link>
+          </div>
+
           {/* Related Articles */}
           {opportunity.relatedArticles &&
             opportunity.relatedArticles.length > 0 && (
               <div className="space-y-4">
                 <h2 className="text-xl font-semibold">関連記事</h2>
-                <div className="space-y-4">
-                  {opportunity.relatedArticles.map((article, index) => (
-                    <a
-                      key={index}
+                <div className="grid gap-4">
+                  {opportunity.relatedArticles.map((article, i) => (
+                    <Link
+                      key={i}
                       href={article.url}
-                      className="block p-4 border rounded-lg hover:bg-gray-50"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block group"
                     >
-                      <div className="flex items-start space-x-4">
-                        {article.image && (
-                          <div className="relative h-24 w-24 flex-shrink-0">
-                            <Image
-                              src={article.image}
-                              alt={article.title}
-                              fill
-                              className="object-cover rounded-md"
-                            />
-                          </div>
-                        )}
-                        <div className="flex-1">
-                          <div className="flex items-center space-x-2 mb-2">
-                            <span className="text-xs px-2 py-1 bg-blue-100 text-blue-800 rounded">
+                      <div className="flex items-start gap-4 p-4 rounded-xl bg-gradient-to-r from-muted/50 to-background hover:from-muted/80 transition-colors">
+                        <div className="relative h-24 w-24 rounded-lg overflow-hidden flex-shrink-0">
+                          <Image
+                            src={article.image || "/placeholder.svg"}
+                            alt={article.title}
+                            fill
+                            className="object-cover"
+                          />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2 mb-2">
+                            <span className="inline-block px-2 py-1 text-xs rounded-md bg-primary/10 text-primary font-medium">
                               {article.type === "interview"
                                 ? "INTERVIEW"
                                 : "ARTICLE"}
                             </span>
                           </div>
-                          <h3 className="font-medium mb-1">{article.title}</h3>
+                          <h3 className="font-medium mb-1 group-hover:text-primary transition-colors line-clamp-2">
+                            {article.title}
+                          </h3>
                           {article.description && (
-                            <p className="text-sm text-muted-foreground">
+                            <p className="text-sm text-muted-foreground line-clamp-2">
                               {article.description}
                             </p>
                           )}
                         </div>
                       </div>
-                    </a>
+                    </Link>
                   ))}
                 </div>
               </div>
