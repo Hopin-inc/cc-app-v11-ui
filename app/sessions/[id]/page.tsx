@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -27,6 +27,7 @@ export default function OpportunityDetailPage({
   const { id } = useParams();
   const [isApplyModalOpen, setIsApplyModalOpen] = useState(false);
   const [showApplyDialog, setShowApplyDialog] = useState(false);
+  const [showButton, setShowButton] = useState(false);
   const opportunity = mockOpportunities.find((o) => o.id === id);
   const project = opportunity
     ? mockProjects.find((p) => p.id === opportunity.projectId)
@@ -36,6 +37,29 @@ export default function OpportunityDetailPage({
 
   const handleApply = useCallback(() => {
     setIsApplyModalOpen(true);
+  }, []);
+
+  useEffect(() => {
+    let lastScrollY = window.scrollY;
+    const SCROLL_THRESHOLD = 200; // スクロールを開始する閾値
+
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      
+      // 200px以上スクロールしたら表示を制御
+      if (currentScrollY > SCROLL_THRESHOLD) {
+        // 下スクロール時に表示、上スクロール時に非表示
+        setShowButton(currentScrollY > lastScrollY);
+      } else {
+        // 閾値以下なら非表示
+        setShowButton(false);
+      }
+      
+      lastScrollY = currentScrollY;
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   if (!opportunity) {
@@ -267,7 +291,9 @@ export default function OpportunityDetailPage({
 
       <div className="h-16" />
 
-      <div className="fixed bottom-0 left-0 right-0 p-4 bg-white border-t shadow-lg">
+      <div className={`fixed bottom-0 left-0 right-0 p-4 bg-white border-t shadow-lg transition-transform duration-300 ${
+        showButton ? 'translate-y-0' : 'translate-y-full'
+      }`}>
         <div className="container max-w-4xl mx-auto px-4 flex items-center justify-between">
           <Button
             variant="default"
