@@ -33,7 +33,7 @@ export function ApplyModal({
     <Sheet open={isOpen} onOpenChange={onOpenChange}>
       <SheetContent side="bottom" className="h-[90vh] max-w-lg mx-auto">
         <SheetHeader>
-          <SheetTitle>関わり方申請</SheetTitle>
+          <SheetTitle>（改修中）</SheetTitle>
           <SheetDescription>{opportunity.title}</SheetDescription>
         </SheetHeader>
         <div className="flex-1 py-6">

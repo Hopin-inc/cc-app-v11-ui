@@ -32,22 +32,24 @@ export default function Home() {
 
     // Sort dates
     return Object.entries(groups).sort(
-      (a, b) => new Date(b[1][0].startsAt).getTime() - new Date(a[1][0].startsAt).getTime()
+      (a, b) =>
+        new Date(b[1][0].startsAt).getTime() -
+        new Date(a[1][0].startsAt).getTime()
     );
   }, [searchQuery]);
 
   return (
     <main>
       {/* Search Bar */}
-      <div className="sticky top-0 bg-background border-b z-10">
+      <div className="sticky top-0 bg-background z-10">
         <div className="container max-w-2xl mx-auto px-4 py-3">
-          <div className="relative flex-1">
-            <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+          <div className="relative flex-1 items-center">
+            <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
             <Input
-              placeholder="イベントを検索"
+              placeholder="地域との関わり方を検索"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-8"
+              className="pl-10"
             />
           </div>
         </div>

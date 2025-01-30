@@ -1,7 +1,6 @@
 import "./globals.css";
 import { Inter } from "next/font/google";
 import Header from "@/components/Header";
-import ClientBottomNav from "@/components/ClientBottomNav";
 import { ScrollToTop } from "@/components/ScrollToTop";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -17,7 +16,6 @@ function ClientLayout({ children }: { children: React.ReactNode }) {
       <ScrollToTop />
       <Header />
       <main className="max-w-lg mx-auto">{children}</main>
-      <ClientBottomNav />
     </div>
   );
 }
