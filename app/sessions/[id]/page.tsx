@@ -152,7 +152,7 @@ export default function OpportunityDetailPage({
           <div className="space-y-8">
             {/* Description */}
             <div className="mb-8">
-              <h2 className="text-lg font-semibold mb-4">
+              <h2 className="text-xl font-semibold mb-4">
                 {isEvent ? "イベント詳細" : "クエスト詳細"}
               </h2>
               <div className="prose prose-sm max-w-none">
