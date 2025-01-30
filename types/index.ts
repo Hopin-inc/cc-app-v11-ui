@@ -36,6 +36,8 @@ export type Opportunity = {
   host: {
     name: string;
     image: string;
+    title: string;
+    bio: string;
   };
   image: string;
   location: {
@@ -49,16 +51,14 @@ export type Opportunity = {
     description: string;
     icon: string;
   };
+  recommendedFor: string[];
   relatedArticles?: {
-    id: string;
     title: string;
-    description: string;
-    image: string;
     url: string;
-    source: {
-      name: string;
-      icon: string;
-    };
+    type: "interview" | "article";
+    image?: string;
+    description?: string;
+    publishedAt: string;
   }[];
 };
 
