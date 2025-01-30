@@ -22,7 +22,7 @@ export default function ProjectDetailPage() {
   }
 
   const projectOpportunities = mockOpportunities.filter(
-    (w) => w.projectId === project.id,
+    (w) => w.projectId === project.id
   );
 
   return (
@@ -76,7 +76,7 @@ export default function ProjectDetailPage() {
 
         {/* Opportunities */}
         <div>
-          <h2 className="text-xl font-semibold mb-4">機会一覧</h2>
+          <h2 className="text-xl font-semibold mb-4">関わり方一覧</h2>
           <div className="space-y-4">
             {projectOpportunities.map((opportunity) => (
               <OpportunityCard key={opportunity.id} session={opportunity} />

@@ -23,7 +23,7 @@ export type Opportunity = {
   id: string;
   title: string;
   description: string;
-  type: 'EVENT' | 'QUEST';
+  type: "EVENT" | "QUEST";
   status: "open" | "in_progress" | "closed";
   projectId: string;
   hostId: string;
@@ -38,6 +38,12 @@ export type Opportunity = {
     image: string;
   };
   image: string;
+  location: {
+    name: string;
+    address: string;
+    isOnline: boolean;
+    meetingUrl?: string;
+  };
   project?: {
     title: string;
     description: string;

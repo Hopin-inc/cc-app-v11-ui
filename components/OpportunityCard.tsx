@@ -1,14 +1,14 @@
 import Link from "next/link";
 import Image from "next/image";
 import type { Opportunity } from "@/types";
-import { MapPin, Clock } from "lucide-react";
+import { Clock, Globe, MapPin } from "lucide-react";
 import { format } from "date-fns";
 import { ja } from "date-fns/locale";
 import { mockProjects } from "@/lib/data";
 
-interface OpportunityCardProps {
+type OpportunityCardProps = {
   session: Opportunity;
-}
+};
 
 export default function OpportunityCard({ session }: OpportunityCardProps) {
   const isEvent = session.type === "EVENT";
@@ -41,8 +41,17 @@ export default function OpportunityCard({ session }: OpportunityCardProps) {
               </span>
             </div>
             <div className="flex items-center gap-2">
-              <MapPin className="w-3 h-3" />
-              <span>Centrum</span>
+              {session.location.isOnline ? (
+                <>
+                  <Globe className="w-3 h-3" />
+                  <span>{session.location.name}</span>
+                </>
+              ) : (
+                <>
+                  <MapPin className="w-3 h-3" />
+                  <span>{session.location.name}</span>
+                </>
+              )}
             </div>
           </div>
         </div>

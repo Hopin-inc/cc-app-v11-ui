@@ -72,7 +72,7 @@ export default function Home() {
   return (
     <main>
       {/* Search Bar */}
-      <div className="sticky top-0 bg-background z-20">
+      <div className="sticky top-16 bg-background z-20">
         <div className="container max-w-2xl mx-auto px-4 py-2">
           <div className="relative flex-1 items-center">
             <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
@@ -87,10 +87,10 @@ export default function Home() {
       </div>
 
       {/* Opportunities List */}
-      <div className="container max-w-2xl mx-auto px-4 space-y-3">
+      <div className="container max-w-2xl mx-auto px-4 space-y-3 mt-16">
         {Object.entries(groupedOpportunities).map(([date, opportunities]) => (
           <div key={date}>
-            <h2 className="text-base font-medium sticky top-[52px] py-1.5 bg-background/80 backdrop-blur-sm text-muted-foreground z-10">
+            <h2 className="text-base font-medium sticky top-[120px] py-1.5 bg-background/80 backdrop-blur-sm text-muted-foreground z-10">
               {formatDate(date)}
             </h2>
             <div className="space-y-1.5">

@@ -4,7 +4,7 @@ import { dummyUser } from "@/lib/dummyUser";
 
 export default function Header() {
   return (
-    <header className="border-b border-border bg-background">
+    <header className="border-b border-border bg-background fixed w-full z-50">
       <div className="max-w-lg mx-auto px-4 h-16 flex justify-between items-center">
         <Link href="/" className="flex items-center space-x-2">
           <div className="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center">
