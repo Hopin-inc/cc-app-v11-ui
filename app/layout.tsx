@@ -15,7 +15,7 @@ function ClientLayout({ children }: { children: React.ReactNode }) {
     <div className="min-h-screen bg-background">
       <ScrollToTop />
       <Header />
-      <main className="max-w-lg mx-auto">{children}</main>
+      <main className="max-w-lg mx-auto pt-16">{children}</main>
     </div>
   );
 }

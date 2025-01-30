@@ -87,7 +87,7 @@ export default function Home() {
       </div>
 
       {/* Opportunities List */}
-      <div className="container max-w-2xl mx-auto px-4 space-y-3 mt-16">
+      <div className="container max-w-2xl mx-auto px-4 space-y-3">
         {Object.entries(groupedOpportunities).map(([date, opportunities]) => (
           <div key={date}>
             <h2 className="text-base font-medium sticky top-[120px] py-1.5 bg-background/80 backdrop-blur-sm text-muted-foreground z-10">
