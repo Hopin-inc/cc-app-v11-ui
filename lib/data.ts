@@ -184,7 +184,7 @@ export const mockOpportunities: Opportunity[] = [
     id: "2",
     title: "観光業と地域課題解決の両立",
     description:
-      "観光業を通じた地域課題解決の可能性について、実例を交えながら紹介します。持続可能な観光モデルの構築方法や、地域コミュニティとの協働についてお話しします。\n\n形式：ライトニングトーク（15分）\n対象：プロジェクト初心者・興味がある人",
+      "観光業を通じた地域課題解決の可能性について、実例を交えながら紹介します。持続可能な観光モデルの構築方法や、地域コミュニティとの協働についてお話しします。",
     type: "EVENT",
     status: "open",
     projectId: "shikoku-tourism",
@@ -250,7 +250,7 @@ export const mockOpportunities: Opportunity[] = [
     id: "3",
     title: "古民家再生プロジェクトの清掃サポート",
     description:
-      "古民家を活用したコミュニティスペースの清掃作業のお手伝いを募集しています。地域の方々と交流しながら、古民家の魅力を体感できます。\n\n形式：2時間の作業\n対象：運営に興味がある人",
+      "古民家を活用したコミュニティスペースの清掃作業のお手伝いを募集しています。地域の方々と交流しながら、古民家の魅力を体感できます。",
     type: "QUEST",
     status: "open",
     projectId: "shikoku-local-food",
@@ -312,7 +312,7 @@ export const mockOpportunities: Opportunity[] = [
     id: "shikoku-pilgrimage-quest-1",
     title: "四国遍路案内アプリのベータテスター募集",
     description:
-      "開発中の四国遍路案内アプリのベータ版テストにご協力いただける方を募集します。実際に札所を巡りながら、アプリの使い勝手や改善点をフィードバックしていただきます。\n\n形式：2時間のフィールドテスト\n対象：スマートフォンアプリの操作に慣れている方",
+      "開発中の四国遍路案内アプリのベータ版テストにご協力いただける方を募集します。実際に札所を巡りながら、アプリの使い勝手や改善点をフィードバックしていただきます。",
     type: "QUEST",
     status: "open",
     projectId: "shikoku-tourism",
@@ -366,7 +366,7 @@ export const mockOpportunities: Opportunity[] = [
     id: "shodoshima-olive-event-1",
     title: "若手農家が語る：小豆島オリーブの未来",
     description:
-      "小豆島で新しくオリーブ栽培を始めた若手農家たちが、その魅力と課題、そして未来への展望を語ります。\n\n形式：ライトニングトーク（15分）+ 交流会\n対象：農業や地域活性化に興味のある方",
+      "小豆島で新しくオリーブ栽培を始めた若手農家たちが、その魅力と課題、そして未来への展望を語ります。",
     type: "EVENT",
     status: "open",
     projectId: "shodoshima-olive",
@@ -422,7 +422,7 @@ export const mockOpportunities: Opportunity[] = [
     id: "shodoshima-olive-quest-1",
     title: "オリーブを使った新商品開発ワークショップ",
     description:
-      "小豆島のオリーブ農園で収穫体験をしながら、新商品のアイデアを考えるワークショップを開催します。収穫したオリーブを使って実際に商品化も目指します。\n\n形式：3時間の体験型ワークショップ\n対象：商品企画に興味のある方",
+      "小豆島のオリーブ農園で収穫体験をしながら、新商品のアイデアを考えるワークショップを開催します。収穫したオリーブを使って実際に商品化も目指します。",
     type: "QUEST",
     status: "open",
     projectId: "shodoshima-olive",
@@ -478,7 +478,7 @@ export const mockOpportunities: Opportunity[] = [
     id: "shikoku-food-event-1",
     title: "デジタルで守る：四国の食文化と技",
     description:
-      "四国の伝統的な食文化をデジタルで記録・保存する意義と手法について、食文化研究者とデジタルアーカイブの専門家が解説します。\n\n形式：パネルディスカッション（40分議論 + 20分Q&A）\n対象：食文化や地域の伝統に興味のある方",
+      "四国の伝統的な食文化をデジタルで記録・保存する意義と手法について、食文化研究者とデジタルアーカイブの専門家が解説します。\n\n形式：パネルディスカッション（40分議論 + 20分Q&A）",
     type: "EVENT",
     status: "open",
     projectId: "shikoku-local-food",
@@ -534,7 +534,7 @@ export const mockOpportunities: Opportunity[] = [
     id: "shikoku-food-quest-1",
     title: "郷土料理のデジタルアーカイブ作成",
     description:
-      "地域のお年寄りから伝統的な郷土料理のレシピを聞き取り、デジタル化するボランティアを募集します。料理の写真撮影や動画記録もお願いします。\n\n形式：2-3時間の取材活動\n対象：料理や記録作業に興味のある方",
+      "地域のお年寄りから伝統的な郷土料理のレシピを聞き取り、デジタル化するボランティアを募集します。料理の写真撮影や動画記録もお願いします。\n\n形式：2-3時間の取材活動",
     type: "QUEST",
     status: "open",
     projectId: "shikoku-local-food",

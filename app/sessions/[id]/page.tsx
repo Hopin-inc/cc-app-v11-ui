@@ -3,14 +3,7 @@
 import { useCallback, useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import {
-  ChevronLeft,
-  MapPin,
-  Clock,
-  Calendar,
-  Globe,
-  Share2,
-} from "lucide-react";
+import { MapPin, Clock, Calendar, Globe, Share2 } from "lucide-react";
 import { format } from "date-fns";
 import { ja } from "date-fns/locale";
 import { Button } from "@/components/ui/button";
@@ -45,7 +38,7 @@ export default function OpportunityDetailPage({
 
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-      
+
       // 200px以上スクロールしたら表示を制御
       if (currentScrollY > SCROLL_THRESHOLD) {
         // 下スクロール時に表示、上スクロール時に非表示
@@ -54,12 +47,12 @@ export default function OpportunityDetailPage({
         // 閾値以下なら非表示
         setShowButton(false);
       }
-      
+
       lastScrollY = currentScrollY;
     };
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   if (!opportunity) {
@@ -69,7 +62,7 @@ export default function OpportunityDetailPage({
   return (
     <div className="min-h-screen bg-background">
       {/* Header Image */}
-      <div className="relative h-64 bg-gradient-to-b from-green-800 to-green-900">
+      <div className="relative h-48 bg-gradient-to-b from-green-800 to-green-900">
         <div className="absolute inset-0">
           <Image
             src={opportunity.image || "/placeholder.svg"}
@@ -78,16 +71,6 @@ export default function OpportunityDetailPage({
             className="object-cover opacity-20"
           />
         </div>
-
-        {/* Back Button */}
-        <div className="absolute top-4 left-4 z-10">
-          <Link href="/">
-            <Button variant="ghost" className="text-white hover:text-black/80">
-              <ChevronLeft className="h-4 w-4 mr-1" />
-              戻る
-            </Button>
-          </Link>
-        </div>
       </div>
 
       {/* Content */}
@@ -95,21 +78,6 @@ export default function OpportunityDetailPage({
         <div className="container max-w-2xl mx-auto px-8 py-6 space-y-8">
           {/* Title Section */}
           <div className="mb-8">
-            {project?.title && (
-              <Link href={`/projects/${project.id}`}>
-                <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2 hover:text-primary">
-                  <Image
-                    src={"/placeholder.svg"}
-                    alt={project.title}
-                    width={24}
-                    height={24}
-                    className="rounded-full"
-                  />
-                  <span>{project.title}</span>
-                </div>
-              </Link>
-            )}
-
             <h1 className="text-2xl font-bold mb-4">{opportunity.title}</h1>
 
             {/* Event Details */}
@@ -291,10 +259,12 @@ export default function OpportunityDetailPage({
 
       <div className="h-16" />
 
-      <div className={`fixed bottom-0 left-0 right-0 p-4 bg-white border-t shadow-lg transition-transform duration-300 ${
-        showButton ? 'translate-y-0' : 'translate-y-full'
-      }`}>
-        <div className="container max-w-4xl mx-auto px-4 flex items-center justify-between">
+      <div
+        className={`fixed bottom-0 left-0 right-0 p-4 bg-white border-t shadow-lg transition-transform duration-300 ${
+          showButton ? "translate-y-0" : "translate-y-full"
+        }`}
+      >
+        <div className="container max-w-lg mx-auto px-8 flex items-center justify-between">
           <Button
             variant="default"
             size="lg"
