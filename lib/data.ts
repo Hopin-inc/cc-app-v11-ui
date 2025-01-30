@@ -111,6 +111,16 @@ const skills: Skill[] = [
     name: "栄養学",
     description: "栄養バランスや食事に関する専門知識",
   },
+  {
+    id: "business",
+    name: "ビジネス",
+    description: "ビジネスに関するスキル",
+  },
+  {
+    id: "research",
+    name: "研究",
+    description: "研究に関するスキル",
+  },
 ];
 
 export const mockOpportunities: Opportunity[] = [
@@ -130,17 +140,45 @@ export const mockOpportunities: Opportunity[] = [
       categories.find((c) => c.id === "tourism-culture") ?? categories[0],
     ],
     skills: [
-      skills.find((s) => s.id === "event-planning")!,
-      skills.find((s) => s.id === "diy")!,
+      skills.find((s) => s.id === "business") ?? skills[0],
+      skills.find((s) => s.id === "marketing") ?? skills[0],
     ],
-    createdAt: new Date("2023-07-01"),
-    updatedAt: new Date("2023-07-01"),
+    createdAt: new Date("2024-01-15"),
+    updatedAt: new Date("2024-01-15"),
     host: {
-      name: "折山尚美",
-      image: "/placeholder.svg",
-      title: "合同会社nom 代表社員",
-      bio: "結婚を契機に南信州へ移住され、今や地域に欠くことのできない存在。飲食店や古民家・文化財の活用などを通じて地域活性にまつわる幅広い活動に携わる原動力について伺いました。",
+      name: "山田太郎",
+      image: "https://api.dicebear.com/7.x/personas/svg?seed=host1",
+      title: "地域活性化コンサルタント",
+      bio: "10年以上にわたり、全国各地の地域活性化プロジェクトに携わってきました。",
     },
+    capacity: 5,
+    participants: [
+      {
+        id: "user1",
+        name: "佐藤一郎",
+        image: "https://api.dicebear.com/7.x/personas/svg?seed=user1",
+      },
+      {
+        id: "user2",
+        name: "鈴木花子",
+        image: "https://api.dicebear.com/7.x/personas/svg?seed=user2",
+      },
+      {
+        id: "user3",
+        name: "田中健一",
+        image: "https://api.dicebear.com/7.x/personas/svg?seed=user3",
+      },
+      {
+        id: "user4",
+        name: "渡辺美咲",
+        image: "https://api.dicebear.com/7.x/personas/svg?seed=user4",
+      },
+      {
+        id: "user5",
+        name: "小林誠",
+        image: "https://api.dicebear.com/7.x/personas/svg?seed=user5",
+      },
+    ],
     recommendedFor: [
       "知多、西三河エリアで観光に関する業務を実践、興味がある方",
       "発酵文化にまつわる事業を行われている方",
@@ -187,26 +225,44 @@ export const mockOpportunities: Opportunity[] = [
       "観光業を通じた地域課題解決の可能性について、実例を交えながら紹介します。持続可能な観光モデルの構築方法や、地域コミュニティとの協働についてお話しします。",
     type: "EVENT",
     status: "open",
-    projectId: "shikoku-tourism",
+    projectId: "shikoku-food",
     hostId: "host2",
-    startsAt: "2025-02-02T15:00:00+09:00",
-    endsAt: "2025-02-02T16:00:00+09:00",
+    startsAt: "2025-02-15T15:00:00+09:00",
+    endsAt: "2025-02-15T16:30:00+09:00",
     categories: [
       categories.find((c) => c.id === "tourism-culture") ?? categories[0],
-      categories.find((c) => c.id === "industry-economy") ?? categories[0],
+      categories.find((c) => c.id === "community") ?? categories[0],
     ],
     skills: [
-      skills.find((s) => s.id === "event-planning")!,
-      skills.find((s) => s.id === "marketing")!,
+      skills.find((s) => s.id === "tourism") ?? skills[0],
+      skills.find((s) => s.id === "community-building") ?? skills[0],
     ],
-    createdAt: new Date("2023-07-02"),
-    updatedAt: new Date("2023-07-02"),
+    createdAt: new Date("2024-01-20"),
+    updatedAt: new Date("2024-01-20"),
     host: {
-      name: "山田 太郎",
-      image: "/placeholder.svg",
+      name: "中村恵子",
+      image: "https://api.dicebear.com/7.x/personas/svg?seed=host2",
       title: "観光まちづくりコンサルタント",
       bio: "10年以上にわたり、全国各地の観光まちづくりに携わる。特に四国地方での実績が豊富で、地域の伝統と現代のニーズを組み合わせた持続可能な観光モデルの構築を得意とする。",
     },
+    capacity: 3,
+    participants: [
+      {
+        id: "user6",
+        name: "山本和也",
+        image: "https://api.dicebear.com/7.x/personas/svg?seed=user6",
+      },
+      {
+        id: "user7",
+        name: "伊藤さくら",
+        image: "https://api.dicebear.com/7.x/personas/svg?seed=user7",
+      },
+      {
+        id: "user8",
+        name: "加藤健太",
+        image: "https://api.dicebear.com/7.x/personas/svg?seed=user8",
+      },
+    ],
     recommendedFor: [
       "観光業に関心がある方",
       "地域課題解決に関心がある方",
@@ -269,6 +325,20 @@ export const mockOpportunities: Opportunity[] = [
       title: "古民家再生アドバイザー",
       bio: "古民家の再生と活用を通じて、地域コミュニティの活性化に取り組む。特に、若者と地域の高齢者をつなぐプロジェクトの企画・運営を得意とする。",
     },
+    pointsForComplete: 500,
+    capacity: 20,
+    participants: [
+      {
+        id: "user5",
+        name: "中村一郎",
+        image: "https://api.dicebear.com/7.x/personas/svg?seed=user5",
+      },
+      {
+        id: "user6",
+        name: "伊藤花子",
+        image: "https://api.dicebear.com/7.x/personas/svg?seed=user6",
+      },
+    ],
     recommendedFor: [
       "古民家再生に関心がある方",
       "地域コミュニティに関心がある方",
@@ -329,6 +399,20 @@ export const mockOpportunities: Opportunity[] = [
       title: "デジタルヘリテージ研究者",
       bio: "文化遺産のデジタル保存・活用を専門とする研究者。四国遍路のデジタルアーカイブプロジェクトを主導し、伝統文化とテクノロジーの融合に取り組んでいる。",
     },
+    capacity: 40,
+    pointsForComplete: 500,
+    participants: [
+      {
+        id: "user7",
+        name: "山田一郎",
+        image: "https://api.dicebear.com/7.x/personas/svg?seed=user7",
+      },
+      {
+        id: "user8",
+        name: "鈴木花子",
+        image: "https://api.dicebear.com/7.x/personas/svg?seed=user8",
+      },
+    ],
     recommendedFor: [
       "四国遍路に関心がある方",
       "スマートフォンアプリの操作に関心がある方",
@@ -385,6 +469,19 @@ export const mockOpportunities: Opportunity[] = [
       title: "小豆島オリーブ農園 若手農家代表",
       bio: "3年前に就農し、伝統的なオリーブ栽培に新しい視点を取り入れながら、若手農家のネットワーク作りにも力を入れている。6次産業化による地域活性化を目指す。",
     },
+    capacity: 60,
+    participants: [
+      {
+        id: "user9",
+        name: "中村一郎",
+        image: "https://api.dicebear.com/7.x/personas/svg?seed=user9",
+      },
+      {
+        id: "user10",
+        name: "伊藤花子",
+        image: "https://api.dicebear.com/7.x/personas/svg?seed=user10",
+      },
+    ],
     recommendedFor: [
       "小豆島オリーブに関心がある方",
       "農業に関心がある方",
@@ -441,6 +538,20 @@ export const mockOpportunities: Opportunity[] = [
       title: "食品開発コンサルタント",
       bio: "20年以上の食品開発経験を持ち、特に地域特産品を活用した商品開発を得意とする。小豆島のオリーブを使った新商品開発プロジェクトでは、若手農家とのコラボレーションを推進している。",
     },
+    capacity: 80,
+    pointsForComplete: 500,
+    participants: [
+      {
+        id: "user11",
+        name: "山田一郎",
+        image: "https://api.dicebear.com/7.x/personas/svg?seed=user11",
+      },
+      {
+        id: "user12",
+        name: "鈴木花子",
+        image: "https://api.dicebear.com/7.x/personas/svg?seed=user12",
+      },
+    ],
     recommendedFor: [
       "オリーブに関心がある方",
       "新商品開発に関心がある方",
@@ -497,6 +608,19 @@ export const mockOpportunities: Opportunity[] = [
       title: "食文化研究者",
       bio: "四国の食文化研究の第一人者。特に、地域に伝わる伝統的な調理法や食材の歴史的背景について、フィールドワークを通じた研究を行っている。デジタルアーカイブによる記録保存にも取り組む。",
     },
+    capacity: 100,
+    participants: [
+      {
+        id: "user13",
+        name: "伊藤一郎",
+        image: "https://api.dicebear.com/7.x/personas/svg?seed=user13",
+      },
+      {
+        id: "user14",
+        name: "山田花子",
+        image: "https://api.dicebear.com/7.x/personas/svg?seed=user14",
+      },
+    ],
     recommendedFor: [
       "四国の食文化に関心がある方",
       "デジタルアーカイブに関心がある方",
@@ -536,6 +660,7 @@ export const mockOpportunities: Opportunity[] = [
     description:
       "地域のお年寄りから伝統的な郷土料理のレシピを聞き取り、デジタル化するボランティアを募集します。料理の写真撮影や動画記録もお願いします。\n\n形式：2-3時間の取材活動",
     type: "QUEST",
+    pointsForComplete: 500,
     status: "open",
     projectId: "shikoku-local-food",
     hostId: "host4",
@@ -553,6 +678,19 @@ export const mockOpportunities: Opportunity[] = [
       title: "フードアーキビスト",
       bio: "料理研究家としての経験を活かし、現在は各地の郷土料理のデジタルアーカイブ化に取り組む。特に、高齢者から若い世代への技術継承を重視した記録手法を開発している。",
     },
+    capacity: 120,
+    participants: [
+      {
+        id: "user15",
+        name: "鈴木一郎",
+        image: "https://api.dicebear.com/7.x/personas/svg?seed=user15",
+      },
+      {
+        id: "user16",
+        name: "伊藤花子",
+        image: "https://api.dicebear.com/7.x/personas/svg?seed=user16",
+      },
+    ],
     recommendedFor: [
       "郷土料理に関心がある方",
       "デジタルアーカイブに関心がある方",

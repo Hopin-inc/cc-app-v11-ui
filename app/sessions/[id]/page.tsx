@@ -3,14 +3,28 @@
 import { useCallback, useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { MapPin, Clock, Calendar, Globe, Share2 } from "lucide-react";
+import {
+  MapPin,
+  Clock,
+  Calendar,
+  Globe,
+  Share2,
+  Coins,
+  HelpCircle,
+} from "lucide-react";
 import { format } from "date-fns";
 import { ja } from "date-fns/locale";
 import { Button } from "@/components/ui/button";
 import { ApplyModal } from "@/components/ApplyModal";
+import { ParticipantsModal } from "@/components/ParticipantsModal";
 import { mockOpportunities, mockProjects } from "@/lib/data";
 import { useParams } from "next/navigation";
 import { Dialog } from "@/components/ui/dialog";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 
 export default function OpportunityDetailPage({
   params,
@@ -19,7 +33,7 @@ export default function OpportunityDetailPage({
 }) {
   const { id } = useParams();
   const [isApplyModalOpen, setIsApplyModalOpen] = useState(false);
-  const [showApplyDialog, setShowApplyDialog] = useState(false);
+  const [isParticipantsModalOpen, setIsParticipantsModalOpen] = useState(false);
   const [showButton, setShowButton] = useState(false);
   const opportunity = mockOpportunities.find((o) => o.id === id);
   const project = opportunity
@@ -27,10 +41,30 @@ export default function OpportunityDetailPage({
     : null;
 
   const isEvent = opportunity?.type === "EVENT";
+  const isFull =
+    (opportunity?.participants?.length ?? 0) >= (opportunity?.capacity ?? 0);
 
   const handleApply = useCallback(() => {
     setIsApplyModalOpen(true);
   }, []);
+
+  const handleShare = useCallback(async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: opportunity?.title,
+          text: opportunity?.description,
+          url: window.location.href,
+        });
+      } catch (error) {
+        console.error("Error sharing:", error);
+      }
+    } else {
+      // Fallback to copying URL to clipboard
+      navigator.clipboard.writeText(window.location.href);
+      alert("URLをコピーしました");
+    }
+  }, [opportunity]);
 
   useEffect(() => {
     let lastScrollY = window.scrollY;
@@ -78,7 +112,12 @@ export default function OpportunityDetailPage({
         <div className="container max-w-2xl mx-auto px-8 py-6 space-y-8">
           {/* Title Section */}
           <div className="mb-8">
-            <h1 className="text-2xl font-bold mb-4">{opportunity.title}</h1>
+            <span className="text-xs text-muted-foreground bg-muted p-1 rounded">
+              {opportunity.type === "EVENT" ? "イベント" : "クエスト"}
+            </span>
+            <h1 className="mt-2 text-2xl font-bold mb-4">
+              {opportunity.title}
+            </h1>
 
             {/* Event Details */}
             <div className="space-y-3">
@@ -110,34 +149,34 @@ export default function OpportunityDetailPage({
                 )}
                 <span>{opportunity?.location?.name}</span>
               </div>
-            </div>
-          </div>
 
-          {/* Recommended For */}
-          <div className="space-y-4">
-            <h2 className="text-xl font-semibold">こんな方におすすめ</h2>
-            <ul className="space-y-2">
-              {opportunity.recommendedFor.map((item, index) => (
-                <li key={index} className="flex items-start space-x-2">
-                  <div className="mt-1">
-                    <svg
-                      className="h-4 w-4 text-green-500"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M5 13l4 4L19 7"
-                      />
-                    </svg>
-                  </div>
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
+              {/* Points for Quest */}
+              {!isEvent && opportunity?.pointsForComplete && (
+                <div className="flex items-center gap-2 text-sm">
+                  <Coins className="h-4 w-4 text-muted-foreground" />
+                  <span>
+                    {opportunity.pointsForComplete.toLocaleString()}ポイント獲得
+                  </span>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <button className="cursor-help">
+                        <HelpCircle className="h-4 w-4 text-muted-foreground hover:text-foreground transition-colors" />
+                      </button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-80">
+                      <div className="space-y-2">
+                        <h4 className="font-medium leading-none">
+                          ポイントについて
+                        </h4>
+                        <p className="text-sm text-muted-foreground">
+                          1000ポイントでプロジェクト懇親会への招待券をプレゼント
+                        </p>
+                      </div>
+                    </PopoverContent>
+                  </Popover>
+                </div>
+              )}
+            </div>
           </div>
 
           {/* Project Info */}
@@ -145,7 +184,7 @@ export default function OpportunityDetailPage({
             {/* Description */}
             <div className="mb-8">
               <h2 className="text-xl font-semibold mb-4">
-                {isEvent ? "イベント詳細" : "クエスト詳細"}
+                {isEvent ? "イベントについて" : "クエストについて"}
               </h2>
               <div className="prose prose-sm max-w-none">
                 {opportunity.description.split("\n").map((line, i) => (
@@ -155,57 +194,161 @@ export default function OpportunityDetailPage({
                 ))}
               </div>
             </div>
-          </div>
 
-          {/* Speaker/Host Info */}
-          <div className="space-y-4">
-            <h2 className="text-xl font-semibold">
-              {isEvent ? "スピーカーの紹介" : "ホストの紹介"}
-            </h2>
-            <div className="flex items-start space-x-4">
-              <div className="relative h-16 w-16 rounded-full overflow-hidden">
-                <Image
-                  src={opportunity.host.image || "/placeholder.svg"}
-                  alt={opportunity.host.name}
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              <div className="flex-1">
-                <h3 className="font-medium">{opportunity.host.name}</h3>
-                <p className="text-sm text-muted-foreground mb-2">
-                  {opportunity.host.title}
-                </p>
-                <p className="text-sm">{opportunity.host.bio}</p>
-              </div>
-            </div>
-          </div>
-
-          {/* Project Info */}
-          <div className="space-y-4">
-            <h2 className="text-xl font-semibold">プロジェクトについて</h2>
-            <Link href={`/projects/${project?.id}`} className="mt-8 block">
-              <div className="border rounded-xl p-4 hover:bg-muted/10 transition-colors">
-                <div className="flex items-start space-x-4">
-                  <div className="relative h-16 w-16 rounded-xl overflow-hidden">
-                    <Image
-                      src={"/placeholder.svg"}
-                      alt={project?.title || ""}
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2">
-                      <h3 className="font-medium">{project?.title}</h3>
+            {/* Recommended For */}
+            <div className="space-y-4">
+              <h2 className="text-xl font-semibold">こんな方におすすめ</h2>
+              <ul className="space-y-2">
+                {opportunity.recommendedFor.map((item, index) => (
+                  <li key={index} className="flex items-start space-x-2">
+                    <div className="mt-1">
+                      <svg
+                        className="h-4 w-4 text-green-500"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M5 13l4 4L19 7"
+                        />
+                      </svg>
                     </div>
-                    <p className="text-sm text-muted-foreground mt-2">
-                      {project?.description}
-                    </p>
-                  </div>
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Speaker/Host Info */}
+            <div className="space-y-4">
+              <h2 className="text-xl font-semibold">
+                {isEvent ? "スピーカーの紹介" : "ホストの紹介"}
+              </h2>
+              <div className="flex items-start space-x-4">
+                <div className="relative h-16 w-16 rounded-full overflow-hidden">
+                  <Image
+                    src={opportunity.host.image || "/placeholder.svg"}
+                    alt={opportunity.host.name}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+                <div className="flex-1">
+                  <h3 className="font-medium">{opportunity.host.name}</h3>
+                  <p className="text-sm text-muted-foreground mb-2">
+                    {opportunity.host.title}
+                  </p>
+                  <p className="text-sm">{opportunity.host.bio}</p>
                 </div>
               </div>
-            </Link>
+            </div>
+
+            {/* Project Info */}
+            <div className="space-y-4">
+              <h2 className="text-xl font-semibold">プロジェクトについて</h2>
+              <Link href={`/projects/${project?.id}`} className="mt-8 block">
+                <div className="border rounded-xl p-4 hover:bg-muted/10 transition-colors">
+                  <div className="flex items-start space-x-4">
+                    <div className="relative h-16 w-16 rounded-xl overflow-hidden">
+                      <Image
+                        src={"/placeholder.svg"}
+                        alt={project?.title || ""}
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2">
+                        <h3 className="font-medium">{project?.title}</h3>
+                      </div>
+                      <p className="text-sm text-muted-foreground mt-2">
+                        {project?.description}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </Link>
+            </div>
+
+            {/* Capacity and Participants */}
+            <div className="mb-12">
+              <h2 className="text-xl font-semibold mb-6">参加者一覧</h2>
+              <div className="bg-muted/20 rounded-2xl p-6 space-y-6 border">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-baseline gap-2">
+                    <span className="text-2xl font-bold">
+                      {opportunity?.participants?.length || 0}
+                    </span>
+                    <span className="text-muted-foreground">
+                      / {opportunity?.capacity || 0} 名
+                    </span>
+                  </div>
+                  {isFull && (
+                    <span className="text-sm text-red-500 bg-red-50 px-3 py-1 rounded-full">
+                      満員
+                    </span>
+                  )}
+                </div>
+
+                {opportunity.participants?.length > 0 && (
+                  <div className="space-y-4">
+                    <div className="flex items-center">
+                      <button
+                        onClick={() => setIsParticipantsModalOpen(true)}
+                        className="flex items-center gap-4 hover:opacity-80"
+                      >
+                        <div className="flex">
+                          {opportunity.participants
+                            .slice(0, 2)
+                            .map((participant, index) => (
+                              <div
+                                key={participant.id}
+                                className="relative w-8 h-8 rounded-full border-2 border-background overflow-hidden hover:scale-110 transition-transform"
+                                style={{
+                                  marginLeft: index === 0 ? 0 : "-8px",
+                                  zIndex: index,
+                                }}
+                              >
+                                <Image
+                                  src={participant.image || "/placeholder.svg"}
+                                  alt={participant.name}
+                                  fill
+                                  className="object-cover"
+                                />
+                              </div>
+                            ))}
+                          {opportunity.participants.length > 2 && (
+                            <div
+                              className="relative w-8 h-8 rounded-full border-2 border-background bg-muted flex items-center justify-center text-xs font-medium hover:scale-110 transition-transform"
+                              style={{ marginLeft: "-8px", zIndex: 2 }}
+                            >
+                              +{opportunity.participants.length - 2}
+                            </div>
+                          )}
+                        </div>
+                        <div className="text-sm text-muted-foreground">
+                          {opportunity.participants.slice(0, 2).map((p, i) => (
+                            <span key={p.id}>
+                              {p.name}
+                              {i <
+                              Math.min(1, opportunity.participants.length - 1)
+                                ? "、"
+                                : ""}
+                            </span>
+                          ))}
+                          {opportunity.participants.length > 2 && (
+                            <span>ほか</span>
+                          )}
+                        </div>
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
 
           {/* Related Articles */}
@@ -216,13 +359,13 @@ export default function OpportunityDetailPage({
                 <div className="grid gap-4">
                   {opportunity.relatedArticles.map((article, i) => (
                     <Link
-                      key={i}
+                      key={article.id}
                       href={article.url}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="block group"
                     >
-                      <div className="flex items-start gap-4 p-4 rounded-xl bg-gradient-to-r from-muted/50 to-background hover:from-muted/80 transition-colors">
+                      <div className="flex items-start gap-4 p-4 rounded-xl border bg-card hover:bg-muted/10 transition-all duration-200">
                         <div className="relative h-24 w-24 rounded-lg overflow-hidden flex-shrink-0">
                           <Image
                             src={article.image || "/placeholder.svg"}
@@ -260,40 +403,45 @@ export default function OpportunityDetailPage({
       <div className="h-16" />
 
       <div
-        className={`fixed bottom-0 left-0 right-0 p-4 bg-white border-t shadow-lg transition-transform duration-300 ${
+        className={`fixed bottom-0 left-0 right-0 p-4 bg-background border-t transition-transform duration-300 ${
           showButton ? "translate-y-0" : "translate-y-full"
         }`}
       >
-        <div className="container max-w-lg mx-auto px-8 flex items-center justify-between">
-          <Button
-            variant="default"
-            size="lg"
-            className="flex-1 max-w-xs"
-            onClick={() => setShowApplyDialog(true)}
-          >
-            {opportunity?.type === "EVENT" ? "参加する" : "応募する"}
-          </Button>
-          <Button
-            variant="ghost"
-            size="icon"
-            className="ml-4"
-            onClick={() => {
-              // シェア機能の実装（例：URLをクリップボードにコピー）
-              navigator.clipboard.writeText(window.location.href);
-            }}
-          >
-            <Share2 className="h-5 w-5" />
-          </Button>
+        <div className="container max-w-lg mx-auto">
+          <div className="sticky bottom-4 w-full">
+            <div className="bg-background/80 backdrop-blur-sm rounded-xl px-8 flex gap-2">
+              <Button
+                className="flex-1"
+                size="lg"
+                onClick={handleApply}
+                disabled={isFull}
+              >
+                {!isFull && (isEvent ? "参加する" : "応募する")}
+                {isFull && "満員です"}
+              </Button>
+              <Button variant="outline" size="lg" onClick={handleShare}>
+                <Share2 className="h-5 w-5" />
+              </Button>
+            </div>
+          </div>
         </div>
       </div>
 
-      <Dialog open={showApplyDialog} onOpenChange={setShowApplyDialog}>
+      {/* Apply Modal */}
+      <Dialog open={isApplyModalOpen} onOpenChange={setIsApplyModalOpen}>
         <ApplyModal
-          isOpen={showApplyDialog}
-          onOpenChange={setShowApplyDialog}
+          isOpen={isApplyModalOpen}
+          onOpenChange={setIsApplyModalOpen}
           opportunity={opportunity}
         />
       </Dialog>
+
+      {/* Participants Modal */}
+      <ParticipantsModal
+        isOpen={isParticipantsModalOpen}
+        onOpenChange={setIsParticipantsModalOpen}
+        participants={opportunity?.participants || []}
+      />
     </div>
   );
 }

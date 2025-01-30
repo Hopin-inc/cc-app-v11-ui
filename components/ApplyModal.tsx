@@ -1,11 +1,5 @@
 import { Dispatch, SetStateAction, useState } from "react";
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-} from "./ui/sheet";
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "./ui/sheet";
 import { Textarea } from "./ui/textarea";
 import { Button } from "./ui/button";
 import { Opportunity } from "@/types";
@@ -34,7 +28,7 @@ export function ApplyModal({
       <SheetContent side="bottom" className="h-[90vh] max-w-lg mx-auto">
         <SheetHeader>
           <SheetTitle>（改修中）</SheetTitle>
-          <SheetDescription>{opportunity.title}</SheetDescription>
+          {/* <SheetDescription>{opportunity.title}</SheetDescription> */}
         </SheetHeader>
         <div className="flex-1 py-6">
           <Textarea

@@ -60,6 +60,13 @@ export type Opportunity = {
     description?: string;
     publishedAt: string;
   }[];
+  capacity: number;
+  pointsForComplete?: number;
+  participants: {
+    id: string;
+    name: string;
+    image?: string;
+  }[];
 };
 
 export type Skill = {
