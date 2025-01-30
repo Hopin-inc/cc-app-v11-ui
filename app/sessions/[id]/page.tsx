@@ -3,13 +3,21 @@
 import { useCallback, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ChevronLeft, MapPin, Clock, Calendar, Globe } from "lucide-react";
+import {
+  ChevronLeft,
+  MapPin,
+  Clock,
+  Calendar,
+  Globe,
+  Share2,
+} from "lucide-react";
 import { format } from "date-fns";
 import { ja } from "date-fns/locale";
 import { Button } from "@/components/ui/button";
 import { ApplyModal } from "@/components/ApplyModal";
 import { mockOpportunities, mockProjects } from "@/lib/data";
 import { useParams } from "next/navigation";
+import { Dialog } from "@/components/ui/dialog";
 
 export default function OpportunityDetailPage({
   params,
@@ -18,6 +26,7 @@ export default function OpportunityDetailPage({
 }) {
   const { id } = useParams();
   const [isApplyModalOpen, setIsApplyModalOpen] = useState(false);
+  const [showApplyDialog, setShowApplyDialog] = useState(false);
   const opportunity = mockOpportunities.find((o) => o.id === id);
   const project = opportunity
     ? mockProjects.find((p) => p.id === opportunity.projectId)
@@ -146,7 +155,7 @@ export default function OpportunityDetailPage({
               <h2 className="text-lg font-semibold mb-4">
                 {isEvent ? "イベント詳細" : "クエスト詳細"}
               </h2>
-              <div className="prose prose-sm max-w-none text-muted-foreground">
+              <div className="prose prose-sm max-w-none">
                 {opportunity.description.split("\n").map((line, i) => (
                   <p key={i} className="mb-4">
                     {line}
@@ -154,13 +163,6 @@ export default function OpportunityDetailPage({
                 ))}
               </div>
             </div>
-          </div>
-
-          {/* Apply Button */}
-          <div className="sticky bottom-4 pt-4">
-            <Button className="w-full" size="lg" onClick={handleApply}>
-              {isEvent ? "参加する" : "応募する"}
-            </Button>
           </div>
 
           {/* Speaker/Host Info */}
@@ -234,11 +236,39 @@ export default function OpportunityDetailPage({
         </div>
       </div>
 
-      <ApplyModal
-        isOpen={isApplyModalOpen}
-        onOpenChange={setIsApplyModalOpen}
-        opportunity={opportunity}
-      />
+      <div className="h-16" />
+
+      <div className="fixed bottom-0 left-0 right-0 p-4 bg-white border-t shadow-lg">
+        <div className="container max-w-4xl mx-auto px-4 flex items-center justify-between">
+          <Button
+            variant="default"
+            size="lg"
+            className="flex-1 max-w-xs"
+            onClick={() => setShowApplyDialog(true)}
+          >
+            {opportunity?.type === "EVENT" ? "参加する" : "応募する"}
+          </Button>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="ml-4"
+            onClick={() => {
+              // シェア機能の実装（例：URLをクリップボードにコピー）
+              navigator.clipboard.writeText(window.location.href);
+            }}
+          >
+            <Share2 className="h-5 w-5" />
+          </Button>
+        </div>
+      </div>
+
+      <Dialog open={showApplyDialog} onOpenChange={setShowApplyDialog}>
+        <ApplyModal
+          isOpen={showApplyDialog}
+          onOpenChange={setShowApplyDialog}
+          opportunity={opportunity}
+        />
+      </Dialog>
     </div>
   );
 }
