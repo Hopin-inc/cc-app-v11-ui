@@ -4,8 +4,10 @@ export type User = {
   email: string;
   role: "visitor" | "leader";
   points: {
-    available: number;
-    total: number;
+    [projectId: string]: {
+      available: number;
+      total: number;
+    };
   };
   maxPoints: number;
   createdAt: Date;
@@ -18,10 +20,12 @@ export type Project = {
   id: string;
   title: string;
   description: string;
-  createdAt: Date;
-  updatedAt: Date;
-  opportunities: Opportunity[];
   icon?: string;
+  location: {
+    prefecture: string;
+    city: string;
+    address: string;
+  };
   members: {
     id: string;
     name: string;
@@ -32,6 +36,9 @@ export type Project = {
     type: "twitter" | "instagram" | "facebook" | "website" | "youtube";
     url: string;
   }[];
+  opportunities: Opportunity[];
+  createdAt: Date;
+  updatedAt: Date;
 };
 
 export type Opportunity = {

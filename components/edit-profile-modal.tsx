@@ -20,8 +20,6 @@ interface EditProfileModalProps {
   user: {
     name: string;
     bio: string;
-    skills: string[];
-    interests: string[];
   };
 }
 
@@ -32,8 +30,6 @@ export function EditProfileModal({
 }: EditProfileModalProps) {
   const [name, setName] = useState(user.name);
   const [bio, setBio] = useState(user.bio);
-  const [selectedSkills, setSelectedSkills] = useState(user.skills);
-  const [selectedInterests, setSelectedInterests] = useState(user.interests);
 
   const handleSubmit = () => {
     // Here you would typically save the changes to your backend

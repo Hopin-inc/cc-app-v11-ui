@@ -407,7 +407,8 @@ export const mockOpportunities: Opportunity[] = [
   {
     id: "naoshima-sauna-quest-1",
     title: "サウナで使う薪を取りに行こう",
-    description: "直島の里山で薪拾いをしながら、持続可能なサウナ運営について学びます。集めた薪は実際にサウナで使用されます。\n\n形式：フィールドワーク（3時間程度）",
+    description:
+      "直島の里山で薪拾いをしながら、持続可能なサウナ運営について学びます。集めた薪は実際にサウナで使用されます。\n\n形式：フィールドワーク（3時間程度）",
     type: "QUEST",
     status: "open",
     projectId: "naoshima-sauna",
@@ -442,7 +443,8 @@ export const mockOpportunities: Opportunity[] = [
         url: "/articles/naoshima-sauna-culture",
         type: "article",
         image: "/placeholder.svg",
-        description: "アートの島として知られる直島で、新たに注目を集めるサステナブルなサウナの取り組みについて紹介します。",
+        description:
+          "アートの島として知られる直島で、新たに注目を集めるサステナブルなサウナの取り組みについて紹介します。",
         publishedAt: "2024/01/20",
       },
       {
@@ -450,15 +452,17 @@ export const mockOpportunities: Opportunity[] = [
         url: "/interviews/kimura-takashi",
         type: "interview",
         image: "/placeholder.svg",
-        description: "直島サウナプロジェクトを立ち上げた木村氏に、サウナを通じた新しい観光の形について語っていただきました。",
+        description:
+          "直島サウナプロジェクトを立ち上げた木村氏に、サウナを通じた新しい観光の形について語っていただきました。",
         publishedAt: "2024/01/21",
-      }
+      },
     ],
   },
   {
     id: "naoshima-sauna-event-1",
     title: "サウナの薪割り・火おこし体験",
-    description: "直島サウナで実際に薪割りと火おこしを体験。火を通じて、人とサウナの関係を考えます。\n\n形式：体験型ワークショップ（2時間）",
+    description:
+      "直島サウナで実際に薪割りと火おこしを体験。火を通じて、人とサウナの関係を考えます。\n\n形式：体験型ワークショップ（2時間）",
     type: "EVENT",
     status: "open",
     projectId: "naoshima-sauna",
@@ -492,15 +496,17 @@ export const mockOpportunities: Opportunity[] = [
         url: "/articles/life-with-fire",
         type: "article",
         image: "/placeholder.svg",
-        description: "現代社会で失われつつある「火を使う技術」の大切さと、それを守り継ぐ人々の取り組みを紹介します。",
+        description:
+          "現代社会で失われつつある「火を使う技術」の大切さと、それを守り継ぐ人々の取り組みを紹介します。",
         publishedAt: "2024/01/22",
-      }
+      },
     ],
   },
   {
     id: "uchiko-renovation-event-1",
     title: "合同会社型DAOが古民家再生の資金調達を変える",
-    description: "ブロックチェーン技術を活用した新しい資金調達の形について、実例を交えながら解説します。\n\n形式：パネルディスカッション（60分）",
+    description:
+      "ブロックチェーン技術を活用した新しい資金調達の形について、実例を交えながら解説します。\n\n形式：パネルディスカッション（60分）",
     type: "EVENT",
     status: "open",
     projectId: "uchiko-renovation",
@@ -535,7 +541,8 @@ export const mockOpportunities: Opportunity[] = [
         url: "/articles/dao-regional-development",
         type: "article",
         image: "/placeholder.svg",
-        description: "DAOの仕組みを活用した地域活性化の最新事例と、その可能性について解説します。",
+        description:
+          "DAOの仕組みを活用した地域活性化の最新事例と、その可能性について解説します。",
         publishedAt: "2024/01/10",
       },
       {
@@ -543,15 +550,17 @@ export const mockOpportunities: Opportunity[] = [
         url: "/articles/blockchain-traditional-houses",
         type: "article",
         image: "/placeholder.svg",
-        description: "伝統的な建造物の保存と活用に、ブロックチェーン技術がもたらす新しい可能性を探ります。",
+        description:
+          "伝統的な建造物の保存と活用に、ブロックチェーン技術がもたらす新しい可能性を探ります。",
         publishedAt: "2024/01/11",
-      }
+      },
     ],
   },
   {
     id: "uchiko-renovation-quest-1",
     title: "古民家の清掃・メンテナンス",
-    description: "内子町の古民家を清掃し、簡単な補修作業を行います。古民家の維持管理の基礎を学べます。\n\n形式：実地作業（4時間）",
+    description:
+      "内子町の古民家を清掃し、簡単な補修作業を行います。古民家の維持管理の基礎を学べます。\n\n形式：実地作業（4時間）",
     type: "QUEST",
     status: "open",
     projectId: "uchiko-renovation",
@@ -586,15 +595,17 @@ export const mockOpportunities: Opportunity[] = [
         url: "/interviews/takahashi-misaki",
         type: "interview",
         image: "/placeholder.svg",
-        description: "内子町で古民家再生に取り組む建築家・高橋美咲氏に、古民家の持つ可能性について伺いました。",
+        description:
+          "内子町で古民家再生に取り組む建築家・高橋美咲氏に、古民家の持つ可能性について伺いました。",
         publishedAt: "2024/01/12",
-      }
+      },
     ],
   },
   {
     id: "tokushima-maze-event-1",
     title: "迷路のまちナイトツアー",
-    description: "眉山の傾斜地に広がる路地を、ライトアップとともに巡ります。地域の方々との交流も楽しめます。\n\n形式：ガイド付きツアー（2時間）",
+    description:
+      "眉山の傾斜地に広がる路地を、ライトアップとともに巡ります。地域の方々との交流も楽しめます。\n\n形式：ガイド付きツアー（2時間）",
     type: "EVENT",
     status: "open",
     projectId: "tokushima-maze",
@@ -628,7 +639,8 @@ export const mockOpportunities: Opportunity[] = [
         url: "/articles/tokushima-night",
         type: "article",
         image: "/placeholder.svg",
-        description: "眉山の傾斜地に広がる路地裏の夜の表情と、そこで生まれる新しいコミュニティについて紹介します。",
+        description:
+          "眉山の傾斜地に広がる路地裏の夜の表情と、そこで生まれる新しいコミュニティについて紹介します。",
         publishedAt: "2024/01/25",
       },
       {
@@ -636,15 +648,17 @@ export const mockOpportunities: Opportunity[] = [
         url: "/interviews/nakamura-makoto",
         type: "interview",
         image: "/placeholder.svg",
-        description: "徳島の路地裏を活かしたまちづくりに取り組む中村氏に、プロジェクトの背景と展望を伺いました。",
+        description:
+          "徳島の路地裏を活かしたまちづくりに取り組む中村氏に、プロジェクトの背景と展望を伺いました。",
         publishedAt: "2024/01/26",
-      }
+      },
     ],
   },
   {
     id: "tokushima-maze-quest-1",
     title: "観光マップの更新作業",
-    description: "路地裏の新しい観光スポットや、おすすめの撮影ポイントを調査し、マップを更新します。\n\n形式：フィールドワーク（3時間）",
+    description:
+      "路地裏の新しい観光スポットや、おすすめの撮影ポイントを調査し、マップを更新します。\n\n形式：フィールドワーク（3時間）",
     type: "QUEST",
     status: "open",
     projectId: "tokushima-maze",
@@ -679,26 +693,31 @@ export const mockOpportunities: Opportunity[] = [
         url: "/articles/evolving-tourist-map",
         type: "article",
         image: "/placeholder.svg",
-        description: "地域の魅力を伝える観光マップの作り方と、デジタル時代における新しい可能性について解説します。",
+        description:
+          "地域の魅力を伝える観光マップの作り方と、デジタル時代における新しい可能性について解説します。",
         publishedAt: "2024/01/27",
-      }
+      },
     ],
-  }
+  },
 ];
 
 export const mockProjects: Project[] = [
   {
     id: "shodoshima-olive",
     title: "小豆島オリーブプロジェクト",
-    description: "小豆島の伝統的なオリーブ栽培を次世代へ",
+    description:
+      "小豆島の伝統的なオリーブ栽培を次世代に継承しながら、新しい特産品の開発や観光プログラムの企画を行っています。",
     icon: "/placeholder.svg",
-    createdAt: new Date("2024-01-01"),
-    updatedAt: new Date("2024-01-01"),
+    location: {
+      prefecture: "香川県",
+      city: "小豆島町",
+      address: "香川県小豆郡小豆島町",
+    },
     members: [
       {
         id: "member1",
-        name: "田中健一",
-        title: "プロジェクトリーダー",
+        name: "田中花子",
+        title: "オリーブ農家",
         image: "https://api.dicebear.com/7.x/personas/svg?seed=member1",
       },
     ],
@@ -707,14 +726,20 @@ export const mockProjects: Project[] = [
       { type: "instagram", url: "https://instagram.com/shodoshima_olive" },
       { type: "website", url: "https://shodoshima-olive.jp" },
     ],
+    createdAt: new Date("2024-01-01"),
+    updatedAt: new Date("2024-01-31"),
   },
   {
     id: "setouchi-art",
     title: "瀬戸内アートプロジェクト",
-    description: "アートを通じて瀬戸内の魅力を発信",
+    description:
+      "瀬戸内海の島々をアートで繋ぎ、新しい観光の形を提案します。地域の方々とアーティストが協力して作品を制作・展示します。",
     icon: "/placeholder.svg",
-    createdAt: new Date("2024-01-15"),
-    updatedAt: new Date("2024-01-15"),
+    location: {
+      prefecture: "香川県",
+      city: "高松市",
+      address: "香川県高松市",
+    },
     members: [
       {
         id: "member2",
@@ -728,14 +753,20 @@ export const mockProjects: Project[] = [
       { type: "instagram", url: "https://instagram.com/setouchi_art" },
       { type: "twitter", url: "https://twitter.com/setouchi_art" },
     ],
+    createdAt: new Date("2024-01-01"),
+    updatedAt: new Date("2024-01-31"),
   },
   {
     id: "kagawa-local-food",
     title: "かがわ食文化プロジェクト",
-    description: "香川の伝統的な食文化を守り、発信する",
+    description:
+      "香川の伝統的な食文化を守りながら、現代に合わせた新しい食文化を創造します。",
     icon: "/placeholder.svg",
-    createdAt: new Date("2024-02-01"),
-    updatedAt: new Date("2024-02-01"),
+    location: {
+      prefecture: "香川県",
+      city: "高松市",
+      address: "香川県高松市",
+    },
     members: [
       {
         id: "member3",
@@ -749,14 +780,20 @@ export const mockProjects: Project[] = [
       { type: "youtube", url: "https://youtube.com/@kagawa_food" },
       { type: "website", url: "https://kagawa-food.jp" },
     ],
+    createdAt: new Date("2024-01-01"),
+    updatedAt: new Date("2024-01-31"),
   },
   {
     id: "naoshima-sauna",
     title: "直島サウナプロジェクト",
-    description: "アートの島でサステナブルなサウナ文化を育む",
-    icon: "/placeholder.svg",
-    createdAt: new Date("2024-01-20"),
-    updatedAt: new Date("2024-01-20"),
+    description:
+      "アートの島として知られる直島で、新たな観光資源としてサウナを活用し、持続可能な観光の形を模索します。",
+    icon: "/projects/naoshima-sauna.png",
+    location: {
+      prefecture: "香川県",
+      city: "香川郡直島町",
+      address: "香川県香川郡直島町",
+    },
     members: [
       {
         id: "member4",
@@ -770,14 +807,20 @@ export const mockProjects: Project[] = [
       { type: "instagram", url: "https://instagram.com/naoshima_sauna" },
       { type: "website", url: "https://naoshima-sauna.jp" },
     ],
+    createdAt: new Date("2024-01-01"),
+    updatedAt: new Date("2024-01-31"),
   },
   {
     id: "uchiko-renovation",
     title: "内子町古民家再生プロジェクト",
-    description: "歴史的な町並みを活かした新しいコミュニティづくり",
-    icon: "/placeholder.svg",
-    createdAt: new Date("2024-01-10"),
-    updatedAt: new Date("2024-01-10"),
+    description:
+      "愛媛県内子町の歴史的な町並みを活かしながら、古民家を再生し、新しい観光・交流の拠点を作ります。",
+    icon: "/projects/uchiko.png",
+    location: {
+      prefecture: "愛媛県",
+      city: "喜多郡内子町",
+      address: "愛媛県喜多郡内子町",
+    },
     members: [
       {
         id: "member5",
@@ -791,14 +834,20 @@ export const mockProjects: Project[] = [
       { type: "instagram", url: "https://instagram.com/uchiko_renovation" },
       { type: "website", url: "https://uchiko-renovation.jp" },
     ],
+    createdAt: new Date("2024-01-01"),
+    updatedAt: new Date("2024-01-31"),
   },
   {
     id: "tokushima-maze",
     title: "徳島迷路のまちづくり",
-    description: "眉山の傾斜地に広がる路地を活かした体験型観光",
-    icon: "/placeholder.svg",
-    createdAt: new Date("2024-01-25"),
-    updatedAt: new Date("2024-01-25"),
+    description:
+      "徳島市の傾斜地に広がる路地を「迷路」として再解釈し、新しい観光資源として活用します。",
+    icon: "/projects/tokushima-maze.png",
+    location: {
+      prefecture: "徳島県",
+      city: "徳島市",
+      address: "徳島県徳島市",
+    },
     members: [
       {
         id: "member6",
@@ -810,7 +859,72 @@ export const mockProjects: Project[] = [
     opportunities: [],
     socialLinks: [
       { type: "instagram", url: "https://instagram.com/tokushima_maze" },
-      { type: "website", url: "https://tokushima-maze.jp" }
-    ]
-  }
+      { type: "website", url: "https://tokushima-maze.jp" },
+    ],
+    createdAt: new Date("2024-01-01"),
+    updatedAt: new Date("2024-01-31"),
+  },
 ];
+
+// Mock invitation data
+const mockInvitation = {
+  id: "1",
+  opportunityId: "bbq-1",
+  hostMessage:
+    "美咲さん、BBQのおもてなしメンバーとして最適だと思い、ご招待させていただきました。ぜひご参加いただけますと嬉しいです！",
+  requiredPoints: 1000,
+  createdAt: new Date(),
+  host: {
+    id: "host1",
+    name: "田中健一",
+    title: "プロジェクトリーダー",
+    image: "https://api.dicebear.com/7.x/personas/svg?seed=host1",
+  },
+};
+
+export const mockUser: {
+  id: string;
+  name: string;
+  title: string;
+  image: string;
+  bio: string;
+  points: Record<string, { available: number; total: number }>;
+  projects: Project[];
+  appliedSessions: Opportunity[];
+  invitations: (typeof mockInvitation)[];
+} = {
+  ...CURRENT_USER,
+  title: "マンションリーダー",
+  bio: "神戸でIT会社に勤めつつ、週末は地元の人々と交流しながら、一緒に手を動かすことを楽しんでいます。",
+  points: {
+    "shodoshima-olive": {
+      available: 400,
+      total: 500,
+    },
+    "setouchi-art": {
+      available: 300,
+      total: 300,
+    },
+    "kagawa-local-food": {
+      available: 350,
+      total: 400,
+    },
+    "naoshima-sauna": {
+      available: 0,
+      total: 0,
+    },
+    "uchiko-renovation": {
+      available: 0,
+      total: 0,
+    },
+    "tokushima-maze": {
+      available: 0,
+      total: 0,
+    },
+  },
+  projects: [mockProjects[0], mockProjects[1], mockProjects[2]],
+  appliedSessions: mockOpportunities.filter((session) =>
+    session.participants.some((p) => p.id === CURRENT_USER.id)
+  ),
+  invitations: [mockInvitation],
+};

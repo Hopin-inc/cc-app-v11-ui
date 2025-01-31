@@ -6,60 +6,21 @@ import { format, isPast } from "date-fns";
 import { ja } from "date-fns/locale";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Pencil, Star } from "lucide-react";
+import { Pencil } from "lucide-react";
 import { EditProfileModal } from "@/components/edit-profile-modal";
 import {
-  mockOpportunities,
   mockInvitationOpportunities,
+  mockUser,
   mockProjects,
 } from "@/lib/data";
-import { dummyUser } from "@/lib/dummyUser";
 import OpportunityCard from "@/components/OpportunityCard";
 import type { Opportunity } from "@/types";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-// Mock invitation data
-const mockInvitation = {
-  id: "1",
-  opportunityId: "bbq-1",
-  hostMessage:
-    "美咲さん、BBQのおもてなしメンバーとして最適だと思い、ご招待させていただきました。ぜひご参加いただけますと嬉しいです！",
-  requiredPoints: 1000,
-  createdAt: new Date(),
-  host: {
-    id: "host1",
-    name: "田中健一",
-    title: "プロジェクトリーダー",
-    image: "https://api.dicebear.com/7.x/personas/svg?seed=host1",
-  },
-};
-
 const mockBBQOpportunity = mockInvitationOpportunities[0];
 
 // This would typically come from an API
-const user = {
-  ...dummyUser,
-  bio: "神戸でIT会社に勤めつつ、週末は地元の人々と交流しながら、一緒に手を動かすことを楽しんでいます。",
-  points: {
-    available: 1050,
-    total: 1200,
-  },
-  badges: [
-    { id: "welfare-health", level: 2 },
-    { id: "tourism-culture", level: 3 },
-    { id: "environment", level: 1 },
-  ],
-  skills: [
-    { id: "event-planning", level: 3 },
-    { id: "it", level: 2 },
-    { id: "marketing", level: 1 },
-  ],
-  projects: [mockProjects[0], mockProjects[1], mockProjects[2]],
-  appliedSessions: mockOpportunities.filter((session) =>
-    session.participants.some((p) => p.id === "user1")
-  ),
-  invitations: [mockInvitation],
-};
+const user = mockUser;
 
 type GroupedSessions = {
   [date: string]: Opportunity[];
@@ -142,200 +103,353 @@ export default function MyPage() {
           </Button>
         </div>
 
-        {/* Points Card */}
-        <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center gap-6">
-              <div className="flex items-center gap-4 justify-between w-full px-8">
-                <div className="space-y-0.5">
-                  <div className="text-xs text-muted-foreground">利用可能</div>
-                  <div className="flex items-baseline gap-1">
-                    <span className="text-base font-medium">
-                      {user.points.available}
+        {/* Activity Summary */}
+        <div className="flex flex-col gap-4">
+          <h2 className="text-lg font-bold">活動サマリー</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* Participation Status */}
+            <Card>
+              <CardContent className="p-4">
+                <h3 className="font-bold text-sm mb-3">参加状況</h3>
+                <div className="space-y-3">
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-muted-foreground">
+                      イベント参加
                     </span>
-                    <span className="text-xs text-muted-foreground">pt</span>
-                  </div>
-                </div>
-                <div className="space-y-0.5">
-                  <div className="text-xs text-muted-foreground">総獲得</div>
-                  <div className="flex items-baseline gap-1">
-                    <span className="text-base font-medium">
-                      {user.points.total}
+                    <span className="font-medium">
+                      {
+                        user.appliedSessions.filter((s) => s.type === "EVENT")
+                          .length
+                      }
+                      回
                     </span>
-                    <span className="text-xs text-muted-foreground">pt</span>
                   </div>
-                </div>
-                <div className="space-y-0.5">
-                  <div className="text-xs text-muted-foreground">
-                    関わったプロジェクト
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-base font-medium">
-                      {user.projects.length}
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-muted-foreground">
+                      クエスト完了
                     </span>
-                    <div className="flex -space-x-2">
-                      {user.projects.map((project) => (
-                        <div
-                          key={project.id}
-                          className="relative w-6 h-6 rounded-full bg-background border border-border overflow-hidden"
-                        >
-                          <Image
-                            src={project.icon ?? "/placeholder.svg"}
-                            alt={project.title}
-                            width={24}
-                            height={24}
-                            className="object-cover"
-                          />
-                        </div>
-                      ))}
+                    <span className="font-medium">
+                      {
+                        user.appliedSessions.filter((s) => s.type === "QUEST")
+                          .length
+                      }
+                      回
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-muted-foreground">
+                      活動地域
+                    </span>
+                    <div className="flex items-center gap-2">
+                      <span className="font-medium">
+                        {
+                          Array.from(
+                            new Set(
+                              user.projects.map((p) => p.location.prefecture)
+                            )
+                          ).length
+                        }
+                        県
+                      </span>
+                      <span className="text-xs text-muted-foreground">
+                        （
+                        {Array.from(
+                          new Set(
+                            user.projects.map((p) => p.location.prefecture)
+                          )
+                        ).join("・")}
+                        ）
+                      </span>
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+              </CardContent>
+            </Card>
 
-        {/* Invitations */}
-        {user.invitations.length > 0 && (
-          <div>
-            <h2 className="text-xl font-bold mb-4">招待されている関わり</h2>
-            <div className="space-y-4">
-              {user.invitations.map((invitation) => {
-                const opportunity = mockBBQOpportunity;
-                return (
-                  <Card key={invitation.id}>
-                    <CardContent className="p-6">
-                      <div className="space-y-4">
-                        <OpportunityCard session={opportunity} />
-                        <div className="bg-muted/50 p-4 rounded-lg space-y-4">
-                          <div className="flex items-start gap-3">
+            {/* Recent Activities */}
+            <Card>
+              <CardContent className="p-4">
+                <h3 className="font-bold text-sm mb-3">最近の活動</h3>
+                <div className="space-y-3">
+                  {user.appliedSessions
+                    .sort(
+                      (a, b) =>
+                        new Date(b.startsAt).getTime() -
+                        new Date(a.startsAt).getTime()
+                    )
+                    .slice(0, 3)
+                    .map((session) => {
+                      const project = mockProjects.find(
+                        (p) => p.id === session.projectId
+                      );
+                      return (
+                        <div
+                          key={session.id}
+                          className="flex items-start gap-3"
+                        >
+                          <div className="w-8 h-8 relative shrink-0">
                             <Image
-                              src={invitation.host.image}
-                              alt={invitation.host.name}
-                              width={40}
-                              height={40}
-                              className="rounded-full"
+                              src={project?.icon ?? "/placeholder.svg"}
+                              alt={project?.title ?? ""}
+                              width={32}
+                              height={32}
+                              className="rounded-lg"
                             />
-                            <div className="flex-1 min-w-0">
-                              <div className="flex flex-col">
-                                <span className="font-medium">
-                                  {invitation.host.name}
-                                </span>
-                                <span className="text-sm text-muted-foreground">
-                                  {invitation.host.title}
-                                </span>
-                              </div>
-                              <p className="text-sm mt-2">
-                                {invitation.hostMessage}
-                              </p>
-                            </div>
                           </div>
-                          <div className="flex items-center justify-between">
-                            <p className="ml-14 text-xs text-muted-foreground">
-                              必要ポイント: {invitation.requiredPoints} pt
+                          <div className="flex-1 min-w-0">
+                            <p className="text-sm font-medium truncate">
+                              {session.title}
                             </p>
-                            <div className="flex items-center gap-2 flex-col">
-                              <div className="flex gap-2">
-                                <Button
-                                  variant="outline"
-                                  onClick={() =>
-                                    handleRejectInvitation(invitation.id)
-                                  }
-                                >
-                                  また今度
-                                </Button>
-                                <Button
-                                  onClick={() =>
-                                    handleAcceptInvitation(invitation.id)
-                                  }
-                                  disabled={
-                                    user.points.available <
-                                    invitation.requiredPoints
-                                  }
-                                >
-                                  承認する
-                                </Button>
-                              </div>
+                            <p className="text-xs text-muted-foreground">
+                              {format(
+                                new Date(session.startsAt),
+                                "yyyy/MM/dd",
+                                { locale: ja }
+                              )}
+                            </p>
+                          </div>
+                          <span className="text-xs px-2 py-1 rounded-full bg-primary/10 text-primary">
+                            {session.type === "EVENT" ? "イベント" : "クエスト"}
+                          </span>
+                        </div>
+                      );
+                    })}
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Project Engagement */}
+            <Card className="md:col-span-2">
+              <CardContent className="p-4">
+                <div className="flex items-center justify-between mb-3">
+                  <h3 className="font-bold text-sm">プロジェクト別の関わり</h3>
+                  <span className="text-xs bg-muted px-2 py-1 rounded-full text-muted-foreground">
+                    {user.projects.length}つ
+                  </span>
+                </div>
+                <div className="flex gap-4 overflow-x-auto pb-2">
+                  {user.projects.map((project) => {
+                    const projectSessions = user.appliedSessions.filter(
+                      (s) => s.projectId === project.id
+                    );
+                    const points = user.points?.[project.id] ?? 0;
+                    return (
+                      <div
+                        key={project.id}
+                        className="flex items-start gap-3 min-w-[240px]"
+                      >
+                        <div className="w-8 h-8 relative shrink-0">
+                          <Image
+                            src={project.icon ?? "/placeholder.svg"}
+                            alt={project.title}
+                            width={32}
+                            height={32}
+                            className="rounded-full"
+                          />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-medium truncate">
+                            {project.title}
+                          </p>
+                          <div className="flex gap-3 mt-1">
+                            <p className="text-xs text-muted-foreground">
+                              イベント{" "}
+                              {
+                                projectSessions.filter((s) => s.type === "EVENT")
+                                  .length
+                              }
+                              回
+                            </p>
+                            <p className="text-xs text-muted-foreground">
+                              クエスト{" "}
+                              {
+                                projectSessions.filter((s) => s.type === "QUEST")
+                                  .length
+                              }
+                              回
+                            </p>
+                          </div>
+                          <div className="flex items-center gap-2 mt-2">
+                            <div className="flex items-baseline gap-1">
+                              <span className="text-sm font-medium text-primary">
+                                {points.available}
+                              </span>
+                              <span className="text-xs text-muted-foreground">
+                                pt 利用可能
+                              </span>
+                            </div>
+                            <span className="text-xs text-muted-foreground">/</span>
+                            <div className="flex items-baseline gap-1">
+                              <span className="text-sm font-medium">
+                                {points.total}
+                              </span>
+                              <span className="text-xs text-muted-foreground">
+                                pt 累計
+                              </span>
                             </div>
                           </div>
                         </div>
                       </div>
-                    </CardContent>
-                  </Card>
+                    );
+                  })}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+
+        {/* Invitations */}
+        {user.invitations.length > 0 && (
+          <div>
+            <h2 className="text-lg font-bold mb-4">招待されている関わり</h2>
+            <div className="flex gap-4 overflow-x-auto pb-2">
+              {user.invitations.map((invitation) => {
+                const opportunity = mockBBQOpportunity;
+                const project = mockProjects.find(
+                  (p) => p.id === opportunity.projectId
+                );
+                if (!project) return null;
+
+                return (
+                  <div
+                    key={invitation.id}
+                    className="relative min-w-[280px] bg-card rounded-lg overflow-hidden group hover:shadow-lg transition-all duration-200"
+                  >
+                    {/* Ticket stub dots */}
+                    <div className="absolute left-0 top-1/2 -translate-y-1/2 w-2 flex flex-col gap-1 px-0.5">
+                      <div className="w-1 h-1 rounded-full bg-muted-foreground/20" />
+                      <div className="w-1 h-1 rounded-full bg-muted-foreground/20" />
+                      <div className="w-1 h-1 rounded-full bg-muted-foreground/20" />
+                      <div className="w-1 h-1 rounded-full bg-muted-foreground/20" />
+                    </div>
+
+                    <div className="p-4">
+                      {/* Project info */}
+                      <div className="flex items-start gap-3">
+                        <div className="w-12 h-12 relative shrink-0">
+                          <Image
+                            src={project.icon ?? "/placeholder.svg"}
+                            alt={project.title}
+                            width={48}
+                            height={48}
+                            className="rounded-xl"
+                          />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-xs text-muted-foreground">
+                            {project.title}
+                          </p>
+                          <h3 className="font-bold text-base truncate mt-0.5">
+                            {opportunity.title}
+                          </h3>
+                        </div>
+                      </div>
+
+                      {/* Date and location */}
+                      <div className="mt-3 flex items-center gap-2 text-xs text-muted-foreground">
+                        <span>
+                          {format(
+                            new Date(opportunity.startsAt),
+                            "M/d (E) HH:mm",
+                            {
+                              locale: ja,
+                            }
+                          )}
+                        </span>
+                        <span>@</span>
+                        <span className="truncate">{`${project.location.prefecture}${project.location.city}`}</span>
+                      </div>
+
+                      {/* Points and action */}
+                      <div className="mt-4 pt-4 border-t border-dashed flex items-center justify-between">
+                        <div className="flex items-baseline gap-1">
+                          <span className="text-xl font-bold text-primary">
+                            - {invitation.requiredPoints}
+                          </span>
+                          <span className="text-sm text-muted-foreground">
+                            pt
+                          </span>
+                        </div>
+                        <Button
+                          size="sm"
+                          className="bg-primary text-primary-foreground hover:bg-primary/90"
+                        >
+                          承認する
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
                 );
               })}
             </div>
           </div>
         )}
-      </div>
 
-      {/* Applied Sessions */}
-      <div>
-        <h2 className="text-xl font-bold mb-4">地域との関わり</h2>
-        <Tabs
-          value={activeTab}
-          onValueChange={(value) => setActiveTab(value as TabValue)}
-        >
-          <TabsList className="mb-6">
-            {TABS.map((tab) => {
-              const count =
-                tab.value === "all"
-                  ? user.appliedSessions.length
-                  : user.appliedSessions.filter((s) => s.type === tab.value)
-                      .length;
-              return (
-                <TabsTrigger
-                  key={tab.value}
-                  value={tab.value}
-                  className="relative"
-                >
-                  {tab.label}
-                  <span className="ml-1.5 inline-flex h-5 w-5 items-center justify-center rounded-full text-[10px] font-medium text-muted-foreground data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
-                    {count}
-                  </span>
-                </TabsTrigger>
-              );
-            })}
-          </TabsList>
-          <div className="space-y-8">
-            {Object.entries(groupedSessions)
-              .sort(([dateA], [dateB]) => dateB.localeCompare(dateA))
-              .map(([date, sessions]) => (
-                <div key={date} className="space-y-4">
-                  <h3 className="font-medium text-muted-foreground">
-                    {format(new Date(date), "M月d日(E)", { locale: ja })}
-                  </h3>
-                  <div className="space-y-4">
-                    {sessions.map((session) => (
-                      <OpportunityCard
-                        key={session.id}
-                        session={{
-                          ...session,
-                          status: isPast(new Date(session.startsAt))
-                            ? "closed"
-                            : session.status,
-                        }}
-                        isJoined={true}
-                      />
-                    ))}
+        {/* Applied Sessions */}
+        <div>
+          <h2 className="text-xl font-bold mb-4">地域との関わり</h2>
+          <Tabs
+            value={activeTab}
+            onValueChange={(value) => setActiveTab(value as TabValue)}
+          >
+            <TabsList className="mb-6">
+              {TABS.map((tab) => {
+                const count =
+                  tab.value === "all"
+                    ? user.appliedSessions.length
+                    : user.appliedSessions.filter((s) => s.type === tab.value)
+                        .length;
+                return (
+                  <TabsTrigger
+                    key={tab.value}
+                    value={tab.value}
+                    className="relative"
+                  >
+                    {tab.label}
+                    <span className="ml-1.5 inline-flex h-5 w-5 items-center justify-center rounded-full text-[10px] font-medium text-muted-foreground data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+                      {count}
+                    </span>
+                  </TabsTrigger>
+                );
+              })}
+            </TabsList>
+            <div className="space-y-8">
+              {Object.entries(groupedSessions)
+                .sort(([dateA], [dateB]) => dateB.localeCompare(dateA))
+                .map(([date, sessions]) => (
+                  <div key={date} className="space-y-4">
+                    <h3 className="font-medium text-muted-foreground">
+                      {format(new Date(date), "M月d日(E)", { locale: ja })}
+                    </h3>
+                    <div className="space-y-4">
+                      {sessions.map((session) => (
+                        <OpportunityCard
+                          key={session.id}
+                          session={{
+                            ...session,
+                            status: isPast(new Date(session.startsAt))
+                              ? "closed"
+                              : session.status,
+                          }}
+                          isJoined={true}
+                        />
+                      ))}
+                    </div>
                   </div>
-                </div>
-              ))}
-          </div>
-        </Tabs>
-      </div>
+                ))}
+            </div>
+          </Tabs>
+        </div>
 
-      <EditProfileModal
-        open={isEditProfileOpen}
-        onOpenChange={setIsEditProfileOpen}
-        user={{
-          name: user.name,
-          bio: user.bio,
-          skills: user.skills.map((skill) => skill.id),
-          interests: user.badges.map((badge) => badge.id),
-        }}
-      />
+        <EditProfileModal
+          open={isEditProfileOpen}
+          onOpenChange={setIsEditProfileOpen}
+          user={{
+            name: user.name,
+            bio: user.bio,
+          }}
+        />
+      </div>
     </div>
   );
 }
