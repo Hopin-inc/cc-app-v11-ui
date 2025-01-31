@@ -52,21 +52,10 @@ export type Opportunity = {
     icon: string;
   };
   recommendedFor: string[];
-  relatedArticles?: {
-    title: string;
-    url: string;
-    type: "interview" | "article";
-    image?: string;
-    description?: string;
-    publishedAt: string;
-  }[];
+  relatedArticles?: RelatedArticle[];
   capacity: number;
   pointsForComplete?: number;
-  participants: {
-    id: string;
-    name: string;
-    image?: string;
-  }[];
+  participants: Participant[];
 };
 
 export type Skill = {
@@ -96,4 +85,19 @@ export type Notification = {
   content: string;
   read: boolean;
   createdAt: Date;
+};
+
+export type Participant = {
+  id: string;
+  name: string;
+  image?: string;
+};
+
+export type RelatedArticle = {
+  title: string;
+  url: string;
+  type: "interview" | "article";
+  image?: string;
+  description?: string;
+  publishedAt: string;
 };
