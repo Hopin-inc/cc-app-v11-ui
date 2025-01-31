@@ -17,6 +17,7 @@ import {
 import OpportunityCard from "@/components/OpportunityCard";
 import type { Opportunity, Project } from "@/types";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Trophy, Medal, Calendar } from "lucide-react";
 
 const mockBBQOpportunity = mockInvitationOpportunities[0];
 
@@ -135,6 +136,11 @@ export default function MyPage({
     console.log(`Accept invitation ${id}`);
   };
 
+  const totalPoints = Object.keys(user.points).reduce((acc, key) => {
+    acc += user.points[key].total;
+    return acc;
+  }, 0);
+
   return (
     <div className="container mx-auto px-4 py-6 space-y-8 max-w-3xl">
       <div className="space-y-6">
@@ -163,6 +169,60 @@ export default function MyPage({
               編集
             </Button>
           )}
+        </div>
+
+        {/* User Stats */}
+        <div className="mb-8">
+          <div className="grid grid-cols-3 gap-4">
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                <Trophy className="w-4 h-4 text-primary" />
+              </div>
+              <div>
+                <p className="text-xs text-muted-foreground">総獲得ポイント</p>
+                <p className="text-base font-bold">
+                  {typeof totalPoints === "number" ? totalPoints : 0}
+                  <span className="text-sm font-normal text-muted-foreground ml-0.5">
+                    pt
+                  </span>
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                <Medal className="w-4 h-4 text-primary" />
+              </div>
+              <div>
+                <p className="text-xs text-muted-foreground">完了クエスト</p>
+                <p className="text-base font-bold">
+                  {mockOpportunities.filter(
+                    (o) =>
+                      o.participants?.some((p) => p.id === user.id) &&
+                      isPast(new Date(o.endsAt)) &&
+                      o.type === "QUEST"
+                  ).length || 0}
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                <Calendar className="w-4 h-4 text-primary" />
+              </div>
+              <div>
+                <p className="text-xs text-muted-foreground">参加イベント</p>
+                <p className="text-base font-bold">
+                  {mockOpportunities.filter(
+                    (o) =>
+                      o.participants?.some((p) => p.id === user.id) &&
+                      isPast(new Date(o.endsAt)) &&
+                      o.type === "EVENT"
+                  ).length || 0}
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Invitations */}
