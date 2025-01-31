@@ -55,7 +55,7 @@ export default function OpportunityCard({ session }: OpportunityCardProps) {
             </div>
           </div>
         </div>
-    </div>
+      </div>
     </Link>
   );
 }

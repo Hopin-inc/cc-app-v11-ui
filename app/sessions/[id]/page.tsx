@@ -99,6 +99,28 @@ export default function OpportunityDetailPage({
     }
   }, [opportunity]);
 
+  const handleAddToCalendar = useCallback(() => {
+    if (!opportunity?.startsAt || !opportunity?.endsAt) return;
+    const startTime = new Date(opportunity.startsAt);
+    const endTime = new Date(opportunity.endsAt);
+
+    const url = `https://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(
+      opportunity.title
+    )}&details=${encodeURIComponent(
+      `${project?.title}\n${opportunity.description}`
+    )}&location=${encodeURIComponent(
+      opportunity.location.name
+    )}&dates=${startTime
+      .toISOString()
+      .replace(/[-:]/g, "")
+      .replace(/\.\d{3}/, "")}\/${endTime
+      .toISOString()
+      .replace(/[-:]/g, "")
+      .replace(/\.\d{3}/, "")}`;
+
+    window.open(url, "_blank");
+  }, [opportunity, project]);
+
   useEffect(() => {
     let lastScrollY = window.scrollY;
     const SCROLL_THRESHOLD = 200; // スクロールを開始する閾値
@@ -145,7 +167,7 @@ export default function OpportunityDetailPage({
         <div className="container max-w-2xl mx-auto px-8 py-6 space-y-8">
           {/* Title Section */}
           <div className="mb-8">
-            <span className="text-xs text-muted-foreground bg-muted p-1 rounded">
+            <span className="text-xs text-muted-foreground bg-muted px-2 py-1 rounded">
               {opportunity.type === "EVENT" ? "イベント" : "クエスト"}
             </span>
             <h1 className="mt-2 text-2xl font-bold mb-4">
@@ -409,7 +431,7 @@ export default function OpportunityDetailPage({
                         </div>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 mb-2">
-                            <span className="inline-block px-2 py-1 text-xs rounded-md bg-primary/10 text-primary font-medium">
+                            <span className="text-xs text-muted-foreground bg-muted px-2 py-1 rounded">
                               {article.type === "interview"
                                 ? "INTERVIEW"
                                 : "ARTICLE"}
@@ -493,27 +515,32 @@ export default function OpportunityDetailPage({
       {isEvent && (
         <Sheet open={isConfirmSheetOpen} onOpenChange={setIsConfirmSheetOpen}>
           <SheetContent side="bottom" className="max-w-lg mx-auto">
-            <SheetHeader className="text-center mb-6">
-              <SheetTitle>参加の確認</SheetTitle>
-            </SheetHeader>
-            <div className="px-4">
-              <div className="text-xs text-muted-foreground p-2">
-                {format(new Date(opportunity.startsAt), "M月d日(E)", {
-                  locale: ja,
-                })}
+            <div className="container max-w-lg mx-auto px-4">
+              <SheetHeader className="text-center mb-6">
+                <SheetTitle>参加の確認</SheetTitle>
+                <SheetDescription>
+                  以下のイベントでお間違いありませんか?
+                </SheetDescription>
+              </SheetHeader>
+              <div>
+                <div className="text-xs text-muted-foreground mb-2">
+                  {format(new Date(opportunity.startsAt), "M月d日(E)", {
+                    locale: ja,
+                  })}
+                </div>
+                <div className="bg-muted/20 rounded-xl">
+                  <OpportunityCard session={opportunity} />
+                </div>
               </div>
-              <div className="bg-muted/20 rounded-xl">
-                <OpportunityCard session={opportunity} />
+              <div className="flex flex-col items-center justify-center mt-12 space-y-4">
+                <Button
+                  size="lg"
+                  className="w-full"
+                  onClick={handleConfirmJoin}
+                >
+                  確定する
+                </Button>
               </div>
-            </div>
-            <div className="flex flex-col items-center justify-center h-full mb-auto mt-12">
-              <Button
-                size="lg"
-                className="w-full max-w-sm"
-                onClick={handleConfirmJoin}
-              >
-                参加する
-              </Button>
             </div>
           </SheetContent>
         </Sheet>
@@ -526,27 +553,42 @@ export default function OpportunityDetailPage({
           onOpenChange={setIsCompletedSheetOpen}
         >
           <SheetContent side="bottom" className="max-w-lg mx-auto">
-            <SheetHeader className="text-center mb-4">
-              <div className="mx-auto mb-2">🎉</div>
-              <SheetTitle>参加予定です！</SheetTitle>
-              <SheetDescription>
-                以下のイベントへの参加を受け付けました
-              </SheetDescription>
-            </SheetHeader>
-            <div className="px-4">
-              <div className="bg-muted/20 rounded-xl">
-                <OpportunityCard session={opportunity} />
+            <div className="container max-w-lg mx-auto px-4">
+              <SheetHeader className="text-center mb-6">
+                <SheetTitle>参加予定です！</SheetTitle>
+                <SheetDescription>
+                  以下のイベントへの参加を受け付けました
+                </SheetDescription>
+              </SheetHeader>
+              <div>
+                <div className="text-xs text-muted-foreground mb-2">
+                  {format(new Date(opportunity.startsAt), "M月d日(E)", {
+                    locale: ja,
+                  })}
+                </div>
+                <div className="bg-muted/20 rounded-xl">
+                  <OpportunityCard session={opportunity} />
+                </div>
               </div>
-            </div>
-            <div className="flex flex-col items-center justify-center h-full mb-auto mt-12">
-              <Button
-                size="lg"
-                className="w-full max-w-sm"
-                onClick={handleShare}
-              >
-                <Share2 className="mr-2 h-4 w-4" />
-                共有する
-              </Button>
+              <div className="flex flex-col items-center justify-center mt-12 space-y-4">
+                <Button
+                  size="lg"
+                  className="w-full"
+                  onClick={handleAddToCalendar}
+                >
+                  <Calendar className="mr-2 h-4 w-4" />
+                  カレンダーに追加
+                </Button>
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="w-full"
+                  onClick={handleShare}
+                >
+                  <Share2 className="mr-2 h-4 w-4" />
+                  共有する
+                </Button>
+              </div>
             </div>
           </SheetContent>
         </Sheet>
