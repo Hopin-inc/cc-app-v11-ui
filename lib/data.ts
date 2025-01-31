@@ -475,7 +475,7 @@ export const mockOpportunities: Opportunity[] = [
       bio: "3年前に就農し、伝統的なオリーブ栽培に新しい視点を取り入れながら、若手農家のネットワーク作りにも力を入れている。6次産業化による地域活性化を目指す。",
     },
     capacity: 60,
-   participants: [
+    participants: [
       {
         id: "user7",
         name: "山田一郎",

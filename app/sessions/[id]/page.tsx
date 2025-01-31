@@ -17,11 +17,9 @@ import {
 import { format } from "date-fns";
 import { ja } from "date-fns/locale";
 import { Button } from "@/components/ui/button";
-import { ApplyModal } from "@/components/ApplyModal";
 import { ParticipantsModal } from "@/components/ParticipantsModal";
 import { mockOpportunities, mockProjects } from "@/lib/data";
 import { useParams } from "next/navigation";
-import { Dialog } from "@/components/ui/dialog";
 import {
   Popover,
   PopoverContent,
@@ -55,6 +53,12 @@ export default function OpportunityDetailPage({
   const [showButton, setShowButton] = useState(false);
 
   const opportunity = mockOpportunities.find((o) => o.id === id);
+
+  useEffect(() => {
+    if (!opportunity) return;
+    setIsJoined(opportunity.participants?.some((p) => p.id === "user1"));
+  }, [opportunity]);
+
   const project = opportunity
     ? mockProjects.find((p) => p.id === opportunity.projectId)
     : null;
@@ -310,7 +314,10 @@ export default function OpportunityDetailPage({
             {/* Project Info */}
             <div className="space-y-4">
               <h2 className="text-xl font-semibold">プロジェクトについて</h2>
-              <Link href={`/projects/${project?.id}`} className="mt-8 block">
+              <Link
+                href={`/projects/${project?.id}`}
+                className="mt-8 block group"
+              >
                 <div className="border rounded-xl p-4 hover:bg-muted/10 transition-colors">
                   <div className="flex items-start space-x-4">
                     <div className="relative h-16 w-16 rounded-xl overflow-hidden">
@@ -323,7 +330,9 @@ export default function OpportunityDetailPage({
                     </div>
                     <div className="flex-1">
                       <div className="flex items-center gap-2">
-                        <h3 className="font-medium">{project?.title}</h3>
+                        <h3 className="font-medium group-hover:text-primary">
+                          {project?.title}
+                        </h3>
                       </div>
                       <p className="text-sm text-muted-foreground mt-2">
                         {project?.description}
@@ -333,6 +342,52 @@ export default function OpportunityDetailPage({
                 </div>
               </Link>
             </div>
+            {/* Related Articles */}
+            {opportunity.relatedArticles &&
+              opportunity.relatedArticles.length > 0 && (
+                <div className="space-y-4">
+                  <h2 className="text-xl font-semibold">関連記事</h2>
+                  <div className="grid gap-4">
+                    {opportunity.relatedArticles.map((article, i) => (
+                      <Link
+                        key={article.url}
+                        href={article.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="block group"
+                      >
+                        <div className="flex items-start gap-4 p-4 rounded-xl border bg-card hover:bg-muted/10 transition-all duration-200">
+                          <div className="relative h-24 w-24 rounded-lg overflow-hidden flex-shrink-0">
+                            <Image
+                              src={article.image || "/placeholder.svg"}
+                              alt={article.title}
+                              fill
+                              className="object-cover"
+                            />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-2 mb-2">
+                              <span className="text-xs text-muted-foreground bg-muted px-2 py-1 rounded">
+                                {article.type === "interview"
+                                  ? "INTERVIEW"
+                                  : "ARTICLE"}
+                              </span>
+                            </div>
+                            <h3 className="font-medium mb-1 group-hover:text-primary transition-colors line-clamp-2">
+                              {article.title}
+                            </h3>
+                            {article.description && (
+                              <p className="text-sm text-muted-foreground line-clamp-2">
+                                {article.description}
+                              </p>
+                            )}
+                          </div>
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              )}
 
             {/* Capacity and Participants */}
             <div className="mb-12">
@@ -411,53 +466,6 @@ export default function OpportunityDetailPage({
               </div>
             </div>
           </div>
-
-          {/* Related Articles */}
-          {opportunity.relatedArticles &&
-            opportunity.relatedArticles.length > 0 && (
-              <div className="space-y-4">
-                <h2 className="text-xl font-semibold">関連記事</h2>
-                <div className="grid gap-4">
-                  {opportunity.relatedArticles.map((article, i) => (
-                    <Link
-                      key={article.url}
-                      href={article.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="block group"
-                    >
-                      <div className="flex items-start gap-4 p-4 rounded-xl border bg-card hover:bg-muted/10 transition-all duration-200">
-                        <div className="relative h-24 w-24 rounded-lg overflow-hidden flex-shrink-0">
-                          <Image
-                            src={article.image || "/placeholder.svg"}
-                            alt={article.title}
-                            fill
-                            className="object-cover"
-                          />
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-2 mb-2">
-                            <span className="text-xs text-muted-foreground bg-muted px-2 py-1 rounded">
-                              {article.type === "interview"
-                                ? "INTERVIEW"
-                                : "ARTICLE"}
-                            </span>
-                          </div>
-                          <h3 className="font-medium mb-1 group-hover:text-primary transition-colors line-clamp-2">
-                            {article.title}
-                          </h3>
-                          {article.description && (
-                            <p className="text-sm text-muted-foreground line-clamp-2">
-                              {article.description}
-                            </p>
-                          )}
-                        </div>
-                      </div>
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            )}
         </div>
       </div>
 
@@ -470,7 +478,7 @@ export default function OpportunityDetailPage({
       >
         <div className="container max-w-lg mx-auto">
           <div className="sticky bottom-4 w-full">
-            <div className="bg-background/80 backdrop-blur-sm rounded-xl px-4 flex gap-2 items-center">
+            <div className="bg-background/80 backdrop-blur-sm rounded-xl px-8 flex gap-2 items-center">
               <Button
                 className="flex-1"
                 size="lg"
@@ -507,7 +515,7 @@ export default function OpportunityDetailPage({
       {/* Quest Apply Confirmation */}
       {!isEvent && (
         <Sheet open={isConfirmSheetOpen} onOpenChange={setIsConfirmSheetOpen}>
-          <SheetContent side="bottom" className="max-w-lg mx-auto">
+          <SheetContent side="bottom" className="max-w-lg mx-auto rounded-t-lg">
             <div className="container max-w-lg mx-auto px-4">
               <SheetHeader className="text-center mb-6">
                 <SheetTitle>応募の確認</SheetTitle>
@@ -545,7 +553,7 @@ export default function OpportunityDetailPage({
           open={isCompletedSheetOpen}
           onOpenChange={setIsCompletedSheetOpen}
         >
-          <SheetContent side="bottom" className="max-w-lg mx-auto">
+          <SheetContent side="bottom" className="max-w-lg mx-auto rounded-t-lg">
             <div className="container max-w-lg mx-auto px-4">
               <SheetHeader className="text-center mb-6">
                 <SheetTitle>応募を受け付けました！</SheetTitle>
@@ -595,7 +603,7 @@ export default function OpportunityDetailPage({
       {/* Event Join Confirmation */}
       {isEvent && (
         <Sheet open={isConfirmSheetOpen} onOpenChange={setIsConfirmSheetOpen}>
-          <SheetContent side="bottom" className="max-w-lg mx-auto">
+          <SheetContent side="bottom" className="max-w-lg mx-auto rounded-t-lg">
             <div className="container max-w-lg mx-auto px-4">
               <SheetHeader className="text-center mb-6">
                 <SheetTitle>参加の確認</SheetTitle>

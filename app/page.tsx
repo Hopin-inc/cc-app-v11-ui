@@ -43,29 +43,6 @@ export default function Home() {
   const formatDate = (dateStr: string) => {
     const date = new Date(dateStr);
     const displayDate = format(date, "M月d日(E)", { locale: ja });
-
-    if (isToday(date)) {
-      return (
-        <div className="flex items-center gap-2">
-          <span className="text-sm bg-primary/10 text-primary px-2 py-0.5 rounded">
-            今日
-          </span>
-          <span>{displayDate}</span>
-        </div>
-      );
-    }
-
-    if (isTomorrow(date)) {
-      return (
-        <div className="flex items-center gap-2">
-          <span className="text-sm bg-primary/10 text-primary px-2 py-0.5 rounded">
-            明日
-          </span>
-          <span>{displayDate}</span>
-        </div>
-      );
-    }
-
     return displayDate;
   };
 

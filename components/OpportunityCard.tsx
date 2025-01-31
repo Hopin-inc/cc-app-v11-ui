@@ -21,14 +21,14 @@ export default function OpportunityCard({
 
   return (
     <Link href={`/sessions/${session.id}`}>
-      <div className="flex items-start gap-4 py-4 px-2">
+      <div className="flex items-start gap-4 py-4 px-2 transition-all duration-200 hover:bg-muted/50 hover:shadow-sm group rounded-lg">
         <div className="relative w-15 h-15 flex-shrink-0">
           <Image
             src={session?.image || "/placeholder.svg"}
             alt={session?.title || ""}
             width={60}
             height={60}
-            className="rounded-xl"
+            className="rounded-xl transition-transform duration-200 group-hover:scale-[1.02]"
           />
           {isJoined && (
             <div
@@ -47,7 +47,9 @@ export default function OpportunityCard({
               <span className="truncate">{project.title}</span>
             )}
           </div>
-          <h3 className="font-bold text-base mb-1 truncate">{session.title}</h3>
+          <h3 className="text-base mb-1 truncate  font-semibold text-foreground group-hover:text-primary transition-colors duration-200">
+            {session.title}
+          </h3>
           <div className="flex items-center gap-4 text-xs text-muted-foreground">
             <div className="flex items-center gap-2">
               <Clock className="w-3 h-3" />
