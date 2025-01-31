@@ -5,12 +5,17 @@ import { Clock, Globe, MapPin } from "lucide-react";
 import { format } from "date-fns";
 import { ja } from "date-fns/locale";
 import { mockProjects } from "@/lib/data";
+import { cn } from "@/lib/utils";
 
 type OpportunityCardProps = {
   session: Opportunity;
+  isJoined?: boolean;
 };
 
-export default function OpportunityCard({ session }: OpportunityCardProps) {
+export default function OpportunityCard({
+  session,
+  isJoined,
+}: OpportunityCardProps) {
   const isEvent = session.type === "EVENT";
   const project = mockProjects.find((p) => p.id === session.projectId);
 
@@ -25,6 +30,16 @@ export default function OpportunityCard({ session }: OpportunityCardProps) {
             height={60}
             className="rounded-xl"
           />
+          {isJoined && (
+            <div
+              className={cn(
+                "absolute bottom-0 left-0 right-0 py-1 text-[10px] text-center text-white font-medium rounded-b-xl",
+                isEvent ? "bg-primary" : "bg-primary/60"
+              )}
+            >
+              {isEvent ? "参加予定" : "応募済"}
+            </div>
+          )}
         </div>
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 text-xs text-muted-foreground mb-1">

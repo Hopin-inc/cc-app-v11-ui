@@ -12,6 +12,7 @@ import {
   Coins,
   HelpCircle,
   MoreVertical,
+  Phone,
 } from "lucide-react";
 import { format } from "date-fns";
 import { ja } from "date-fns/locale";
@@ -47,10 +48,9 @@ export default function OpportunityDetailPage({
   params: { id: string };
 }) {
   const { id } = useParams();
-  const [isApplyModalOpen, setIsApplyModalOpen] = useState(false);
-  const [isParticipantsModalOpen, setIsParticipantsModalOpen] = useState(false);
   const [isConfirmSheetOpen, setIsConfirmSheetOpen] = useState(false);
   const [isCompletedSheetOpen, setIsCompletedSheetOpen] = useState(false);
+  const [isParticipantsModalOpen, setIsParticipantsModalOpen] = useState(false);
   const [isJoined, setIsJoined] = useState(false);
   const [showButton, setShowButton] = useState(false);
 
@@ -67,7 +67,7 @@ export default function OpportunityDetailPage({
     if (isEvent) {
       setIsConfirmSheetOpen(true);
     } else {
-      setIsApplyModalOpen(true);
+      setIsConfirmSheetOpen(true);
     }
   }, [isEvent]);
 
@@ -120,6 +120,12 @@ export default function OpportunityDetailPage({
 
     window.open(url, "_blank");
   }, [opportunity, project]);
+
+  const getButtonLabel = useCallback(() => {
+    if (isFull) return "満員です";
+    if (!isJoined) return isEvent ? "参加する" : "応募する";
+    return isEvent ? "参加予定" : "応募済み（未確定）";
+  }, [isFull, isJoined, isEvent]);
 
   useEffect(() => {
     let lastScrollY = window.scrollY;
@@ -471,9 +477,7 @@ export default function OpportunityDetailPage({
                 onClick={handleApply}
                 disabled={isFull || isJoined}
               >
-                {!isJoined && !isFull && (isEvent ? "参加する" : "応募する")}
-                {!isJoined && isFull && "満員です"}
-                {isJoined && "参加予定"}
+                {getButtonLabel()}
               </Button>
               {isJoined && (
                 <DropdownMenu>
@@ -500,15 +504,92 @@ export default function OpportunityDetailPage({
         </div>
       </div>
 
-      {/* Apply Modal for Quest */}
+      {/* Quest Apply Confirmation */}
       {!isEvent && (
-        <Dialog open={isApplyModalOpen} onOpenChange={setIsApplyModalOpen}>
-          <ApplyModal
-            isOpen={isApplyModalOpen}
-            onOpenChange={setIsApplyModalOpen}
-            opportunity={opportunity}
-          />
-        </Dialog>
+        <Sheet open={isConfirmSheetOpen} onOpenChange={setIsConfirmSheetOpen}>
+          <SheetContent side="bottom" className="max-w-lg mx-auto">
+            <div className="container max-w-lg mx-auto px-4">
+              <SheetHeader className="text-center mb-6">
+                <SheetTitle>応募の確認</SheetTitle>
+                <SheetDescription>
+                  以下のクエストでお間違いありませんか?
+                </SheetDescription>
+              </SheetHeader>
+              <div>
+                <div className="text-xs text-muted-foreground mb-2">
+                  {format(new Date(opportunity.startsAt), "M月d日(E)", {
+                    locale: ja,
+                  })}
+                </div>
+                <div className="bg-muted/20 rounded-xl">
+                  <OpportunityCard session={opportunity} isJoined={isJoined} />
+                </div>
+              </div>
+              <div className="flex flex-col items-center justify-center mt-12 space-y-4">
+                <Button
+                  size="lg"
+                  className="w-full"
+                  onClick={handleConfirmJoin}
+                >
+                  確定する
+                </Button>
+              </div>
+            </div>
+          </SheetContent>
+        </Sheet>
+      )}
+
+      {/* Quest Apply Completed */}
+      {!isEvent && (
+        <Sheet
+          open={isCompletedSheetOpen}
+          onOpenChange={setIsCompletedSheetOpen}
+        >
+          <SheetContent side="bottom" className="max-w-lg mx-auto">
+            <div className="container max-w-lg mx-auto px-4">
+              <SheetHeader className="text-center mb-6">
+                <SheetTitle>応募を受け付けました！</SheetTitle>
+                <SheetDescription>
+                  LINEで確定次第通知します。以下のボタンからLINE友達に追加してください。
+                </SheetDescription>
+              </SheetHeader>
+              <div>
+                <div className="text-xs text-muted-foreground mb-2">
+                  {format(new Date(opportunity.startsAt), "M月d日(E)", {
+                    locale: ja,
+                  })}
+                </div>
+                <div className="bg-muted/20 rounded-xl">
+                  <OpportunityCard session={opportunity} isJoined={isJoined} />
+                </div>
+              </div>
+              <div className="flex flex-col items-center justify-center mt-12 space-y-4">
+                <Button
+                  size="lg"
+                  className="w-full flex items-center justify-center gap-2"
+                  onClick={() =>
+                    window.open(
+                      "https://line.me/R/ti/p/@your-line-id",
+                      "_blank"
+                    )
+                  }
+                >
+                  <Phone className="mr-2 h-4 w-4" />
+                  <span>LINE友達に追加</span>
+                </Button>
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="w-full"
+                  onClick={handleShare}
+                >
+                  <Share2 className="mr-2 h-4 w-4" />
+                  共有する
+                </Button>
+              </div>
+            </div>
+          </SheetContent>
+        </Sheet>
       )}
 
       {/* Event Join Confirmation */}
@@ -529,7 +610,7 @@ export default function OpportunityDetailPage({
                   })}
                 </div>
                 <div className="bg-muted/20 rounded-xl">
-                  <OpportunityCard session={opportunity} />
+                  <OpportunityCard session={opportunity} isJoined={isJoined} />
                 </div>
               </div>
               <div className="flex flex-col items-center justify-center mt-12 space-y-4">
@@ -567,7 +648,7 @@ export default function OpportunityDetailPage({
                   })}
                 </div>
                 <div className="bg-muted/20 rounded-xl">
-                  <OpportunityCard session={opportunity} />
+                  <OpportunityCard session={opportunity} isJoined={isJoined} />
                 </div>
               </div>
               <div className="flex flex-col items-center justify-center mt-12 space-y-4">

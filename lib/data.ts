@@ -329,6 +329,11 @@ export const mockOpportunities: Opportunity[] = [
     capacity: 20,
     participants: [
       {
+        id: "user1",
+        name: "佐藤一郎",
+        image: "https://api.dicebear.com/7.x/personas/svg?seed=user1",
+      },
+      {
         id: "user5",
         name: "中村一郎",
         image: "https://api.dicebear.com/7.x/personas/svg?seed=user5",
@@ -470,16 +475,16 @@ export const mockOpportunities: Opportunity[] = [
       bio: "3年前に就農し、伝統的なオリーブ栽培に新しい視点を取り入れながら、若手農家のネットワーク作りにも力を入れている。6次産業化による地域活性化を目指す。",
     },
     capacity: 60,
-    participants: [
+   participants: [
       {
-        id: "user9",
-        name: "中村一郎",
-        image: "https://api.dicebear.com/7.x/personas/svg?seed=user9",
+        id: "user7",
+        name: "山田一郎",
+        image: "https://api.dicebear.com/7.x/personas/svg?seed=user7",
       },
       {
-        id: "user10",
-        name: "伊藤花子",
-        image: "https://api.dicebear.com/7.x/personas/svg?seed=user10",
+        id: "user8",
+        name: "鈴木花子",
+        image: "https://api.dicebear.com/7.x/personas/svg?seed=user8",
       },
     ],
     recommendedFor: [
@@ -541,6 +546,11 @@ export const mockOpportunities: Opportunity[] = [
     capacity: 80,
     pointsForComplete: 500,
     participants: [
+      {
+        id: "user1",
+        name: "佐藤一郎",
+        image: "https://api.dicebear.com/7.x/personas/svg?seed=user1",
+      },
       {
         id: "user11",
         name: "山田一郎",

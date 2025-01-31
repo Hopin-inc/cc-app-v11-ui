@@ -95,7 +95,13 @@ export default function Home() {
             </h2>
             <div className="space-y-1.5">
               {opportunities.map((opportunity) => (
-                <OpportunityCard key={opportunity.id} session={opportunity} />
+                <OpportunityCard
+                  key={opportunity.id}
+                  session={opportunity}
+                  isJoined={opportunity.participants?.some(
+                    (p) => p.id === "user1"
+                  )}
+                />
               ))}
             </div>
           </div>
