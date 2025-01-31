@@ -11,6 +11,7 @@ import {
   Share2,
   Coins,
   HelpCircle,
+  MoreVertical,
 } from "lucide-react";
 import { format } from "date-fns";
 import { ja } from "date-fns/locale";
@@ -25,6 +26,20 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+} from "@/components/ui/sheet";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import OpportunityCard from "@/components/OpportunityCard";
 
 export default function OpportunityDetailPage({
   params,
@@ -34,7 +49,11 @@ export default function OpportunityDetailPage({
   const { id } = useParams();
   const [isApplyModalOpen, setIsApplyModalOpen] = useState(false);
   const [isParticipantsModalOpen, setIsParticipantsModalOpen] = useState(false);
+  const [isConfirmSheetOpen, setIsConfirmSheetOpen] = useState(false);
+  const [isCompletedSheetOpen, setIsCompletedSheetOpen] = useState(false);
+  const [isJoined, setIsJoined] = useState(false);
   const [showButton, setShowButton] = useState(false);
+
   const opportunity = mockOpportunities.find((o) => o.id === id);
   const project = opportunity
     ? mockProjects.find((p) => p.id === opportunity.projectId)
@@ -45,7 +64,21 @@ export default function OpportunityDetailPage({
     (opportunity?.participants?.length ?? 0) >= (opportunity?.capacity ?? 0);
 
   const handleApply = useCallback(() => {
-    setIsApplyModalOpen(true);
+    if (isEvent) {
+      setIsConfirmSheetOpen(true);
+    } else {
+      setIsApplyModalOpen(true);
+    }
+  }, [isEvent]);
+
+  const handleConfirmJoin = useCallback(() => {
+    setIsConfirmSheetOpen(false);
+    setIsCompletedSheetOpen(true);
+    setIsJoined(true);
+  }, []);
+
+  const handleCancelJoin = useCallback(() => {
+    setIsJoined(false);
   }, []);
 
   const handleShare = useCallback(async () => {
@@ -359,7 +392,7 @@ export default function OpportunityDetailPage({
                 <div className="grid gap-4">
                   {opportunity.relatedArticles.map((article, i) => (
                     <Link
-                      key={article.id}
+                      key={article.url}
                       href={article.url}
                       target="_blank"
                       rel="noopener noreferrer"
@@ -403,23 +436,41 @@ export default function OpportunityDetailPage({
       <div className="h-16" />
 
       <div
-        className={`fixed bottom-0 left-0 right-0 p-4 bg-background border-t transition-transform duration-300 ${
+        className={`fixed bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-background to-transparent ${
           showButton ? "translate-y-0" : "translate-y-full"
         }`}
       >
         <div className="container max-w-lg mx-auto">
           <div className="sticky bottom-4 w-full">
-            <div className="bg-background/80 backdrop-blur-sm rounded-xl px-8 flex gap-2">
+            <div className="bg-background/80 backdrop-blur-sm rounded-xl px-4 flex gap-2 items-center">
               <Button
                 className="flex-1"
                 size="lg"
                 onClick={handleApply}
-                disabled={isFull}
+                disabled={isFull || isJoined}
               >
-                {!isFull && (isEvent ? "参加する" : "応募する")}
-                {isFull && "満員です"}
+                {!isJoined && !isFull && (isEvent ? "参加する" : "応募する")}
+                {!isJoined && isFull && "満員です"}
+                {isJoined && "参加予定"}
               </Button>
-              <Button variant="outline" size="lg" onClick={handleShare}>
+              {isJoined && (
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" size="sm">
+                      <MoreVertical className="h-5 w-5" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuItem
+                      onClick={handleCancelJoin}
+                      className="text-destructive"
+                    >
+                      参加をキャンセル
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              )}
+              <Button variant="ghost" size="sm" onClick={handleShare}>
                 <Share2 className="h-5 w-5" />
               </Button>
             </div>
@@ -427,14 +478,79 @@ export default function OpportunityDetailPage({
         </div>
       </div>
 
-      {/* Apply Modal */}
-      <Dialog open={isApplyModalOpen} onOpenChange={setIsApplyModalOpen}>
-        <ApplyModal
-          isOpen={isApplyModalOpen}
-          onOpenChange={setIsApplyModalOpen}
-          opportunity={opportunity}
-        />
-      </Dialog>
+      {/* Apply Modal for Quest */}
+      {!isEvent && (
+        <Dialog open={isApplyModalOpen} onOpenChange={setIsApplyModalOpen}>
+          <ApplyModal
+            isOpen={isApplyModalOpen}
+            onOpenChange={setIsApplyModalOpen}
+            opportunity={opportunity}
+          />
+        </Dialog>
+      )}
+
+      {/* Event Join Confirmation */}
+      {isEvent && (
+        <Sheet open={isConfirmSheetOpen} onOpenChange={setIsConfirmSheetOpen}>
+          <SheetContent side="bottom" className="max-w-lg mx-auto">
+            <SheetHeader className="text-center mb-6">
+              <SheetTitle>参加の確認</SheetTitle>
+            </SheetHeader>
+            <div className="px-4">
+              <div className="text-xs text-muted-foreground p-2">
+                {format(new Date(opportunity.startsAt), "M月d日(E)", {
+                  locale: ja,
+                })}
+              </div>
+              <div className="bg-muted/20 rounded-xl">
+                <OpportunityCard session={opportunity} />
+              </div>
+            </div>
+            <div className="flex flex-col items-center justify-center h-full mb-auto mt-12">
+              <Button
+                size="lg"
+                className="w-full max-w-sm"
+                onClick={handleConfirmJoin}
+              >
+                参加する
+              </Button>
+            </div>
+          </SheetContent>
+        </Sheet>
+      )}
+
+      {/* Event Join Completed */}
+      {isEvent && (
+        <Sheet
+          open={isCompletedSheetOpen}
+          onOpenChange={setIsCompletedSheetOpen}
+        >
+          <SheetContent side="bottom" className="max-w-lg mx-auto">
+            <SheetHeader className="text-center mb-4">
+              <div className="mx-auto mb-2">🎉</div>
+              <SheetTitle>参加予定です！</SheetTitle>
+              <SheetDescription>
+                以下のイベントへの参加を受け付けました
+              </SheetDescription>
+            </SheetHeader>
+            <div className="px-4">
+              <div className="bg-muted/20 rounded-xl">
+                <OpportunityCard session={opportunity} />
+              </div>
+            </div>
+            <div className="flex flex-col items-center justify-center h-full mb-auto mt-12">
+              <Button
+                size="lg"
+                className="w-full max-w-sm"
+                onClick={handleShare}
+              >
+                <Share2 className="mr-2 h-4 w-4" />
+                共有する
+              </Button>
+            </div>
+          </SheetContent>
+        </Sheet>
+      )}
 
       {/* Participants Modal */}
       <ParticipantsModal

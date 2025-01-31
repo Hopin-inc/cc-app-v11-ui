@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction, useState } from "react";
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from "./ui/sheet";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from "./ui/sheet";
 import { Textarea } from "./ui/textarea";
 import { Button } from "./ui/button";
 import { Opportunity } from "@/types";
@@ -27,12 +27,15 @@ export function ApplyModal({
     <Sheet open={isOpen} onOpenChange={onOpenChange}>
       <SheetContent side="bottom" className="h-[90vh] max-w-lg mx-auto">
         <SheetHeader>
-          <SheetTitle>（改修中）</SheetTitle>
-          {/* <SheetDescription>{opportunity.title}</SheetDescription> */}
+          <SheetTitle>クエストに応募</SheetTitle>
+          <SheetDescription>{opportunity.title}</SheetDescription>
         </SheetHeader>
         <div className="flex-1 py-6">
+          <p className="text-sm text-muted-foreground mb-4">
+            クエストに参加する意気込みや、あなたのスキルについて教えてください。
+          </p>
           <Textarea
-            placeholder="例：関わり方の機会をいただき、ありがとうございます。スケジュールの調整をさせていただきたいです。関わり方後の懇親会も楽しみにしています。"
+            placeholder="例：関わり方の機会をいただき、ありがとうございます。このクエストに興味を持った理由は..."
             value={comment}
             onChange={(e) => setComment(e.target.value)}
             className="min-h-[200px]"
@@ -42,7 +45,7 @@ export function ApplyModal({
           <Button variant="outline" onClick={() => onOpenChange(false)}>
             キャンセル
           </Button>
-          <Button onClick={handleSubmit}>申請する</Button>
+          <Button onClick={handleSubmit}>応募する</Button>
         </div>
       </SheetContent>
     </Sheet>
