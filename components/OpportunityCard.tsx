@@ -10,15 +10,61 @@ import { cn } from "@/lib/utils";
 type OpportunityCardProps = {
   session: Opportunity;
   isJoined?: boolean;
+  isInvited?: boolean;
+};
+
+const getStatusBadgeText = ({
+  isPastEvent,
+  isJoined,
+  isInvited,
+  isEvent,
+}: {
+  isPastEvent: boolean;
+  isJoined: boolean;
+  isInvited: boolean;
+  isEvent: boolean;
+}) => {
+  if (isPastEvent) return "参加済み";
+  if (isJoined) return "参加予定";
+  if (isInvited) return "特別招待";
+  return isEvent ? "参加募集中" : "応募受付中";
+};
+
+const getStatusBadgeColor = ({
+  isPastEvent,
+  isInvited,
+  isEvent,
+}: {
+  isPastEvent: boolean;
+  isInvited: boolean;
+  isEvent: boolean;
+}) => {
+  if (isPastEvent) return "bg-muted-foreground";
+  if (isInvited) return "bg-orange-500";
+  return isEvent ? "bg-primary" : "bg-primary/60";
 };
 
 export default function OpportunityCard({
   session,
   isJoined,
+  isInvited,
 }: OpportunityCardProps) {
   const isEvent = session.type === "EVENT";
-  const project = mockProjects.find((p) => p.id === session.projectId);
   const isPastEvent = isPast(new Date(session.startsAt));
+  const project = mockProjects.find((p) => p.id === session.projectId);
+
+  const statusBadgeText = getStatusBadgeText({
+    isPastEvent,
+    isJoined: isJoined ?? false,
+    isInvited: isInvited ?? false,
+    isEvent,
+  });
+
+  const statusBadgeColor = getStatusBadgeColor({
+    isPastEvent,
+    isInvited: isInvited ?? false,
+    isEvent,
+  });
 
   return (
     <Link href={`/sessions/${session.id}`}>
@@ -31,18 +77,14 @@ export default function OpportunityCard({
             height={60}
             className="rounded-xl transition-transform duration-200 group-hover:scale-[1.02]"
           />
-          {isJoined && (
+          {(isJoined || isInvited) && (
             <div
               className={cn(
                 "absolute bottom-0 left-0 right-0 py-1 text-[10px] text-center text-white font-medium rounded-b-xl",
-                isPastEvent
-                  ? "bg-muted-foreground"
-                  : isEvent
-                  ? "bg-primary"
-                  : "bg-primary/60"
+                statusBadgeColor
               )}
             >
-              {isPastEvent ? "参加済み" : isEvent ? "参加予定" : "応募済"}
+              {statusBadgeText}
             </div>
           )}
         </div>
@@ -55,14 +97,14 @@ export default function OpportunityCard({
           <h3 className="text-base mb-1 truncate  font-semibold text-foreground group-hover:text-primary transition-colors duration-200">
             {session.title}
           </h3>
-          <div className="flex items-center gap-4 text-xs text-muted-foreground">
-            <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3 text-xs text-muted-foreground">
+            <div className="flex items-center gap-1">
               <Clock className="w-3 h-3 shrink-0" />
               <span>
                 {format(new Date(session.startsAt), "HH:mm", { locale: ja })}
               </span>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1">
               {session.location.isOnline ? (
                 <>
                   <Globe className="w-3 h-3 shrink-0" />
@@ -76,13 +118,13 @@ export default function OpportunityCard({
               )}
             </div>
             {session.pointsForComplete && (
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1">
                 <Gift className="w-3 h-3 shrink-0" />
                 <span>{session.pointsForComplete}pt獲得</span>
               </div>
             )}
             {session.pointsForJoin && (
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1">
                 <Coins className="w-3 h-3 shrink-0" />
                 <span>{session.pointsForJoin}pt必要</span>
               </div>

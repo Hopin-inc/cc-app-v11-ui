@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
-import { mockOpportunities } from "@/lib/data";
+import { mockOpportunities, mockInvitationOpportunities } from "@/lib/data";
 import OpportunityCard from "@/components/OpportunityCard";
 import { format, isToday, isTomorrow } from "date-fns";
 import { ja } from "date-fns/locale";
@@ -84,6 +84,9 @@ export default function Home() {
                   session={opportunity}
                   isJoined={opportunity.participants?.some(
                     (p) => p.id === "user1"
+                  )}
+                  isInvited={mockInvitationOpportunities.some(
+                    (invite) => invite.id === opportunity.id
                   )}
                 />
               ))}

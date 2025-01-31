@@ -12,11 +12,11 @@ import {
   mockInvitationOpportunities,
   mockUser,
   mockProjects,
+  mockOpportunities,
 } from "@/lib/data";
 import OpportunityCard from "@/components/OpportunityCard";
 import type { Opportunity, Project } from "@/types";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import Link from "next/link";
 
 const mockBBQOpportunity = mockInvitationOpportunities[0];
 
@@ -169,87 +169,57 @@ export default function MyPage({
         {isOwner && user.invitations.length > 0 && (
           <div>
             <h2 className="text-lg font-bold mb-4">招待されている関わり</h2>
-            <div className="flex gap-4 overflow-x-auto pb-2">
-              {user.invitations.map((invitation) => {
-                const opportunity = mockBBQOpportunity;
-                const project = mockProjects.find(
-                  (p) => p.id === opportunity.projectId
-                );
-                if (!project) return null;
+            <div className="space-y-4">
+              {Object.entries(
+                user.invitations.reduce((acc, invitation) => {
+                  const opportunity = mockOpportunities.find(
+                    (o) => o.id === invitation.opportunityId
+                  );
+                  if (!opportunity) return acc;
 
-                return (
-                  <Link
-                    key={invitation.id}
-                    href={`/sessions/${opportunity.id}`}
-                    className="block"
-                  >
-                    <div className="relative min-w-[280px] bg-card rounded-lg overflow-hidden group hover:bg-muted/50 hover:shadow-sm transition-all duration-200">
-                      <div className="p-4">
-                        {/* Project info */}
-                        <div className="flex items-start gap-3">
-                          <div className="w-12 h-12 relative shrink-0">
-                            <Image
-                              src={project.icon ?? "/placeholder.svg"}
-                              alt={project.title}
-                              width={48}
-                              height={48}
-                              className="rounded-xl"
+                  const date = format(
+                    new Date(opportunity.startsAt),
+                    "yyyy-MM-dd"
+                  );
+                  if (!acc[date]) {
+                    acc[date] = [];
+                  }
+                  acc[date].push({ invitation, opportunity });
+                  return acc;
+                }, {} as Record<string, { invitation: (typeof user.invitations)[0]; opportunity: Opportunity }[]>)
+              )
+                .sort(([a], [b]) => (a > b ? 1 : -1))
+                .map(([date, items]) => (
+                  <div key={date}>
+                    <h3 className="font-medium text-muted-foreground">
+                      {format(new Date(date), "M月d日(E)", { locale: ja })}
+                    </h3>
+                    <div className="flex gap-4 overflow-x-auto pb-2  w-full">
+                      {items.map(({ invitation, opportunity }) => {
+                        const project = mockProjects.find(
+                          (p) => p.id === opportunity.projectId
+                        );
+                        if (!project) return null;
+
+                        return (
+                          <div key={invitation.id} className="space-y-4 w-full">
+                            <OpportunityCard
+                              session={opportunity}
+                              isInvited={true}
                             />
                           </div>
-                          <div className="flex-1 min-w-0">
-                            <p className="text-xs text-muted-foreground">
-                              {project.title}
-                            </p>
-                            <h3 className="font-bold text-base truncate mt-0.5 group-hover:text-primary">
-                              {opportunity.title}
-                            </h3>
-                          </div>
-                        </div>
-
-                        {/* Date and location */}
-                        <div className="mt-3 flex items-center gap-2 text-xs text-muted-foreground">
-                          <span>
-                            {format(
-                              new Date(opportunity.startsAt),
-                              "M/d (E) HH:mm",
-                              {
-                                locale: ja,
-                              }
-                            )}
-                          </span>
-                          <span>@</span>
-                          <span className="truncate">{`${project.location.prefecture}${project.location.city}`}</span>
-                        </div>
-
-                        {/* Points and action */}
-                        <div className="mt-4 pt-4 border-t border-dashed flex items-center justify-between">
-                          <div className="flex items-baseline gap-1">
-                            <span className="text-xl font-bold text-primary">
-                              - {invitation.requiredPoints}
-                            </span>
-                            <span className="text-sm text-muted-foreground">
-                              pt
-                            </span>
-                          </div>
-                          <Button
-                            size="sm"
-                            className="bg-primary text-primary-foreground hover:bg-primary/90"
-                          >
-                            承認する
-                          </Button>
-                        </div>
-                      </div>
+                        );
+                      })}
                     </div>
-                  </Link>
-                );
-              })}
+                  </div>
+                ))}
             </div>
           </div>
         )}
 
         {/* Applied Sessions */}
         <div>
-          <h2 className="text-xl font-bold mb-4">地域との関わり</h2>
+          <h2 className="text-lg font-bold mb-4">地域との関わり</h2>
           {/* Project Engagement */}
           <Card className="md:col-span-2 mb-4">
             <CardContent className="p-4">
@@ -304,7 +274,7 @@ export default function MyPage({
               {Object.entries(groupedSessions)
                 .sort(([dateA], [dateB]) => dateB.localeCompare(dateA))
                 .map(([date, sessions]) => (
-                  <div key={date} className="space-y-4">
+                  <div key={date} className="">
                     <h3 className="font-medium text-muted-foreground">
                       {format(new Date(date), "M月d日(E)", { locale: ja })}
                     </h3>
