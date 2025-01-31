@@ -16,6 +16,7 @@ import {
 import OpportunityCard from "@/components/OpportunityCard";
 import type { Opportunity, Project } from "@/types";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import Link from "next/link";
 
 const mockBBQOpportunity = mockInvitationOpportunities[0];
 
@@ -177,66 +178,69 @@ export default function MyPage({
                 if (!project) return null;
 
                 return (
-                  <div
+                  <Link
                     key={invitation.id}
-                    className="relative min-w-[280px] bg-card rounded-lg overflow-hidden group hover:bg-muted/50 hover:shadow-sm transition-all duration-200"
+                    href={`/sessions/${opportunity.id}`}
+                    className="block"
                   >
-                    <div className="p-4">
-                      {/* Project info */}
-                      <div className="flex items-start gap-3">
-                        <div className="w-12 h-12 relative shrink-0">
-                          <Image
-                            src={project.icon ?? "/placeholder.svg"}
-                            alt={project.title}
-                            width={48}
-                            height={48}
-                            className="rounded-xl"
-                          />
+                    <div className="relative min-w-[280px] bg-card rounded-lg overflow-hidden group hover:bg-muted/50 hover:shadow-sm transition-all duration-200">
+                      <div className="p-4">
+                        {/* Project info */}
+                        <div className="flex items-start gap-3">
+                          <div className="w-12 h-12 relative shrink-0">
+                            <Image
+                              src={project.icon ?? "/placeholder.svg"}
+                              alt={project.title}
+                              width={48}
+                              height={48}
+                              className="rounded-xl"
+                            />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <p className="text-xs text-muted-foreground">
+                              {project.title}
+                            </p>
+                            <h3 className="font-bold text-base truncate mt-0.5 group-hover:text-primary">
+                              {opportunity.title}
+                            </h3>
+                          </div>
                         </div>
-                        <div className="flex-1 min-w-0">
-                          <p className="text-xs text-muted-foreground">
-                            {project.title}
-                          </p>
-                          <h3 className="font-bold text-base truncate mt-0.5 group-hover:text-primary">
-                            {opportunity.title}
-                          </h3>
-                        </div>
-                      </div>
 
-                      {/* Date and location */}
-                      <div className="mt-3 flex items-center gap-2 text-xs text-muted-foreground">
-                        <span>
-                          {format(
-                            new Date(opportunity.startsAt),
-                            "M/d (E) HH:mm",
-                            {
-                              locale: ja,
-                            }
-                          )}
-                        </span>
-                        <span>@</span>
-                        <span className="truncate">{`${project.location.prefecture}${project.location.city}`}</span>
-                      </div>
-
-                      {/* Points and action */}
-                      <div className="mt-4 pt-4 border-t border-dashed flex items-center justify-between">
-                        <div className="flex items-baseline gap-1">
-                          <span className="text-xl font-bold text-primary">
-                            - {invitation.requiredPoints}
+                        {/* Date and location */}
+                        <div className="mt-3 flex items-center gap-2 text-xs text-muted-foreground">
+                          <span>
+                            {format(
+                              new Date(opportunity.startsAt),
+                              "M/d (E) HH:mm",
+                              {
+                                locale: ja,
+                              }
+                            )}
                           </span>
-                          <span className="text-sm text-muted-foreground">
-                            pt
-                          </span>
+                          <span>@</span>
+                          <span className="truncate">{`${project.location.prefecture}${project.location.city}`}</span>
                         </div>
-                        <Button
-                          size="sm"
-                          className="bg-primary text-primary-foreground hover:bg-primary/90"
-                        >
-                          承認する
-                        </Button>
+
+                        {/* Points and action */}
+                        <div className="mt-4 pt-4 border-t border-dashed flex items-center justify-between">
+                          <div className="flex items-baseline gap-1">
+                            <span className="text-xl font-bold text-primary">
+                              - {invitation.requiredPoints}
+                            </span>
+                            <span className="text-sm text-muted-foreground">
+                              pt
+                            </span>
+                          </div>
+                          <Button
+                            size="sm"
+                            className="bg-primary text-primary-foreground hover:bg-primary/90"
+                          >
+                            承認する
+                          </Button>
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  </Link>
                 );
               })}
             </div>

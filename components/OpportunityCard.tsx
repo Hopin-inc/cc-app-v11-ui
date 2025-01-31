@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import type { Opportunity } from "@/types";
-import { Clock, Globe, MapPin } from "lucide-react";
+import { Clock, Globe, MapPin, Coins, Gift } from "lucide-react";
 import { format, isPast } from "date-fns";
 import { ja } from "date-fns/locale";
 import { mockProjects } from "@/lib/data";
@@ -35,7 +35,11 @@ export default function OpportunityCard({
             <div
               className={cn(
                 "absolute bottom-0 left-0 right-0 py-1 text-[10px] text-center text-white font-medium rounded-b-xl",
-                isPastEvent ? "bg-muted-foreground" : isEvent ? "bg-primary" : "bg-primary/60"
+                isPastEvent
+                  ? "bg-muted-foreground"
+                  : isEvent
+                  ? "bg-primary"
+                  : "bg-primary/60"
               )}
             >
               {isPastEvent ? "参加済み" : isEvent ? "参加予定" : "応募済"}
@@ -53,7 +57,7 @@ export default function OpportunityCard({
           </h3>
           <div className="flex items-center gap-4 text-xs text-muted-foreground">
             <div className="flex items-center gap-2">
-              <Clock className="w-3 h-3" />
+              <Clock className="w-3 h-3 shrink-0" />
               <span>
                 {format(new Date(session.startsAt), "HH:mm", { locale: ja })}
               </span>
@@ -61,16 +65,28 @@ export default function OpportunityCard({
             <div className="flex items-center gap-2">
               {session.location.isOnline ? (
                 <>
-                  <Globe className="w-3 h-3" />
+                  <Globe className="w-3 h-3 shrink-0" />
                   <span>{session.location.name}</span>
                 </>
               ) : (
                 <>
-                  <MapPin className="w-3 h-3" />
+                  <MapPin className="w-3 h-3 shrink-0" />
                   <span>{session.location.name}</span>
                 </>
               )}
             </div>
+            {session.pointsForComplete && (
+              <div className="flex items-center gap-2">
+                <Gift className="w-3 h-3 shrink-0" />
+                <span>{session.pointsForComplete}pt獲得</span>
+              </div>
+            )}
+            {session.pointsForJoin && (
+              <div className="flex items-center gap-2">
+                <Coins className="w-3 h-3 shrink-0" />
+                <span>{session.pointsForJoin}pt必要</span>
+              </div>
+            )}
           </div>
         </div>
       </div>

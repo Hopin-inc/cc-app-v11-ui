@@ -11,7 +11,7 @@ export const mockInvitationOpportunities: Opportunity[] = [
   {
     id: "bbq-1",
     title: "小豆島おもてなしBBQ",
-    description: "地元の食材を使ったBBQで観光客をおもてなし！",
+    description: "これまで小豆島の地域活性化に関わってくださった皆様への感謝の気持ちを込めて、特別なBBQイベントを開催します！\n\n地元の新鮮な食材や、遊休資産として眠っていた食器や調理器具を活用し、みんなでわいわい楽しみながら、これからの小豆島の可能性について語り合いましょう。\n\n当日は、オリーブオイルを使った調理法のミニワークショップも予定しています。地域資源の新しい活用方法のアイデアも、食事を楽しみながら自由に出し合えればと思います。",
     type: "EVENT",
     status: "open",
     projectId: "shodoshima-olive",
@@ -29,15 +29,17 @@ export const mockInvitationOpportunities: Opportunity[] = [
       name: "山田太郎",
       image: "https://api.dicebear.com/7.x/personas/svg?seed=host1",
       title: "地域活性化コンサルタント",
-      bio: "10年以上にわたり、全国各地の地域活性化プロジェクトに携わってきました。",
+      bio: "10年以上にわたり、全国各地の地域活性化プロジェクトに携わってきました。小豆島の魅力を最大限に引き出すため、地域の方々と一緒に様々なプロジェクトを推進しています。",
     },
-    capacity: 10,
+    capacity: 15,
+    pointsForJoin: 1000,
     participants: [],
     image: "/placeholder.svg",
     recommendedFor: [
-      "地域活性化に興味がある方",
-      "BBQが好きな方",
-      "小豆島の魅力を発信したい方",
+      "小豆島の地域活性化に関わったことのある方",
+      "地域資源の新しい活用方法に興味がある方",
+      "食を通じたコミュニティづくりに関心のある方",
+      "これまでの活動の振り返りと、新しいアイデアの共有に興味がある方"
     ],
   },
 ] as const;
@@ -699,6 +701,7 @@ export const mockOpportunities: Opportunity[] = [
       },
     ],
   },
+  ...mockInvitationOpportunities,
 ];
 
 export const mockProjects: Project[] = [

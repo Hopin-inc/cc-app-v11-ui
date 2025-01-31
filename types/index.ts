@@ -75,6 +75,7 @@ export type Opportunity = {
   relatedArticles?: RelatedArticle[];
   capacity: number;
   pointsForComplete?: number;
+  pointsForJoin?: number;
   participants: Participant[];
 };
 

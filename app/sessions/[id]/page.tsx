@@ -13,12 +13,14 @@ import {
   HelpCircle,
   MoreVertical,
   Phone,
+  Gift,
+  AlertCircle,
 } from "lucide-react";
 import { format } from "date-fns";
 import { ja } from "date-fns/locale";
 import { Button } from "@/components/ui/button";
 import { ParticipantsModal } from "@/components/ParticipantsModal";
-import { mockOpportunities, mockProjects } from "@/lib/data";
+import { mockOpportunities, mockProjects, CURRENT_USER } from "@/lib/data";
 import { useParams } from "next/navigation";
 import {
   Popover,
@@ -51,6 +53,7 @@ export default function OpportunityDetailPage({
   const [isParticipantsModalOpen, setIsParticipantsModalOpen] = useState(false);
   const [isJoined, setIsJoined] = useState(false);
   const [showButton, setShowButton] = useState(true);
+  const [userPoints, setUserPoints] = useState(500); // TODO: Get from API
 
   const opportunity = mockOpportunities.find((o) => o.id === id);
 
@@ -66,6 +69,9 @@ export default function OpportunityDetailPage({
   const isEvent = opportunity?.type === "EVENT";
   const isFull =
     (opportunity?.participants?.length ?? 0) >= (opportunity?.capacity ?? 0);
+
+  const hasEnoughPoints =
+    !opportunity?.pointsForJoin || userPoints >= opportunity.pointsForJoin;
 
   const handleApply = useCallback(() => {
     if (isEvent) {
@@ -206,32 +212,7 @@ export default function OpportunityDetailPage({
                 <span>{opportunity?.location?.name}</span>
               </div>
 
-              {/* Points for Quest */}
-              {!isEvent && opportunity?.pointsForComplete && (
-                <div className="flex items-center gap-2 text-sm">
-                  <Coins className="h-4 w-4 text-muted-foreground" />
-                  <span>
-                    {opportunity.pointsForComplete.toLocaleString()}ポイント獲得
-                  </span>
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <button className="cursor-help">
-                        <HelpCircle className="h-4 w-4 text-muted-foreground hover:text-foreground transition-colors" />
-                      </button>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-80">
-                      <div className="space-y-2">
-                        <h4 className="font-medium leading-none">
-                          ポイントについて
-                        </h4>
-                        <p className="text-sm text-muted-foreground">
-                          1000ポイントでプロジェクト懇親会への招待券をプレゼント
-                        </p>
-                      </div>
-                    </PopoverContent>
-                  </Popover>
-                </div>
-              )}
+              {/* Points information */}
             </div>
           </div>
 
@@ -249,6 +230,56 @@ export default function OpportunityDetailPage({
                   </p>
                 ))}
               </div>
+            </div>
+
+            {/* Points information */}
+            <div className="flex flex-col gap-3 mt-4">
+              {opportunity.pointsForJoin && (
+                <div className="flex items-center gap-3 text-sm border rounded-lg p-3 bg-muted/50">
+                  <div className="shrink-0 w-8 h-8 rounded-full bg-background flex items-center justify-center">
+                    <Coins className="w-4 h-4" />
+                  </div>
+                  <div className="flex-1">
+                    <span>参加には{opportunity.pointsForJoin}ptが必要です</span>
+                    {!hasEnoughPoints && (
+                      <div className="flex items-center gap-1 mt-1 text-destructive text-xs">
+                        <span>
+                          ポイントが不足しています（現在: {userPoints}pt）
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+              {opportunity.pointsForComplete && (
+                <div className="flex items-center gap-3 text-sm border rounded-lg p-3 bg-muted/50">
+                  <div className="shrink-0 w-8 h-8 rounded-full bg-background flex items-center justify-center">
+                    <Gift className="w-4 h-4" />
+                  </div>
+                  <span>
+                    活動完了で{opportunity.pointsForComplete}ptを獲得できます
+                  </span>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <button className="cursor-help self-start mt-2">
+                        <HelpCircle className="h-4 w-4 text-muted-foreground hover:text-foreground transition-colors" />
+                      </button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-72">
+                      <div className="space-y-2">
+                        <h4 className="font-medium leading-none text-sm">
+                          ポイントについて
+                        </h4>
+                        <p className="text-xs text-muted-foreground">
+                          獲得したポイントを使って、地域の遊休資産や食事会と交換することができます。
+                          （※
+                          コミュニティで獲得したポイントは、そのコミュニティ内でのみ利用が可能です）
+                        </p>
+                      </div>
+                    </PopoverContent>
+                  </Popover>
+                </div>
+              )}
             </div>
 
             {/* Recommended For */}
@@ -497,7 +528,7 @@ export default function OpportunityDetailPage({
                 className="flex-1"
                 size="lg"
                 onClick={handleApply}
-                disabled={isFull || isJoined}
+                disabled={isFull || !hasEnoughPoints || isJoined}
               >
                 {getButtonLabel()}
               </Button>
