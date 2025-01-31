@@ -180,7 +180,7 @@ export default function MyPage() {
                           className="relative w-6 h-6 rounded-full bg-background border border-border overflow-hidden"
                         >
                           <Image
-                            src={project.icon}
+                            src={project.icon ?? "/placeholder.svg"}
                             alt={project.title}
                             width={24}
                             height={24}
