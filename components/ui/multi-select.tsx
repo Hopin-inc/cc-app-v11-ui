@@ -3,13 +3,7 @@
 import * as React from "react";
 import { X } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-} from "cmdk";
+import { Command, CommandGroup, CommandInput, CommandItem } from "cmdk";
 
 type Option = {
   value: string;
@@ -54,7 +48,7 @@ export function MultiSelect({
   };
 
   const selectables = options.filter(
-    (option) => !selected.includes(option.value),
+    (option) => !selected.includes(option.value)
   );
 
   return (

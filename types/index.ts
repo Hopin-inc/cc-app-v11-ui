@@ -3,6 +3,8 @@ export type User = {
   name: string;
   email: string;
   role: "visitor" | "leader";
+  points: number;
+  maxPoints: number;
   createdAt: Date;
   updatedAt: Date;
 };
@@ -11,12 +13,20 @@ export type Project = {
   id: string;
   title: string;
   description: string;
-  categories: Category[];
-  skills: Skill[];
   createdAt: Date;
   updatedAt: Date;
   opportunities: Opportunity[];
-  icon: string;
+  icon?: string;
+  members: {
+    id: string;
+    name: string;
+    title: string;
+    image?: string;
+  }[];
+  socialLinks?: {
+    type: "twitter" | "instagram" | "facebook" | "website" | "youtube";
+    url: string;
+  }[];
 };
 
 export type Opportunity = {
@@ -29,8 +39,6 @@ export type Opportunity = {
   hostId: string;
   startsAt: string;
   endsAt: string;
-  categories: Category[];
-  skills: Skill[];
   createdAt: Date;
   updatedAt: Date;
   host: {
@@ -56,18 +64,6 @@ export type Opportunity = {
   capacity: number;
   pointsForComplete?: number;
   participants: Participant[];
-};
-
-export type Skill = {
-  id: string;
-  name: string;
-  description: string;
-};
-
-export type Category = {
-  id: string;
-  name: string;
-  description: string;
 };
 
 export type Message = {

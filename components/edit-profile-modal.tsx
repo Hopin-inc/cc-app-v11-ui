@@ -13,8 +13,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { MultiSelect } from "@/components/ui/multi-select";
-import { categories, skills } from "@/lib/data";
 
 interface EditProfileModalProps {
   open: boolean;
@@ -48,12 +46,6 @@ export function EditProfileModal({
         <DialogHeader>
           <DialogTitle className="flex items-center justify-between">
             プロフィールを編集
-            <button
-              onClick={() => onOpenChange(false)}
-              className="rounded-full p-1 hover:bg-accent"
-            >
-              <X className="h-4 w-4" />
-            </button>
           </DialogTitle>
         </DialogHeader>
         <div className="space-y-4">
@@ -72,30 +64,6 @@ export function EditProfileModal({
               value={bio}
               onChange={(e) => setBio(e.target.value)}
               rows={4}
-            />
-          </div>
-          <div className="space-y-2">
-            <Label>スキル</Label>
-            <MultiSelect
-              options={skills.map((skill) => ({
-                value: skill.name,
-                label: skill.name,
-              }))}
-              selected={selectedSkills}
-              onChange={setSelectedSkills}
-              placeholder="スキルを選択"
-            />
-          </div>
-          <div className="space-y-2">
-            <Label>興味のある分野</Label>
-            <MultiSelect
-              options={categories.map((category) => ({
-                value: category.name,
-                label: category.name,
-              }))}
-              selected={selectedInterests}
-              onChange={setSelectedInterests}
-              placeholder="分野を選択"
             />
           </div>
         </div>

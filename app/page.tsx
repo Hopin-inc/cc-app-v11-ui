@@ -12,11 +12,18 @@ export default function Home() {
   const [searchQuery, setSearchQuery] = useState("");
 
   // Filter opportunities based on search query
-  const filteredOpportunities = mockOpportunities.filter(
-    (opportunity) =>
-      !searchQuery ||
-      opportunity.title.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const filteredOpportunities = mockOpportunities
+    // 過去の Oppotunity は表示しない
+    .filter((opportunity) => {
+      const startsAt = new Date(opportunity.startsAt);
+      const today = new Date();
+      return today < startsAt;
+    })
+    .filter(
+      (opportunity) =>
+        !searchQuery ||
+        opportunity.title.toLowerCase().includes(searchQuery.toLowerCase())
+    );
 
   // Sort opportunities by proximity to current time
   const sortedOpportunities = [...filteredOpportunities].sort((a, b) => {

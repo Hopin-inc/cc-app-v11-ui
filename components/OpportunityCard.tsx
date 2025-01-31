@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import type { Opportunity } from "@/types";
 import { Clock, Globe, MapPin } from "lucide-react";
-import { format } from "date-fns";
+import { format, isPast } from "date-fns";
 import { ja } from "date-fns/locale";
 import { mockProjects } from "@/lib/data";
 import { cn } from "@/lib/utils";
@@ -18,6 +18,7 @@ export default function OpportunityCard({
 }: OpportunityCardProps) {
   const isEvent = session.type === "EVENT";
   const project = mockProjects.find((p) => p.id === session.projectId);
+  const isPastEvent = isPast(new Date(session.startsAt));
 
   return (
     <Link href={`/sessions/${session.id}`}>
@@ -34,10 +35,10 @@ export default function OpportunityCard({
             <div
               className={cn(
                 "absolute bottom-0 left-0 right-0 py-1 text-[10px] text-center text-white font-medium rounded-b-xl",
-                isEvent ? "bg-primary" : "bg-primary/60"
+                isPastEvent ? "bg-muted-foreground" : isEvent ? "bg-primary" : "bg-primary/60"
               )}
             >
-              {isEvent ? "参加予定" : "応募済"}
+              {isPastEvent ? "参加済み" : isEvent ? "参加予定" : "応募済"}
             </div>
           )}
         </div>
