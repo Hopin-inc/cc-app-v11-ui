@@ -1,5 +1,47 @@
 import { type Project, type Opportunity } from "@/types";
 
+export const CURRENT_USER = {
+  id: "user1",
+  name: "山田美咲",
+  image:
+    "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Fotor%20AI%20Image%20Creator%20Nov%2030%20(3).jpg-v7ifi1e9jgGZ756DbfeIZ8sO5wzaqA.jpeg",
+};
+
+export const mockInvitationOpportunities: Opportunity[] = [
+  {
+    id: "bbq-1",
+    title: "小豆島おもてなしBBQ",
+    description: "地元の食材を使ったBBQで観光客をおもてなし！",
+    type: "EVENT",
+    status: "open",
+    projectId: "shodoshima-olive",
+    hostId: "host1",
+    createdAt: new Date("2024-01-15"),
+    updatedAt: new Date("2024-01-15"),
+    startsAt: "2025-02-15T10:00:00.000Z",
+    endsAt: "2025-02-15T15:00:00.000Z",
+    location: {
+      name: "小豆島オリーブ公園",
+      address: "香川県小豆郡小豆島町",
+      isOnline: false,
+    },
+    host: {
+      name: "山田太郎",
+      image: "https://api.dicebear.com/7.x/personas/svg?seed=host1",
+      title: "地域活性化コンサルタント",
+      bio: "10年以上にわたり、全国各地の地域活性化プロジェクトに携わってきました。",
+    },
+    capacity: 10,
+    participants: [],
+    image: "/placeholder.svg",
+    recommendedFor: [
+      "地域活性化に興味がある方",
+      "BBQが好きな方",
+      "小豆島の魅力を発信したい方",
+    ],
+  },
+] as const;
+
 export const mockOpportunities: Opportunity[] = [
   {
     id: "1",
@@ -22,12 +64,7 @@ export const mockOpportunities: Opportunity[] = [
     },
     capacity: 5,
     participants: [
-      {
-        id: "user1",
-        name: "山田美咲",
-        image:
-          "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Fotor%20AI%20Image%20Creator%20Nov%2030%20(3).jpg-v7ifi1e9jgGZ756DbfeIZ8sO5wzaqA.jpeg",
-      },
+      CURRENT_USER,
       {
         id: "user2",
         name: "鈴木花子",
@@ -174,14 +211,7 @@ export const mockOpportunities: Opportunity[] = [
       bio: "小豆島で3代目のオリーブ農家として活動しています。",
     },
     capacity: 30,
-    participants: [
-      {
-        id: "user1",
-        name: "山田美咲",
-        image:
-          "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Fotor%20AI%20Image%20Creator%20Nov%2030%20(3).jpg-v7ifi1e9jgGZ756DbfeIZ8sO5wzaqA.jpeg",
-      },
-    ],
+    participants: [CURRENT_USER],
     recommendedFor: [
       "農業に興味がある方",
       "地域活性化に関心のある方",
@@ -379,40 +409,65 @@ export const mockOpportunities: Opportunity[] = [
 export const mockProjects: Project[] = [
   {
     id: "shodoshima-olive",
-    title: "小豆島オリーブ×次産業化プロジェクト",
-    description:
-      "小豆島のオリーブを活用した新しい産業創出を目指すプロジェクト。地域の伝統と革新を組み合わせ、持続可能な地域経済の発展を目指します。",
+    title: "小豆島オリーブプロジェクト",
+    description: "小豆島の伝統的なオリーブ栽培を次世代へ",
     icon: "/placeholder.svg",
+    createdAt: new Date("2024-01-01"),
+    updatedAt: new Date("2024-01-01"),
     members: [
       {
         id: "member1",
-        name: "山田太郎",
+        name: "田中健一",
         title: "プロジェクトリーダー",
         image: "https://api.dicebear.com/7.x/personas/svg?seed=member1",
       },
+    ],
+    opportunities: [],
+    socialLinks: [
+      { type: "instagram", url: "https://instagram.com/shodoshima_olive" },
+      { type: "website", url: "https://shodoshima-olive.jp" },
+    ],
+  },
+  {
+    id: "setouchi-art",
+    title: "瀬戸内アートプロジェクト",
+    description: "アートを通じて瀬戸内の魅力を発信",
+    icon: "/placeholder.svg",
+    createdAt: new Date("2024-01-15"),
+    updatedAt: new Date("2024-01-15"),
+    members: [
       {
         id: "member2",
-        name: "鈴木花子",
-        title: "地域コーディネーター",
+        name: "山本美咲",
+        title: "アートディレクター",
         image: "https://api.dicebear.com/7.x/personas/svg?seed=member2",
       },
     ],
+    opportunities: [],
     socialLinks: [
+      { type: "instagram", url: "https://instagram.com/setouchi_art" },
+      { type: "twitter", url: "https://twitter.com/setouchi_art" },
+    ],
+  },
+  {
+    id: "kagawa-local-food",
+    title: "かがわ食文化プロジェクト",
+    description: "香川の伝統的な食文化を守り、発信する",
+    icon: "/placeholder.svg",
+    createdAt: new Date("2024-02-01"),
+    updatedAt: new Date("2024-02-01"),
+    members: [
       {
-        type: "instagram",
-        url: "https://www.instagram.com/shodoshima_olive",
-      },
-      {
-        type: "website",
-        url: "https://shodoshima-olive.jp",
-      },
-      {
-        type: "youtube",
-        url: "https://youtube.com/@shodoshima_olive",
+        id: "member3",
+        name: "佐藤直子",
+        title: "食文化研究家",
+        image: "https://api.dicebear.com/7.x/personas/svg?seed=member3",
       },
     ],
-    createdAt: new Date("2024-01-01"),
-    updatedAt: new Date("2024-01-01"),
-    opportunities: mockOpportunities,
+    opportunities: [],
+    socialLinks: [
+      { type: "youtube", url: "https://youtube.com/@kagawa_food" },
+      { type: "website", url: "https://kagawa-food.jp" },
+    ],
   },
 ];

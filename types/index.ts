@@ -3,10 +3,15 @@ export type User = {
   name: string;
   email: string;
   role: "visitor" | "leader";
-  points: number;
+  points: {
+    available: number;
+    total: number;
+  };
   maxPoints: number;
   createdAt: Date;
   updatedAt: Date;
+  appliedSessions: Opportunity[];
+  invitations: Invitation[];
 };
 
 export type Project = {
@@ -64,6 +69,14 @@ export type Opportunity = {
   capacity: number;
   pointsForComplete?: number;
   participants: Participant[];
+};
+
+export type Invitation = {
+  id: string;
+  opportunityId: string;
+  hostMessage: string;
+  requiredPoints: number;
+  createdAt: Date;
 };
 
 export type Message = {
