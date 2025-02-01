@@ -179,7 +179,7 @@ export default function MyPage({
                 <Trophy className="w-4 h-4 text-primary" />
               </div>
               <div>
-                <p className="text-xs text-muted-foreground">総獲得ポイント</p>
+                <p className="text-xs text-muted-foreground">総獲得</p>
                 <p className="text-base font-bold">
                   {typeof totalPoints === "number" ? totalPoints : 0}
                   <span className="text-sm font-normal text-muted-foreground ml-0.5">
@@ -202,6 +202,9 @@ export default function MyPage({
                       isPast(new Date(o.endsAt)) &&
                       o.type === "QUEST"
                   ).length || 0}
+                  <span className="text-xs font-normal text-muted-foreground ml-1">
+                    回
+                  </span>
                 </p>
               </div>
             </div>
@@ -219,6 +222,9 @@ export default function MyPage({
                       isPast(new Date(o.endsAt)) &&
                       o.type === "EVENT"
                   ).length || 0}
+                  <span className="text-xs font-normal text-muted-foreground ml-1">
+                    回
+                  </span>
                 </p>
               </div>
             </div>

@@ -2,6 +2,7 @@ import "./globals.css";
 import { Inter } from "next/font/google";
 import Header from "@/components/Header";
 import { ScrollToTop } from "@/components/ScrollToTop";
+import BottomNavigation from "@/components/bottom-navigation";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -28,7 +29,10 @@ export default function RootLayout({
   return (
     <html lang="ja">
       <body className={inter.className}>
-        <ClientLayout>{children}</ClientLayout>
+        <ClientLayout>
+          <main className="pb-20">{children}</main>
+        </ClientLayout>
+        <BottomNavigation />
       </body>
     </html>
   );

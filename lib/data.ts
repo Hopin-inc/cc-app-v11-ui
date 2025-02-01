@@ -717,6 +717,10 @@ export const mockProjects: Project[] = [
       city: "小豆島町",
       address: "香川県小豆郡小豆島町",
     },
+    speakerDeckEmbed: {
+      title: "小豆島オリーブプロジェクト概要",
+      embedUrl: "https://speakerdeck.com/player/12345",
+    },
     members: [
       {
         id: "member1",
@@ -792,7 +796,7 @@ export const mockProjects: Project[] = [
     title: "直島サウナプロジェクト",
     description:
       "アートの島として知られる直島で、新たな観光資源としてサウナを活用し、持続可能な観光の形を模索します。",
-    icon: "/projects/naoshima-sauna.png",
+    icon: "/placeholder.svg",
     location: {
       prefecture: "香川県",
       city: "香川郡直島町",
@@ -819,7 +823,7 @@ export const mockProjects: Project[] = [
     title: "内子町古民家再生プロジェクト",
     description:
       "愛媛県内子町の歴史的な町並みを活かしながら、古民家を再生し、新しい観光・交流の拠点を作ります。",
-    icon: "/projects/uchiko.png",
+    icon: "/placeholder.svg",
     location: {
       prefecture: "愛媛県",
       city: "喜多郡内子町",
@@ -846,7 +850,7 @@ export const mockProjects: Project[] = [
     title: "徳島迷路のまちづくり",
     description:
       "徳島市の傾斜地に広がる路地を「迷路」として再解釈し、新しい観光資源として活用します。",
-    icon: "/projects/tokushima-maze.png",
+    icon: "/placeholder.svg",
     location: {
       prefecture: "徳島県",
       city: "徳島市",

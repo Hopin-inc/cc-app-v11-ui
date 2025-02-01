@@ -36,6 +36,10 @@ export type Project = {
     type: "twitter" | "instagram" | "facebook" | "website" | "youtube";
     url: string;
   }[];
+  speakerDeckEmbed?: {
+    title: string;
+    embedUrl: string;
+  };
   opportunities: Opportunity[];
   createdAt: Date;
   updatedAt: Date;

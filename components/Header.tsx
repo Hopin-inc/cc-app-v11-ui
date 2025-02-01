@@ -12,17 +12,6 @@ export default function Header() {
           </div>
           <p className="font-bold">APP_NAME</p>
         </Link>
-        <div className="flex items-center space-x-4">
-          <Link href="/mypage">
-            <Image
-              src={dummyUser.image}
-              alt="User Avatar"
-              width={32}
-              height={32}
-              className="rounded-full"
-            />
-          </Link>
-        </div>
       </div>
     </header>
   );
