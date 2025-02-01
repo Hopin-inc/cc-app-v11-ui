@@ -28,7 +28,7 @@ export default function BottomNavigation() {
 
   return (
     <div className="fixed bottom-0 left-0 right-0 z-50 bg-background border-t">
-      <div className="container mx-auto px-4 py-2">
+      <div className="container mx-auto py-2 px-2 space-y-8 max-w-2xl">
         <nav className="flex items-center justify-around">
           {NAVIGATION_ITEMS.map((item) => {
             const isActive = pathname === item.href;
