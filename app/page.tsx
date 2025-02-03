@@ -3,10 +3,37 @@
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
-import { mockOpportunities, mockInvitationOpportunities } from "@/lib/data";
-import OpportunityCard from "@/components/OpportunityCard";
-import { format, isToday, isTomorrow } from "date-fns";
-import { ja } from "date-fns/locale";
+import { mockOpportunities, CURRENT_USER_DATA, mockUsers } from "@/lib/data";
+import { OpportunityList } from "@/components/features/opportunity/OpportunityList";
+import {
+  groupOpportunitiesByDate,
+  sortOpportunitiesByDate,
+} from "@/lib/utils/opportunity";
+import type { Opportunity } from "@/types";
+
+const STEPS = [
+  {
+    currentStep: 1,
+    totalSteps: 3,
+    label: "地域の活動を探しましょう",
+    description: "地域の活動を探しましょう",
+  },
+  {
+    currentStep: 2,
+    totalSteps: 3,
+    label: "気になるクエストに応募してみましょう！",
+    description: "応募して承認されると、地域の活動に参加することができます",
+  },
+  {
+    currentStep: 3,
+    totalSteps: 3,
+    label: "プロフィールを充実させよう",
+    description:
+      "プロフィールを充実させると、魅力が伝わり応募が承認されやすくなります。",
+  },
+];
+
+const currentStep = 2;
 
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -22,76 +49,100 @@ export default function Home() {
     .filter(
       (opportunity) =>
         !searchQuery ||
-        opportunity.title.toLowerCase().includes(searchQuery.toLowerCase())
+        opportunity.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        opportunity.description
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase()) ||
+        opportunity.community?.title
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase())
     );
 
   // Sort opportunities by proximity to current time
-  const sortedOpportunities = [...filteredOpportunities].sort((a, b) => {
-    const now = new Date();
-    const diffA = Math.abs(new Date(a.startsAt).getTime() - now.getTime());
-    const diffB = Math.abs(new Date(b.startsAt).getTime() - now.getTime());
-    return diffA - diffB;
-  });
+  const sortedOpportunities = sortOpportunitiesByDate(filteredOpportunities);
 
   // Group opportunities by date
-  const groupedOpportunities = sortedOpportunities.reduce(
-    (groups, opportunity) => {
-      const date = format(new Date(opportunity.startsAt), "yyyy-MM-dd");
-      if (!groups[date]) {
-        groups[date] = [];
-      }
-      groups[date].push(opportunity);
-      return groups;
-    },
-    {} as Record<string, typeof mockOpportunities>
+  const groupedOpportunities = groupOpportunitiesByDate(sortedOpportunities);
+
+  const invitedOpportunities: Opportunity[] =
+    CURRENT_USER_DATA?.invitations?.map((i) => i.opportunity) || [];
+
+  const groupedInvitedOpportunities = groupOpportunitiesByDate(
+    sortOpportunitiesByDate(invitedOpportunities)
   );
 
-  // Format date for display
-  const formatDate = (dateStr: string) => {
-    const date = new Date(dateStr);
-    const displayDate = format(date, "M月d日(E)", { locale: ja });
-    return displayDate;
-  };
+  const step = STEPS[currentStep - 1];
 
   return (
-    <main className="container mx-auto py-6 px-4 space-y-8 max-w-3xl">
-      {/* Search Bar */}
-      <div className="space-y-6">
-        {/* Search */}
-        <div className="relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-          <Input
-            placeholder="関わり方を探す"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-10"
-          />
+    <main className="container mx-auto py-6 space-y-8 max-w-3xl">
+      {/* NEXT STEP */}
+      <div className="px-4">
+        <div className="flex items-center justify-between gap-2 bg-[#C37C09] text-white px-4 py-3 rounded-xl">
+          <div className="space-y-2">
+            <div className="flex items-center gap-2">
+              <div className="text-xs">NEXT STEP</div>
+              <div className="text-xs text-white/80">
+                {step.currentStep} of {step.totalSteps}
+              </div>
+            </div>
+            {/* Progress Bar */}
+            <div className="w-32 h-1 bg-white/20 rounded-full">
+              <div className="w-2/3 h-full bg-white rounded-full" />
+            </div>
+            <div className="text-sm font-bold">{step.label}</div>
+            <div className="text-xs text-white/80">{step.description}</div>
+          </div>
         </div>
       </div>
 
-      {/* Opportunities List */}
-      <div>
-        {Object.entries(groupedOpportunities).map(([date, opportunities]) => (
-          <div key={date}>
-            <h2 className="text-base font-medium sticky top-[65px] py-1.5 bg-background/80 backdrop-blur-sm text-muted-foreground z-10">
-              {formatDate(date)}
-            </h2>
-            <div className="space-y-1.5">
-              {opportunities.map((opportunity) => (
-                <OpportunityCard
-                  key={opportunity.id}
-                  session={opportunity}
-                  isJoined={opportunity.participants?.some(
-                    (p) => p.id === "user1"
-                  )}
-                  isInvited={mockInvitationOpportunities.some(
-                    (invite) => invite.id === opportunity.id
-                  )}
-                />
-              ))}
-            </div>
+      {invitedOpportunities.length > 0 && (
+        <div className="px-4">
+          <h2 className="text-lg font-semibold text-muted-foreground mb-4">
+            招待されている関わり
+          </h2>
+          <OpportunityList
+            groupedOpportunities={groupedInvitedOpportunities}
+            currentUserId={CURRENT_USER_DATA!.id}
+            invitationInfo={{
+              invitations: CURRENT_USER_DATA!.invitations ?? [],
+              users: mockUsers,
+            }}
+          />
+        </div>
+      )}
+
+      {/* Events */}
+      <div className="space-y-4">
+        <h2 className="text-lg font-semibold text-muted-foreground mb-4 mx-4">
+          募集中の関わり
+        </h2>
+        {/* Search */}
+        <div className="px-4">
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+            <Input
+              type="search"
+              placeholder="キーワードから探す"
+              className="w-full pl-10 text-base"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
           </div>
-        ))}
+        </div>
+        <OpportunityList
+          groupedOpportunities={groupedOpportunities}
+          currentUserId={CURRENT_USER_DATA!.id}
+          emptyStateProps={{
+            title: "該当する条件の関わりはありません",
+            description: "条件を変えて、関わりを探しましょう。",
+            actionLabel: "関わりを探す",
+            onAction: () => setSearchQuery(""),
+          }}
+          invitationInfo={{
+            invitations: CURRENT_USER_DATA!.invitations ?? [],
+            users: mockUsers,
+          }}
+        />
       </div>
     </main>
   );

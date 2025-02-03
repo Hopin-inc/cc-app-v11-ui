@@ -9,7 +9,7 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
-import OpportunityCard from "@/components/OpportunityCard";
+import OpportunityCard from "@/components/features/opportunity/OpportunityCard";
 import { type Opportunity } from "@/types";
 
 type OpportunityModalsProps = {
@@ -41,7 +41,10 @@ export function OpportunityModals({
     <>
       {/* Quest Apply Confirmation */}
       {!isEvent && (
-        <Sheet open={isConfirmSheetOpen} onOpenChange={onConfirmSheetOpenChange}>
+        <Sheet
+          open={isConfirmSheetOpen}
+          onOpenChange={onConfirmSheetOpenChange}
+        >
           <SheetContent side="bottom" className="max-w-lg mx-auto rounded-t-lg">
             <div className="container max-w-lg mx-auto px-4">
               <SheetHeader className="text-center mb-6">
@@ -57,7 +60,10 @@ export function OpportunityModals({
                   })}
                 </div>
                 <div className="bg-muted/20 rounded-xl">
-                  <OpportunityCard session={opportunity} isJoined={isJoined} />
+                  <OpportunityCard
+                    opportunity={opportunity}
+                    isJoined={isJoined}
+                  />
                 </div>
               </div>
               <div className="flex flex-col items-center justify-center mt-12 space-y-4">
@@ -91,7 +97,10 @@ export function OpportunityModals({
                   })}
                 </div>
                 <div className="bg-muted/20 rounded-xl">
-                  <OpportunityCard session={opportunity} isJoined={isJoined} />
+                  <OpportunityCard
+                    opportunity={opportunity}
+                    isJoined={isJoined}
+                  />
                 </div>
               </div>
               <div className="flex flex-col items-center justify-center mt-12 space-y-4">
@@ -99,7 +108,10 @@ export function OpportunityModals({
                   size="lg"
                   className="w-full flex items-center justify-center gap-2"
                   onClick={() =>
-                    window.open("https://line.me/R/ti/p/@your-line-id", "_blank")
+                    window.open(
+                      "https://line.me/R/ti/p/@your-line-id",
+                      "_blank"
+                    )
                   }
                 >
                   <Phone className="mr-2 h-4 w-4" />
@@ -122,7 +134,10 @@ export function OpportunityModals({
 
       {/* Event Join Confirmation */}
       {isEvent && (
-        <Sheet open={isConfirmSheetOpen} onOpenChange={onConfirmSheetOpenChange}>
+        <Sheet
+          open={isConfirmSheetOpen}
+          onOpenChange={onConfirmSheetOpenChange}
+        >
           <SheetContent side="bottom" className="max-w-lg mx-auto rounded-t-lg">
             <div className="container max-w-lg mx-auto px-4">
               <SheetHeader className="text-center mb-6">
@@ -138,7 +153,10 @@ export function OpportunityModals({
                   })}
                 </div>
                 <div className="bg-muted/20 rounded-xl">
-                  <OpportunityCard session={opportunity} isJoined={isJoined} />
+                  <OpportunityCard
+                    opportunity={opportunity}
+                    isJoined={isJoined}
+                  />
                 </div>
               </div>
               <div className="flex flex-col items-center justify-center mt-12 space-y-4">
@@ -172,7 +190,10 @@ export function OpportunityModals({
                   })}
                 </div>
                 <div className="bg-muted/20 rounded-xl">
-                  <OpportunityCard session={opportunity} isJoined={isJoined} />
+                  <OpportunityCard
+                    opportunity={opportunity}
+                    isJoined={isJoined}
+                  />
                 </div>
               </div>
               <div className="flex flex-col items-center justify-center mt-12 space-y-4">

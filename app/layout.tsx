@@ -1,14 +1,15 @@
 import "./globals.css";
 import { Inter } from "next/font/google";
-import Header from "@/components/Header";
-import { ScrollToTop } from "@/components/ScrollToTop";
-import BottomNavigation from "@/components/bottom-navigation";
+import Header from "@/components/shared/Header";
+import { ScrollToTop } from "@/components/shared/ScrollToTop";
+import BottomNavigation from "@/components/shared/BottomNavigation";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "共創DAO",
-  description: "地域活性化のための機会共創プラットフォーム",
+  title: "NEO88",
+  description:
+    "「わたしふるえる体験」を巡ることで自分の中の心に気づき、新たな自分を始めていく旅",
 };
 
 function ClientLayout({ children }: { children: React.ReactNode }) {

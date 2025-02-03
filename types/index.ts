@@ -1,22 +1,4 @@
-export type User = {
-  id: string;
-  name: string;
-  email: string;
-  role: "visitor" | "leader";
-  points: {
-    [projectId: string]: {
-      available: number;
-      total: number;
-    };
-  };
-  maxPoints: number;
-  createdAt: Date;
-  updatedAt: Date;
-  appliedSessions: Opportunity[];
-  invitations: Invitation[];
-};
-
-export type Project = {
+export type Community = {
   id: string;
   title: string;
   description: string;
@@ -30,10 +12,15 @@ export type Project = {
     id: string;
     name: string;
     title: string;
+    bio?: string;
     image?: string;
   }[];
   socialLinks?: {
     type: "twitter" | "instagram" | "facebook" | "website" | "youtube";
+    url: string;
+  }[];
+  customLinks?: {
+    title: string;
     url: string;
   }[];
   speakerDeckEmbed?: {
@@ -51,7 +38,7 @@ export type Opportunity = {
   description: string;
   type: "EVENT" | "QUEST";
   status: "open" | "in_progress" | "closed";
-  projectId: string;
+  communityId: string;
   hostId: string;
   startsAt: string;
   endsAt: string;
@@ -63,14 +50,18 @@ export type Opportunity = {
     title: string;
     bio: string;
   };
-  image: string;
+  image?: string;
+  images?: {
+    url: string;
+    caption?: string;
+  }[];
   location: {
     name: string;
     address: string;
     isOnline: boolean;
     meetingUrl?: string;
   };
-  project?: {
+  community?: {
     title: string;
     description: string;
     icon: string;
@@ -86,9 +77,23 @@ export type Opportunity = {
 export type Invitation = {
   id: string;
   opportunityId: string;
-  hostMessage: string;
-  requiredPoints: number;
+  pointsForBonus?: number; // 招待時経由で完了した場合加算されるポイントなど
+  senderUserId: string;
+  receiverUserId: string;
   createdAt: Date;
+  opportunity: Opportunity;
+};
+
+export type User = {
+  id: string;
+  name: string;
+  title: string;
+  image?: string;
+  bio: string;
+  points: Record<string, { available: number; total: number }>;
+  communities: Community[];
+  appliedOppotunities: Opportunity[];
+  invitations?: Invitation[];
 };
 
 export type Message = {
