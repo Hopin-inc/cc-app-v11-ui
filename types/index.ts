@@ -1,85 +1,129 @@
-export type User = {
-  id: string
-  name: string
-  email: string
-  role: "visitor" | "leader"
-  createdAt: Date
-  updatedAt: Date
-}
-
-export type Project = {
-  id: string
-  title: string
-  description: string
-  categories: Category[]
-  skills: Skill[]
-  createdAt: Date
-  updatedAt: Date
-  opportunities: Opportunity[]
-  icon: string
-}
+export type Community = {
+  id: string;
+  title: string;
+  description: string;
+  icon?: string;
+  location: {
+    prefecture: string;
+    city: string;
+    address: string;
+  };
+  members: {
+    id: string;
+    name: string;
+    title: string;
+    bio?: string;
+    image?: string;
+  }[];
+  socialLinks?: {
+    type: "twitter" | "instagram" | "facebook" | "website" | "youtube";
+    url: string;
+  }[];
+  customLinks?: {
+    title: string;
+    url: string;
+  }[];
+  speakerDeckEmbed?: {
+    title: string;
+    embedUrl: string;
+  };
+  opportunities: Opportunity[];
+  createdAt: Date;
+  updatedAt: Date;
+};
 
 export type Opportunity = {
-  id: string
-  title: string
-  description: string
-  status: "open" | "in_progress" | "closed"
-  projectId: string
-  hostId: string
-  durationMinutes: 30 | 60 | 90
-  categories: Category[]
-  skills: Skill[]
-  createdAt: Date
-  updatedAt: Date
+  id: string;
+  title: string;
+  description: string;
+  type: "EVENT" | "QUEST";
+  status: "open" | "in_progress" | "closed";
+  communityId: string;
+  hostId: string;
+  startsAt: string;
+  endsAt: string;
+  createdAt: Date;
+  updatedAt: Date;
   host: {
-    name: string
-    image: string
-  }
-  image: string
-  project?: {
-    title: string
-    description: string
-    icon: string
-  }
-  relatedArticles?: {
-    id: string
-    title: string
-    description: string
-    image: string
-    url: string
-    source: {
-      name: string
-      icon: string
-    }
-  }[]
-}
+    name: string;
+    image: string;
+    title: string;
+    bio: string;
+  };
+  image?: string;
+  images?: {
+    url: string;
+    caption?: string;
+  }[];
+  location: {
+    name: string;
+    address: string;
+    isOnline: boolean;
+    meetingUrl?: string;
+  };
+  community?: {
+    title: string;
+    description: string;
+    icon: string;
+  };
+  recommendedFor: string[];
+  relatedArticles?: RelatedArticle[];
+  capacity: number;
+  pointsForComplete?: number;
+  pointsForJoin?: number;
+  participants: Participant[];
+};
 
-export type Skill = {
-  id: string
-  name: string
-  description: string
-}
+export type Invitation = {
+  id: string;
+  opportunityId: string;
+  pointsForBonus?: number; // 招待時経由で完了した場合加算されるポイントなど
+  senderUserId: string;
+  receiverUserId: string;
+  createdAt: Date;
+  opportunity: Opportunity;
+};
 
-export type Category = {
-  id: string
-  name: string
-  description: string
-}
+export type User = {
+  id: string;
+  name: string;
+  title: string;
+  image?: string;
+  bio: string;
+  points: Record<string, { available: number; total: number }>;
+  communities: Community[];
+  appliedOppotunities: Opportunity[];
+  invitations?: Invitation[];
+};
 
 export type Message = {
-  id: string
-  senderId: string
-  receiverId: string
-  content: string
-  createdAt: Date
-  read: boolean
-}
+  id: string;
+  senderId: string;
+  receiverId: string;
+  content: string;
+  createdAt: Date;
+  read: boolean;
+};
 
 export type Notification = {
-  id: string
-  userId: string
-  content: string
-  read: boolean
-  createdAt: Date
-}
+  id: string;
+  userId: string;
+  content: string;
+  read: boolean;
+  createdAt: Date;
+};
 
+export type Participant = {
+  id: string;
+  name: string;
+  image?: string;
+};
+
+export type RelatedArticle = {
+  title: string;
+  url: string;
+  type: "interview" | "article";
+  image?: string;
+  description?: string;
+  publishedAt: string;
+};
