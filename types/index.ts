@@ -7,6 +7,8 @@ export type Community = {
     prefecture: string;
     city: string;
     address: string;
+    lat?: number;
+    lng?: number;
   };
   members: {
     id: string;
@@ -60,6 +62,8 @@ export type Opportunity = {
     address: string;
     isOnline: boolean;
     meetingUrl?: string;
+    lat?: number;
+    lng?: number;
   };
   community?: {
     title: string;
@@ -94,6 +98,10 @@ export type User = {
   communities: Community[];
   appliedOppotunities: Opportunity[];
   invitations?: Invitation[];
+  socialLinks?: {
+    type: "twitter" | "instagram" | "facebook" | "line" | "website";
+    url: string;
+  }[];
 };
 
 export type Message = {
@@ -126,4 +134,86 @@ export type RelatedArticle = {
   image?: string;
   description?: string;
   publishedAt: string;
+};
+
+export type ArticleType = "activity_report" | "interview" | "column";
+
+export type Article = {
+  id: string;
+  title: string;
+  description: string;
+  content: string;
+  type: ArticleType;
+  thumbnail: string;
+  publishedAt: string;
+  author: {
+    name: string;
+    image: string;
+    bio?: string;
+  };
+  relatedActivityId?: string;
+  relatedUserId?: string;
+  tags: string[];
+  status: "draft" | "published";
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type Activity = {
+  id: string;
+  title: string;
+  description: string;
+  communityId: string;
+  price: number;
+  duration: number; // minutes
+  location: {
+    name: string;
+    address: string;
+    prefecture: string;
+    city: string;
+    lat?: number;
+    lng?: number;
+  };
+  images: string[];
+  capacity: number;
+  participants?: User[];
+  schedule: {
+    startTime: string;
+    endTime: string;
+    daysOfWeek: number[]; // 0-6, 0 is Sunday
+  };
+  timeSchedule: {
+    time: string;
+    description: string;
+  }[];
+  precautions: string[];
+  host: {
+    name: string;
+    image: string;
+    bio: string;
+  };
+  status: "open" | "closed";
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type ActivityReservation = {
+  id: string;
+  activityId: string;
+  userId: string;
+  date: string;
+  startTime: string;
+  endTime: string;
+  numberOfGuests: number;
+  status: "pending" | "approved" | "rejected" | "cancelled";
+  totalPrice: number;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type ContentType = "EXPERIENCE" | "QUEST" | "EVENT" | "ARTICLE";
+
+export type DateFilter = {
+  startDate: Date | null;
+  endDate: Date | null;
 };

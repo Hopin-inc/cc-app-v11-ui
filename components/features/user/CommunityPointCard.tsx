@@ -4,19 +4,29 @@ import type { Community } from "@/types";
 import { useState } from "react";
 import { TransferPointModal } from "./TransferPointModal";
 import { ExchangePointModal } from "./ExchangePointModal";
+import { PointHistoryModal } from "./PointHistoryModal";
+import { Button } from "@/components/ui/button";
+import { History, Send, Gift } from "lucide-react";
 
 type Props = {
   community: Community;
   points: { available: number; total: number } | undefined;
   onClick: () => void;
+  isOwner: boolean;
 };
 
 type Mode = "default" | "transfer" | "exchange";
 
-export const CommunityPointCard = ({ community, points, onClick }: Props) => {
+export const CommunityPointCard = ({
+  community,
+  points,
+  onClick,
+  isOwner,
+}: Props) => {
   const [mode, setMode] = useState<Mode>("default");
   const [showTransferModal, setShowTransferModal] = useState(false);
   const [showExchangeModal, setShowExchangeModal] = useState(false);
+  const [showHistoryModal, setShowHistoryModal] = useState(false);
 
   const membershipNumber = `${community.id
     .slice(0, 4)
@@ -120,10 +130,24 @@ export const CommunityPointCard = ({ community, points, onClick }: Props) => {
         {/* ポイント */}
         {points && (
           <div className="space-y-4">
-            <p className="text-3xl font-bold tracking-tight">
-              {points.available.toLocaleString()}
-              <span className="text-sm font-normal ml-1 opacity-60">pt</span>
-            </p>
+            <div className="flex items-center justify-between">
+              <p className="text-3xl font-bold tracking-tight">
+                {points.available.toLocaleString()}
+                <span className="text-sm font-normal ml-1 opacity-60">pt</span>
+              </p>
+              <Button
+                variant="secondary"
+                size="default"
+                className="bg-white/20 hover:bg-white/30 text-white font-medium"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setShowHistoryModal(true);
+                }}
+              >
+                <History className="w-4 h-4 mr-2" />
+                利用履歴
+              </Button>
+            </div>
 
             {progress && mode === "default" && (
               <div className="space-y-2">
@@ -151,30 +175,34 @@ export const CommunityPointCard = ({ community, points, onClick }: Props) => {
           </h3>
 
           {/* モード切り替えボタン */}
-          {/* <div className="flex gap-2">
-            <Button
-              variant="ghost"
-              size="sm"
-              className="flex-1 bg-white/10 hover:bg-white/20 text-white"
-              onClick={(e) => {
-                e.stopPropagation();
-                setShowTransferModal(true);
-              }}
-            >
-              送金
-            </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              className="flex-1 bg-white/10 hover:bg-white/20 text-white"
-              onClick={(e) => {
-                e.stopPropagation();
-                setShowExchangeModal(true);
-              }}
-            >
-              交換
-            </Button>
-          </div> */}
+          {isOwner && (
+            <div className="flex gap-2">
+              <Button
+                variant="secondary"
+                size="default"
+                className="flex-1 bg-white/20 hover:bg-white/30 text-white font-medium"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setShowTransferModal(true);
+                }}
+              >
+                <Send className="w-4 h-4 mr-2" />
+                送金
+              </Button>
+              <Button
+                variant="secondary"
+                size="default"
+                className="flex-1 bg-white/20 hover:bg-white/30 text-white font-medium"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setShowExchangeModal(true);
+                }}
+              >
+                <Gift className="w-4 h-4 mr-2" />
+                交換
+              </Button>
+            </div>
+          )}
         </div>
       </div>
 
@@ -192,6 +220,11 @@ export const CommunityPointCard = ({ community, points, onClick }: Props) => {
             onClose={() => setShowExchangeModal(false)}
             community={community}
             availablePoints={points.available}
+          />
+          <PointHistoryModal
+            isOpen={showHistoryModal}
+            onClose={() => setShowHistoryModal(false)}
+            community={community}
           />
         </>
       )}

@@ -46,8 +46,8 @@ export const OpportunityList = ({
   return (
     <>
       {Object.entries(groupedOpportunities).map(([date, opportunities]) => (
-        <div key={date} className="relative px-4">
-          {showDateDivider && (
+        <div key={date} className="relative">
+          {showDateDivider ? (
             <div className="sticky top-16 z-20 -mx-4 bg-background/95 backdrop-blur-sm py-2">
               <div className="flex items-center gap-2 px-4">
                 <div className="w-3 h-3 rounded-full border border-border bg-muted" />
@@ -58,6 +58,12 @@ export const OpportunityList = ({
                 </div>
               </div>
             </div>
+          ) : (
+            <div className="mb-2">
+              <p className="text-muted-foreground text-base">
+                {formatDateWithWeekday(date)}
+              </p>
+            </div>
           )}
           <div
             className={
@@ -66,7 +72,9 @@ export const OpportunityList = ({
                 : ""
             }
           >
-            <div className={showDateDivider ? "space-y-4 pl-4" : "space-y-4"}>
+            <div
+              className={showDateDivider ? "space-y-4 pl-4" : "space-y-4 mb-4"}
+            >
               {opportunities.map((opportunity) => {
                 const invitation = invitationInfo?.invitations.find(
                   (i) => i.opportunityId === opportunity.id

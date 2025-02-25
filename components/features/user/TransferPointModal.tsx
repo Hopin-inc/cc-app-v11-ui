@@ -36,7 +36,7 @@ export const TransferPointModal = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent>
+      <DialogContent className="max-w-2xl">
         <DialogHeader>
           <DialogTitle>ポイントを送金</DialogTitle>
           <DialogDescription>
@@ -80,6 +80,7 @@ export const TransferPointModal = ({
               Number(amount) <= 0 ||
               Number(amount) > availablePoints
             }
+            className="opacity-50"
           >
             送金する
           </Button>

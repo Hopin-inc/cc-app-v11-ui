@@ -25,7 +25,7 @@ export const UserUpcomingActivities = ({
 
   return (
     <section className="space-y-4">
-      <h2 className="text-lg font-semibold text-muted-foreground mb-4">
+      <h2 className="text-lg font-semibold text-muted-foreground py-4">
         参加予定の関わり
       </h2>
       <div className="space-y-4">

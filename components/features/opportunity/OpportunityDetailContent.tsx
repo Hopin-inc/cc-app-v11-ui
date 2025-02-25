@@ -31,16 +31,16 @@ export const OpportunityDetailContent = ({
       : false;
 
   return (
-    <div className="container max-w-2xl mx-auto px-8 py-6 space-y-8">
+    <div className="container max-w-2xl mx-auto px-8 space-y-8">
       <div className="space-y-8">
         {/* Description */}
         <div className="mb-8">
-          <h2 className="text-muted-foreground text-lg font-semibold mb-4 pb-2">
+          <h2 className="text-muted-foreground text-lg font-semibold mb-4">
             詳細
           </h2>
           <div className="prose prose-sm max-w-none">
             {opportunity.description.split("\n").map((line, i) => (
-              <p key={i} className="text-sm mb-4">
+              <p key={i} className="mb-4">
                 {line}
               </p>
             ))}
@@ -110,8 +110,8 @@ export const OpportunityDetailContent = ({
         </div>
 
         {/* Recommended For */}
-        <div className="space-y-4">
-          <h2 className="text-xl font-semibold text-muted-foreground pb-2">
+        <div className="mb-8">
+          <h2 className="text-lg font-semibold text-muted-foreground mb-4">
             こんな方におすすめ
           </h2>
           <ul className="space-y-2">
@@ -132,15 +132,15 @@ export const OpportunityDetailContent = ({
                     />
                   </svg>
                 </div>
-                <span className="text-sm">{item}</span>
+                <span className="text-base">{item}</span>
               </li>
             ))}
           </ul>
         </div>
 
         {/* Speaker/Host Info */}
-        <div className="space-y-4">
-          <h2 className="text-lg font-semibold text-muted-foreground pb-2">
+        <div className="mb-8">
+          <h2 className="text-lg font-semibold text-muted-foreground mb-4">
             {isEvent ? "スピーカーの紹介" : "ホストの紹介"}
           </h2>
           <div className="flex items-start space-x-4">
@@ -165,8 +165,8 @@ export const OpportunityDetailContent = ({
         {/* Related Articles */}
         {opportunity.relatedArticles &&
           opportunity.relatedArticles.length > 0 && (
-            <div className="space-y-4">
-              <h2 className="text-lg font-semibold text-muted-foreground pb-2">
+            <div className="mb-8">
+              <h2 className="text-lg font-semibold text-muted-foreground mb-4">
                 関連記事
               </h2>
               <div className="grid gap-4">
@@ -213,8 +213,8 @@ export const OpportunityDetailContent = ({
 
         {/* Community Info */}
         {community && (
-          <div className="space-y-4">
-            <h2 className="text-lg font-semibold text-muted-foreground pb-2">
+          <div className="mb-8">
+            <h2 className="text-lg font-semibold text-muted-foreground mb-4">
               主催コミュニティ
             </h2>
             <Link href={`/communities/${community.id}`} className="block group">

@@ -3,55 +3,74 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { Home, User } from "lucide-react";
-import { CURRENT_USER } from "@/lib/data";
+import { Home, Users, Calendar, Sparkles, Gift, Settings } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 
-const NAVIGATION_ITEMS = [
-  {
-    href: "/",
-    label: "ホーム",
-    icon: Home,
-  },
-  // {
-  //   href: "/communities",
-  //   label: "コミュニティ",
-  //   icon: Hammer,
-  // },
-  {
-    href: `/users/${CURRENT_USER.id}`,
-    label: "マイページ",
-    icon: User,
-  },
-] as const;
+type IconName =
+  | "home"
+  | "users"
+  | "calendar"
+  | "sparkles"
+  | "gift"
+  | "settings";
 
-export default function BottomNavigation() {
+const icons: Record<IconName, React.ComponentType<{ className?: string }>> = {
+  home: Home,
+  users: Users,
+  calendar: Calendar,
+  sparkles: Sparkles,
+  gift: Gift,
+  settings: Settings,
+};
+
+export type BottomNavigationItem = {
+  label: string;
+  href: string;
+  icon: IconName;
+  badge?: number;
+};
+
+type BottomNavigationProps = {
+  items: BottomNavigationItem[];
+};
+
+export default function BottomNavigation({ items }: BottomNavigationProps) {
   const pathname = usePathname();
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 bg-background border-t">
-      <nav className="container mx-auto max-w-xl">
-        <ul className="flex items-center justify-around py-2">
-          {NAVIGATION_ITEMS.map((item) => {
-            const isActive = pathname === item.href;
+    <nav className="fixed bottom-0 left-0 z-50 w-full border-t bg-white">
+      <div className="container mx-auto max-w-lg">
+        <div className="grid h-16 grid-cols-4">
+          {items.map((item) => {
+            const Icon = icons[item.icon];
             return (
-              <li key={item.href}>
-                <Link
-                  href={item.href}
-                  className={cn(
-                    "flex flex-col items-center gap-1 px-4 py-2 rounded-lg transition-colors duration-200",
-                    isActive
-                      ? "text-primary"
-                      : "text-muted-foreground hover:text-primary"
-                  )}
-                >
-                  <item.icon className="w-5 h-5" />
-                  <span className="text-xs font-medium">{item.label}</span>
-                </Link>
-              </li>
+              <Link
+                key={item.href}
+                href={item.href}
+                className={cn(
+                  "flex flex-col items-center justify-center gap-1 text-sm relative",
+                  pathname === item.href
+                    ? "text-primary"
+                    : "text-muted-foreground hover:text-primary"
+                )}
+              >
+                <div className="relative">
+                  <Icon className="h-5 w-5" />
+                  {item.badge ? (
+                    <Badge
+                      className="absolute -right-3 -top-2 h-4 min-w-4 px-1 flex items-center justify-center bg-red-500 text-white"
+                      variant="secondary"
+                    >
+                      {item.badge}
+                    </Badge>
+                  ) : null}
+                </div>
+                <span className="text-xs">{item.label}</span>
+              </Link>
             );
           })}
-        </ul>
-      </nav>
-    </div>
+        </div>
+      </div>
+    </nav>
   );
 }

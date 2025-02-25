@@ -1,6 +1,6 @@
 import { History } from "lucide-react";
 import { EmptyState } from "@/components/shared/EmptyState";
-import { Timeline } from "@/components/features/opportunity/Timeline";
+import { ActivityGrid } from "@/components/features/user/ActivityGrid";
 import {
   Select,
   SelectContent,
@@ -29,7 +29,7 @@ export const UserActivityHistory = ({
 }: Props) => {
   return (
     <section className="space-y-4">
-      <div className="flex items-center justify-between pb-4 pt-8">
+      <div className="flex items-center justify-between py-4">
         <h2 className="text-lg font-semibold text-muted-foreground">
           これまでの活動
         </h2>
@@ -48,11 +48,10 @@ export const UserActivityHistory = ({
         </Select>
       </div>
       {Object.keys(groupedOpportunities).length > 0 ? (
-        <Timeline
-          groupedOpportunities={groupedOpportunities}
+        <ActivityGrid
+          opportunities={Object.values(groupedOpportunities).flat()}
           showCommunity={selectedCommunityId === "all"}
           communities={communities}
-          sortDirection="desc"
         />
       ) : (
         <EmptyState

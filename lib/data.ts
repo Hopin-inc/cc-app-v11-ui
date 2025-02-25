@@ -1,10 +1,24 @@
-import { type Community, type Opportunity, Invitation, User } from "@/types";
+import {
+  type Community,
+  type Opportunity,
+  Activity,
+  Article,
+  Invitation,
+  User,
+} from "@/types";
 
 export const CURRENT_USER = {
   id: "user1",
   name: "山田美咲",
   image:
     "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Fotor%20AI%20Image%20Creator%20Nov%2030%20(3).jpg-v7ifi1e9jgGZ756DbfeIZ8sO5wzaqA.jpeg",
+};
+
+export const CURRENT_COMMUNITY = {
+  id: "shodoshima-olive",
+  name: "小豆島オリーブ",
+  image:
+    "https://images.unsplash.com/photo-1445282768818-728615cc910a?w=800&auto=format&fit=crop&q=80&ixlib=rb-4.0.3",
 };
 
 const ACTIVITY_IMAGES = {
@@ -43,6 +57,8 @@ export const mockInvitationOpportunities: Opportunity[] = [
       name: "小豆島オリーブ公園",
       address: "香川県小豆郡小豆島町",
       isOnline: false,
+      lat: 34.4784,
+      lng: 134.2384,
     },
     host: {
       name: "山田太郎",
@@ -57,24 +73,24 @@ export const mockInvitationOpportunities: Opportunity[] = [
     image: ACTIVITY_IMAGES.BBQ,
     images: [
       {
-        url: "/placeholder.svg",
-        caption: "オリーブの収穫作業の様子",
+        url: "https://images.unsplash.com/photo-1470337458703-46ad1756a187?w=800&auto=format&fit=crop&q=80",
+        caption: "BBQの様子",
       },
       {
-        url: "/placeholder.svg",
-        caption: "収穫したオリーブの選別",
+        url: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=800&auto=format&fit=crop&q=80",
+        caption: "地元の新鮮な食材",
       },
       {
-        url: "/placeholder.svg",
-        caption: "オリーブオイルの搾油工程",
+        url: "https://images.unsplash.com/photo-1534080564583-6be75777b70a?w=800&auto=format&fit=crop&q=80",
+        caption: "オリーブオイルを使った料理",
       },
       {
-        url: "/placeholder.svg",
-        caption: "完成したオリーブオイル",
+        url: "https://images.unsplash.com/photo-1559136555-9303baea8ebd?w=800&auto=format&fit=crop&q=80",
+        caption: "コミュニティの交流",
       },
       {
-        url: "/placeholder.svg",
-        caption: "地域の方々との交流会",
+        url: "https://images.unsplash.com/photo-1445282768818-728615cc910a?w=800&auto=format&fit=crop&q=80",
+        caption: "小豆島の風景",
       },
     ],
     recommendedFor: [
@@ -105,12 +121,30 @@ export const mockOpportunities: Opportunity[] = [
       name: "小豆島オリーブ農園",
       address: "香川県小豆郡小豆島町",
       isOnline: false,
+      lat: 34.4784,
+      lng: 134.2384,
     },
     participants: [CURRENT_USER],
     images: [
       {
-        url: "/placeholder.svg",
+        url: "https://images.unsplash.com/photo-1445282768818-728615cc910a?w=800&auto=format&fit=crop&q=80",
         caption: "冬季メンテナンス作業の様子",
+      },
+      {
+        url: "https://images.unsplash.com/photo-1592332280537-70d3142bd01a?w=800&auto=format&fit=crop&q=80",
+        caption: "オリーブの木の剪定",
+      },
+      {
+        url: "https://images.unsplash.com/photo-1615370183635-de8ff3c3f91b?w=800&auto=format&fit=crop&q=80",
+        caption: "オリーブオイルの品質チェック",
+      },
+      {
+        url: "https://images.unsplash.com/photo-1632662057933-455667f03888?w=800&auto=format&fit=crop&q=80",
+        caption: "オリーブの収穫",
+      },
+      {
+        url: "https://images.unsplash.com/photo-1600326145552-327c61f3ae35?w=800&auto=format&fit=crop&q=80",
+        caption: "オリーブオイルの瓶詰め作業",
       },
     ],
     host: {
@@ -145,12 +179,26 @@ export const mockOpportunities: Opportunity[] = [
       name: "小豆島オリーブ記念館",
       address: "香川県小豆郡小豆島町",
       isOnline: false,
+      lat: 34.4784,
+      lng: 134.2384,
     },
     participants: [CURRENT_USER],
     images: [
       {
-        url: "/placeholder.svg",
+        url: "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=800&auto=format&fit=crop&q=80",
         caption: "品質管理講座の様子",
+      },
+      {
+        url: "https://images.unsplash.com/photo-1632662057933-455667f03888?w=800&auto=format&fit=crop&q=80",
+        caption: "オリーブの品質チェック",
+      },
+      {
+        url: "https://images.unsplash.com/photo-1615370183635-de8ff3c3f91b?w=800&auto=format&fit=crop&q=80",
+        caption: "オリーブオイルのテイスティング",
+      },
+      {
+        url: "https://images.unsplash.com/photo-1592332280537-70d3142bd01a?w=800&auto=format&fit=crop&q=80",
+        caption: "オリーブの木の管理方法",
       },
     ],
     host: {
@@ -263,6 +311,8 @@ export const mockOpportunities: Opportunity[] = [
       name: "小豆島図書館",
       address: "香川県小豆郡小豆島町",
       isOnline: false,
+      lat: 34.4784,
+      lng: 134.2384,
     },
   },
   {
@@ -325,6 +375,8 @@ export const mockOpportunities: Opportunity[] = [
       name: "善通寺",
       address: "香川県善通寺市",
       isOnline: false,
+      lat: 34.4784,
+      lng: 134.2384,
     },
   },
   {
@@ -381,6 +433,8 @@ export const mockOpportunities: Opportunity[] = [
       name: "旧山田家住宅",
       address: "香川県高松市",
       isOnline: false,
+      lat: 34.4784,
+      lng: 134.2384,
     },
   },
   {
@@ -448,6 +502,8 @@ export const mockOpportunities: Opportunity[] = [
       name: "小豆島オリーブ公園",
       address: "香川県小豆郡小豆島町",
       isOnline: false,
+      lat: 34.4784,
+      lng: 134.2384,
     },
   },
   {
@@ -504,6 +560,8 @@ export const mockOpportunities: Opportunity[] = [
       name: "善通寺周辺",
       address: "香川県善通寺市",
       isOnline: false,
+      lat: 34.4784,
+      lng: 134.2384,
     },
   },
   {
@@ -567,6 +625,8 @@ export const mockOpportunities: Opportunity[] = [
       name: "小豆島オリーブ公園",
       address: "香川県小豆郡小豆島町",
       isOnline: false,
+      lat: 34.4784,
+      lng: 134.2384,
     },
   },
   {
@@ -592,6 +652,8 @@ export const mockOpportunities: Opportunity[] = [
       name: "小豆島オリーブ公園",
       address: "香川県小豆郡小豆島町",
       isOnline: false,
+      lat: 34.4784,
+      lng: 134.2384,
     },
     capacity: 10,
     pointsForComplete: 600,
@@ -648,6 +710,8 @@ export const mockOpportunities: Opportunity[] = [
       name: "小豆島オリーブ研究所",
       address: "香川県小豆郡小豆島町",
       isOnline: false,
+      lat: 34.4784,
+      lng: 134.2384,
     },
     capacity: 5,
     pointsForComplete: 500,
@@ -736,6 +800,8 @@ export const mockOpportunities: Opportunity[] = [
       address: "",
       isOnline: true,
       meetingUrl: "https://meet.google.com/xxx-xxxx-xxx",
+      lat: 34.4784,
+      lng: 134.2384,
     },
   },
   {
@@ -792,6 +858,8 @@ export const mockOpportunities: Opportunity[] = [
       name: "高松市民センター",
       address: "香川県高松市",
       isOnline: false,
+      lat: 34.4784,
+      lng: 134.2384,
     },
   },
   {
@@ -848,6 +916,8 @@ export const mockOpportunities: Opportunity[] = [
       name: "直島サウナ",
       address: "香川県香川郡直島町",
       isOnline: false,
+      lat: 34.4784,
+      lng: 134.2384,
     },
     relatedArticles: [
       {
@@ -924,6 +994,8 @@ export const mockOpportunities: Opportunity[] = [
       name: "直島サウナ",
       address: "香川県香川郡直島町",
       isOnline: false,
+      lat: 34.4784,
+      lng: 134.2384,
     },
     relatedArticles: [
       {
@@ -992,6 +1064,8 @@ export const mockOpportunities: Opportunity[] = [
       address: "",
       isOnline: true,
       meetingUrl: "https://meet.google.com/xxx-xxxx-xxx",
+      lat: 34.4784,
+      lng: 134.2384,
     },
     relatedArticles: [
       {
@@ -1068,6 +1142,8 @@ export const mockOpportunities: Opportunity[] = [
       name: "内子町並み保存地区",
       address: "愛媛県喜多郡内子町",
       isOnline: false,
+      lat: 34.4784,
+      lng: 134.2384,
     },
     relatedArticles: [
       {
@@ -1135,6 +1211,8 @@ export const mockOpportunities: Opportunity[] = [
       name: "眉山ロープウェイ駅前",
       address: "徳島県徳島市",
       isOnline: false,
+      lat: 34.4784,
+      lng: 134.2384,
     },
     relatedArticles: [
       {
@@ -1211,6 +1289,8 @@ export const mockOpportunities: Opportunity[] = [
       name: "徳島市観光案内所",
       address: "徳島県徳島市",
       isOnline: false,
+      lat: 34.4784,
+      lng: 134.2384,
     },
     relatedArticles: [
       {
@@ -1241,6 +1321,8 @@ export const mockOpportunities: Opportunity[] = [
       name: "〇〇商店街",
       address: "徳島県吉野川市",
       isOnline: false,
+      lat: 34.4784,
+      lng: 134.2384,
     },
     host: {
       name: "河野真理",
@@ -1282,7 +1364,7 @@ export const mockOpportunities: Opportunity[] = [
   },
   {
     id: "yamakawa-station-1",
-    title: "山川町駅前の未来を考えるワークショップ",
+    title: "山川町駅前の未来会議",
     description:
       "山川町駅前の新しい姿を、地域の皆さんと一緒に考えるワークショップを開催します。\n\n駅前空間の活用アイデアや、必要な機能について、実際の図面を見ながら議論します。\n\n形式：ワークショップ（2時間）",
     type: "EVENT",
@@ -1297,6 +1379,8 @@ export const mockOpportunities: Opportunity[] = [
       name: "JR山川駅前広場",
       address: "徳島県吉野川市山川町",
       isOnline: false,
+      lat: 34.4784,
+      lng: 134.2384,
     },
     host: {
       name: "田村健一",
@@ -1340,7 +1424,7 @@ export const mockOpportunities: Opportunity[] = [
     id: "yoshinogawa-lab-1",
     title: "プログラミングで地域の課題を解決しよう",
     description:
-      "よしのがわラボで、プログラミングを活用して地域の課題を解決するワークショップを開催します。\n\n初心者から経験者まで、世代を超えて一緒に学び、アイデアを形にしていきましょう。\n\n形式：ワークショップ（全4回シリーズ）",
+      "地域課題をテクノロジーで解決する可能性について、実際の事例を交えながら学ぶワークショップです。参加者同士でアイデアを出し合い、簡単なプロトタイプ作成も行います。",
     type: "EVENT",
     status: "open",
     communityId: "yoshinogawa-lab",
@@ -1353,6 +1437,8 @@ export const mockOpportunities: Opportunity[] = [
       name: "よしのがわラボ",
       address: "徳島県吉野川市",
       isOnline: false,
+      lat: 34.4784,
+      lng: 134.2384,
     },
     host: {
       name: "木村さやか",
@@ -1417,6 +1503,8 @@ export const mockOpportunities: Opportunity[] = [
       name: "〇〇商店街",
       address: "徳島県吉野川市",
       isOnline: false,
+      lat: 34.4784,
+      lng: 134.2384,
     },
     capacity: 5,
     pointsForComplete: 500,
@@ -1473,6 +1561,8 @@ export const mockOpportunities: Opportunity[] = [
       name: "〇〇商店街",
       address: "徳島県吉野川市",
       isOnline: false,
+      lat: 34.4784,
+      lng: 134.2384,
     },
     capacity: 3,
     pointsForComplete: 800,
@@ -1529,6 +1619,8 @@ export const mockOpportunities: Opportunity[] = [
       name: "JR山川駅前広場",
       address: "徳島県吉野川市山川町",
       isOnline: false,
+      lat: 34.4784,
+      lng: 134.2384,
     },
     capacity: 10,
     pointsForComplete: 600,
@@ -1563,7 +1655,7 @@ export const mockOpportunities: Opportunity[] = [
     ],
   },
   {
-    id: "yamakawa-station-quest-2",
+    id: "yamakawa-station-quest-3",
     title: "駅前の思い出インタビュー",
     description:
       "地域の方々から駅前の思い出や将来への期待をインタビューし、開発に活かすストーリーを集めます。\n\n形式：インタビュー（2時間程度）",
@@ -1585,6 +1677,8 @@ export const mockOpportunities: Opportunity[] = [
       name: "JR山川駅前広場",
       address: "徳島県吉野川市山川町",
       isOnline: false,
+      lat: 34.4784,
+      lng: 134.2384,
     },
     capacity: 5,
     pointsForComplete: 500,
@@ -1641,6 +1735,8 @@ export const mockOpportunities: Opportunity[] = [
       name: "よしのがわラボ",
       address: "徳島県吉野川市",
       isOnline: false,
+      lat: 34.4784,
+      lng: 134.2384,
     },
     capacity: 5,
     pointsForComplete: 500,
@@ -1697,6 +1793,8 @@ export const mockOpportunities: Opportunity[] = [
       name: "よしのがわラボ",
       address: "徳島県吉野川市",
       isOnline: false,
+      lat: 34.4784,
+      lng: 134.2384,
     },
     capacity: 3,
     pointsForComplete: 700,
@@ -1748,6 +1846,8 @@ export const mockOpportunities: Opportunity[] = [
       name: "小豆島オリーブ公園",
       address: "香川県小豆郡小豆島町",
       isOnline: false,
+      lat: 34.4784,
+      lng: 134.2384,
     },
     participants: [
       {
@@ -1812,6 +1912,8 @@ export const mockOpportunities: Opportunity[] = [
       name: "小豆島町役場 会議室",
       address: "香川県小豆郡小豆島町",
       isOnline: false,
+      lat: 34.4784,
+      lng: 134.2384,
     },
     participants: [
       {
@@ -1858,6 +1960,8 @@ export const mockOpportunities: Opportunity[] = [
       name: "小豆島町内オリーブ畑",
       address: "香川県小豆郡小豆島町",
       isOnline: false,
+      lat: 34.4784,
+      lng: 134.2384,
     },
     participants: [
       {
@@ -1917,6 +2021,8 @@ export const mockOpportunities: Opportunity[] = [
       name: "小豆島オリーブ農園",
       address: "香川県小豆郡小豆島町",
       isOnline: false,
+      lat: 34.4784,
+      lng: 134.2384,
     },
     participants: [
       CURRENT_USER,
@@ -1964,6 +2070,8 @@ export const mockOpportunities: Opportunity[] = [
       name: "小豆島オリーブ搾油所",
       address: "香川県小豆郡小豆島町",
       isOnline: false,
+      lat: 34.4784,
+      lng: 134.2384,
     },
     participants: [
       CURRENT_USER,
@@ -2011,6 +2119,8 @@ export const mockOpportunities: Opportunity[] = [
       name: "小豆島オリーブ研究所",
       address: "香川県小豆郡小豆島町",
       isOnline: false,
+      lat: 34.4784,
+      lng: 134.2384,
     },
     participants: [
       CURRENT_USER,
@@ -2058,6 +2168,8 @@ export const mockOpportunities: Opportunity[] = [
       name: "内子町古民家再生プロジェクト拠点",
       address: "愛媛県喜多郡内子町",
       isOnline: false,
+      lat: 34.4784,
+      lng: 134.2384,
     },
     participants: [CURRENT_USER],
     images: [
@@ -2098,6 +2210,8 @@ export const mockOpportunities: Opportunity[] = [
       name: "徳島市観光案内所前",
       address: "徳島県徳島市",
       isOnline: false,
+      lat: 34.4784,
+      lng: 134.2384,
     },
     participants: [CURRENT_USER],
     images: [
@@ -2138,6 +2252,8 @@ export const mockOpportunities: Opportunity[] = [
       name: "よしのがわラボ",
       address: "徳島県吉野川市",
       isOnline: false,
+      lat: 34.4784,
+      lng: 134.2384,
     },
     participants: [CURRENT_USER],
     images: [
@@ -2178,6 +2294,8 @@ export const mockOpportunities: Opportunity[] = [
       name: "山川町駅前広場",
       address: "徳島県吉野川市",
       isOnline: false,
+      lat: 34.4784,
+      lng: 134.2384,
     },
     participants: [CURRENT_USER],
     images: [
@@ -2199,6 +2317,141 @@ export const mockOpportunities: Opportunity[] = [
       "デザインが好きな方",
     ],
     image: ACTIVITY_IMAGES.COMMUNITY,
+  },
+  {
+    id: "yoshinogawa-kominka-cleaning",
+    title: "古民家の大掃除ボランティア",
+    description:
+      "吉野川市の歴史ある古民家を、地域の新たな交流拠点として活用するためのクリーニングプロジェクトです。昔ながらの建築様式を学びながら、みんなで協力して掃除を行います。\n\n作業内容：\n- 床や壁、建具などの清掃\n- 不要物の整理\n- 庭の手入れ\n- 簡単な補修作業\n\n※作業しやすい服装でお越しください。",
+    type: "QUEST",
+    status: "open",
+    communityId: "yoshinogawa-lab",
+    hostId: "host1",
+    pointsForComplete: 500,
+    createdAt: new Date("2024-02-01"),
+    updatedAt: new Date("2024-02-01"),
+    startsAt: "2024-02-15T01:00:00.000Z",
+    endsAt: "2024-02-15T05:00:00.000Z",
+    location: {
+      name: "吉野川古民家",
+      address: "徳島県吉野川市",
+      isOnline: false,
+      lat: 34.0662,
+      lng: 134.3595,
+    },
+    participants: [],
+    images: [
+      {
+        url: "/placeholder.svg",
+        caption: "古民家の外観",
+      },
+      {
+        url: "/placeholder.svg",
+        caption: "掃除作業の様子",
+      },
+    ],
+    host: {
+      name: "木村修一",
+      image: "https://api.dicebear.com/7.x/personas/svg?seed=host15",
+      title: "古民家再生プロジェクトマネージャー",
+      bio: "古民家の再生と地域コミュニティの活性化に取り組んでいます。伝統的な建築技術の保存と現代的な活用方法の調和を目指しています。",
+    },
+    capacity: 15,
+    recommendedFor: [
+      "地域の歴史的建造物に興味がある方",
+      "古民家の保存活動に関心のある方",
+      "地域コミュニティの活性化に貢献したい方",
+      "掃除や整理整頓が得意な方",
+    ],
+    image: ACTIVITY_IMAGES.RENOVATION,
+  },
+  {
+    id: "project-discussion-1",
+    title: "オリーブ農家の後継者についての壁打ち",
+    description:
+      "小豆島のオリーブ農家の高齢化が進む中、新規就農者の育成と技術継承が課題となっています。\n\n今回は、以下のポイントについてフィードバックや色々な意見をもらいたいです：\n\n・就農希望者向けの体験プログラムの設計\n・技術継承のためのデジタルドキュメント化\n・農地継承の仕組みづくり\n・新規就農者の収入確保策\n\n実際に新規就農された方や、就農支援に関わる方々と共に、実現可能な育成プログラムの構築を目指します。",
+    type: "QUEST",
+    status: "open",
+    communityId: "shodoshima-olive",
+    hostId: "host1",
+    pointsForComplete: 300,
+    createdAt: new Date("2025-01-20"),
+    updatedAt: new Date("2025-01-20"),
+    startsAt: "2025-02-10T05:00:00.000Z",
+    endsAt: "2025-02-10T06:30:00.000Z",
+    location: {
+      name: "オンライン",
+      address: "",
+      isOnline: true,
+      meetingUrl: "https://meet.google.com/xxx-xxxx-xxx",
+      lat: 34.4784,
+      lng: 134.2384,
+    },
+    participants: [],
+    images: [
+      {
+        url: "/placeholder.svg",
+        caption: "オンラインディスカッションの様子",
+      },
+    ],
+    host: {
+      name: "木村誠一",
+      image: "https://api.dicebear.com/7.x/personas/svg?seed=host20",
+      title: "小豆島オリーブ研究所 研究員",
+      bio: "新規就農支援プログラムの開発に携わり、5年間で10名の新規就農者の育成に成功。",
+    },
+    capacity: 6,
+    recommendedFor: [
+      "農業研修プログラムの企画・運営経験がある方",
+      "就農支援に関わっている方",
+      "新規就農者として経験のある方",
+      "農業分野でのデジタル活用に知見のある方",
+    ],
+    image: ACTIVITY_IMAGES.OLIVE,
+  },
+  {
+    id: "community-discussion-2",
+    title: "オリーブオイルの新商品開発ブレスト",
+    description:
+      "小豆島産オリーブオイルの新しい活用方法と商品企画について、アイデアを出し合うセッションです。\n\n具体的なテーマ：\n・若年層向けの新商品企画\n・オリーブオイルを使った新しいレシピ開発\n・サステナブルなパッケージデザイン\n・ECでの販売戦略\n\n商品企画、デザイン、マーケティングなど、様々な視点からの意見を集め、実現可能な企画としてまとめていきます。",
+    type: "QUEST",
+    status: "open",
+    communityId: "shodoshima-olive",
+    hostId: "host1",
+    pointsForComplete: 400,
+    createdAt: new Date("2025-01-20"),
+    updatedAt: new Date("2025-01-20"),
+    startsAt: "2025-02-15T06:00:00.000Z",
+    endsAt: "2025-02-15T07:30:00.000Z",
+    location: {
+      name: "オンライン",
+      address: "",
+      isOnline: true,
+      meetingUrl: "https://meet.google.com/xxx-xxxx-xxx",
+      lat: 34.4784,
+      lng: 134.2384,
+    },
+    participants: [],
+    images: [
+      {
+        url: "/placeholder.svg",
+        caption: "オンラインブレストの様子",
+      },
+    ],
+    host: {
+      name: "田中美咲",
+      image: "https://api.dicebear.com/7.x/personas/svg?seed=host21",
+      title: "小豆島オリーブ株式会社 商品開発部",
+      bio: "食品メーカーでの商品企画経験を活かし、現在は小豆島のオリーブ製品の開発に携わっています。",
+    },
+    capacity: 8,
+    recommendedFor: [
+      "食品の商品企画経験がある方",
+      "パッケージデザインの知見がある方",
+      "オーガニック商品のECマーケティング経験がある方",
+      "食品レシピ開発の経験がある方",
+    ],
+    image: ACTIVITY_IMAGES.OLIVE,
   },
 ];
 
@@ -2721,6 +2974,8 @@ export const mockCommunities: Community[] = [
           name: "〇〇商店街",
           address: "徳島県吉野川市",
           isOnline: false,
+          lat: 34.4784,
+          lng: 134.2384,
         },
         capacity: 5,
         pointsForComplete: 500,
@@ -2777,6 +3032,8 @@ export const mockCommunities: Community[] = [
           name: "〇〇商店街",
           address: "徳島県吉野川市",
           isOnline: false,
+          lat: 34.4784,
+          lng: 134.2384,
         },
         capacity: 3,
         pointsForComplete: 800,
@@ -2865,6 +3122,8 @@ export const mockCommunities: Community[] = [
           name: "JR山川駅前広場",
           address: "徳島県吉野川市山川町",
           isOnline: false,
+          lat: 34.4784,
+          lng: 134.2384,
         },
         capacity: 10,
         pointsForComplete: 600,
@@ -2921,6 +3180,8 @@ export const mockCommunities: Community[] = [
           name: "JR山川駅前広場",
           address: "徳島県吉野川市山川町",
           isOnline: false,
+          lat: 34.4784,
+          lng: 134.2384,
         },
         capacity: 5,
         pointsForComplete: 500,
@@ -3006,6 +3267,8 @@ export const mockCommunities: Community[] = [
           name: "よしのがわラボ",
           address: "徳島県吉野川市",
           isOnline: false,
+          lat: 34.4784,
+          lng: 134.2384,
         },
         capacity: 5,
         pointsForComplete: 500,
@@ -3062,6 +3325,8 @@ export const mockCommunities: Community[] = [
           name: "よしのがわラボ",
           address: "徳島県吉野川市",
           isOnline: false,
+          lat: 34.4784,
+          lng: 134.2384,
         },
         capacity: 3,
         pointsForComplete: 700,
@@ -3248,3 +3513,602 @@ export const mockPointHistory: Record<string, PointHistory[]> = {
     },
   ],
 };
+
+export const mockActivities: Activity[] = [
+  {
+    id: "activity1",
+    title: "オリーヴ兄弟から学ぶ　オリーブ収穫・テイスティング体験",
+    description:
+      "小豆島の美しいオリーブ畑で、オリーブの収穫から味わいまでを体験できます。オリーブ栽培のエキスパートである「オリーヴ兄弟」から、オリーブの育て方や収穫方法を学び、最後にはオリーブオイルのテイスティングも楽しめます。",
+    communityId: "neo88",
+    price: 3500,
+    duration: 180,
+    location: {
+      name: "小豆島オリーブ園",
+      address: "香川県小豆郡小豆島町西村甲1941-1",
+      prefecture: "香川県",
+      city: "小豆郡",
+      lat: 34.4784,
+      lng: 134.2384,
+    },
+    images: [
+      "/images/activities/olive.jpg",
+      "/images/activities/olive-tasting.jpg",
+      "/images/activities/olive-farm.jpg",
+    ],
+    capacity: 8,
+    schedule: {
+      startTime: "09:00",
+      endTime: "12:00",
+      daysOfWeek: [0, 6], // 土日のみ
+    },
+    timeSchedule: [
+      {
+        time: "09:00",
+        description: "集合・オリエンテーション",
+      },
+      {
+        time: "09:30",
+        description: "オリーブの収穫",
+      },
+      {
+        time: "11:00",
+        description: "オリーブオイルのテイスティング",
+      },
+      {
+        time: "12:00",
+        description: "解散",
+      },
+    ],
+    precautions: [
+      "動きやすい服装、靴でお越しください。",
+      "収穫作業に使用する手袋や収穫袋、収穫かごは無料で貸し出しいたします。",
+      "前日または当日のご宿泊は、オリーヴの森の敷地内にある宿泊施設、千年オリーブテラス「The STAY」をお勧めします。（別料金）",
+    ],
+    host: {
+      name: "山田 美咲",
+      bio: "20年以上にわたり四国の伝統工芸を研究。地域の文化継承に力を入れています。",
+      image:
+        "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=3270&auto=format&fit=crop",
+    },
+    status: "open",
+    createdAt: "2024-01-01T09:00:00+09:00",
+    updatedAt: "2024-01-01T09:00:00+09:00",
+  },
+  {
+    id: "activity2",
+    title: "正岡子規生誕の地で自分の人生を見つける俳句体験",
+    description:
+      "松山市の正岡子規記念館で、俳句の世界に浸る特別な体験を提供します。地元の俳句の達人から俳句の基本を学び、子規の足跡を辿りながら、自分だけの俳句を作り上げていきます。",
+    communityId: "neo88",
+    price: 3500,
+    duration: 120,
+    location: {
+      name: "正岡子規記念館",
+      address: "愛媛県松山市道後公園1-30",
+      prefecture: "愛媛県",
+      city: "松山市",
+      lat: 33.8516,
+      lng: 132.7866,
+    },
+    images: [
+      "/images/activities/haiku-museum.jpg",
+      "/images/activities/haiku-workshop.jpg",
+      "/images/activities/haiku-garden.jpg",
+    ],
+    capacity: 10,
+    schedule: {
+      startTime: "13:00",
+      endTime: "15:00",
+      daysOfWeek: [3, 6], // 水曜と土曜
+    },
+    timeSchedule: [
+      {
+        time: "13:00",
+        description: "集合・オリエンテーション",
+      },
+      {
+        time: "13:30",
+        description: "俳句の基礎講座",
+      },
+      {
+        time: "14:30",
+        description: "吟行体験",
+      },
+      {
+        time: "15:00",
+        description: "解散",
+      },
+    ],
+    precautions: [
+      "ペンやノートはご用意ください。",
+      "子規記念館の見学は自由です。",
+      "事前予約は必要です。",
+    ],
+    host: {
+      name: "山田葉子",
+      bio: "松山市在住の俳人。地域の俳句会で指導者として活動しています。",
+      image:
+        "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=3270&auto=format&fit=crop",
+    },
+    status: "open",
+    createdAt: "2024-01-01T09:00:00+09:00",
+    updatedAt: "2024-01-01T09:00:00+09:00",
+  },
+  {
+    id: "activity3",
+    title: "四万十川でのカヌー体験と地域の食文化探訪",
+    description:
+      "四万十川の清流でカヌーを楽しみながら、地域の自然と食文化を体験できるプログラムです。地元ガイドと共に川下りを楽しみ、昼食には地元の食材を使った料理を堪能します。",
+    communityId: "neo88",
+    price: 6500,
+    duration: 240,
+    location: {
+      name: "四万十川カヌーステーション",
+      address: "高知県四万十市西土佐用井1111-11",
+      prefecture: "高知県",
+      city: "四万十市",
+      lat: 33.2138,
+      lng: 132.9339,
+    },
+    images: [
+      "/images/activities/shimanto-canoe.jpg",
+      "/images/activities/shimanto-river.jpg",
+      "/images/activities/shimanto-lunch.jpg",
+    ],
+    capacity: 6,
+    schedule: {
+      startTime: "09:00",
+      endTime: "13:00",
+      daysOfWeek: [0, 6], // 土日のみ
+    },
+    timeSchedule: [
+      {
+        time: "09:00",
+        description: "集合・安全講習",
+      },
+      {
+        time: "09:30",
+        description: "カヌー体験開始",
+      },
+      {
+        time: "11:30",
+        description: "地元食材の昼食",
+      },
+      {
+        time: "13:00",
+        description: "解散",
+      },
+    ],
+    precautions: [
+      "濡れても良い服装でお越しください。",
+      "着替えをご持参ください。",
+      "天候により中止となる場合があります。",
+    ],
+    host: {
+      name: "中村太郎",
+      bio: "四万十川で20年以上カヌーガイドを務めています。地域の自然と文化の案内人として活動中。",
+      image:
+        "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+    },
+    status: "open",
+    createdAt: "2024-01-01T09:00:00+09:00",
+    updatedAt: "2024-01-01T09:00:00+09:00",
+  },
+  {
+    id: "activity4",
+    title: "阿波藍染め体験と徳島の伝統工芸探訪",
+    description:
+      "徳島の伝統工芸である阿波藍染めを体験できるプログラムです。藍染めの歴史や技法を学び、オリジナルの作品を作ることができます。地元の職人から直接指導を受けられる貴重な機会です。",
+    communityId: "neo88",
+    price: 4500,
+    duration: 180,
+    location: {
+      name: "阿波藍染工房",
+      address: "徳島県徳島市川内町平石若宮8-1",
+      prefecture: "徳島県",
+      city: "徳島市",
+      lat: 34.0744,
+      lng: 134.5725,
+    },
+    images: [
+      "/images/activities/awa-indigo.jpg",
+      "/images/activities/awa-dyeing.jpg",
+      "/images/activities/awa-workshop.jpg",
+    ],
+    capacity: 8,
+    schedule: {
+      startTime: "13:00",
+      endTime: "16:00",
+      daysOfWeek: [2, 4, 6], // 火木土
+    },
+    timeSchedule: [
+      {
+        time: "13:00",
+        description: "藍染めの歴史と技法の説明",
+      },
+      {
+        time: "14:00",
+        description: "染色体験",
+      },
+      {
+        time: "15:30",
+        description: "作品の仕上げ",
+      },
+      {
+        time: "16:00",
+        description: "解散",
+      },
+    ],
+    precautions: [
+      "汚れても良い服装でお越しください。",
+      "エプロンは貸し出しいたします。",
+      "作品の持ち帰りは当日可能です。",
+    ],
+    host: {
+      name: "藤原恵子",
+      bio: "阿波藍染めの技法を継承する職人。伝統工芸士として後進の育成にも力を入れています。",
+      image:
+        "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+    },
+    status: "open",
+    createdAt: "2024-01-01T09:00:00+09:00",
+    updatedAt: "2024-01-01T09:00:00+09:00",
+  },
+  {
+    id: "activity5",
+    title: "讃岐うどん打ち体験と地域の食文化探訪",
+    description:
+      "香川県の伝統的な讃岐うどんの打ち方を学べる体験プログラムです。地元の職人から本場の技術を学び、自分で打ったうどんを試食できます。地域の食文化についても深く学べます。",
+    communityId: "neo88",
+    price: 4000,
+    duration: 150,
+    location: {
+      name: "さぬきうどん学校",
+      address: "香川県高松市牟礼町原631-8",
+      prefecture: "香川県",
+      city: "高松市",
+      lat: 34.3266,
+      lng: 134.1588,
+    },
+    images: [
+      "/images/activities/udon.png",
+      "/images/activities/udon-making.jpg",
+      "/images/activities/udon-tasting.jpg",
+    ],
+    capacity: 10,
+    schedule: {
+      startTime: "10:00",
+      endTime: "12:30",
+      daysOfWeek: [1, 3, 5], // 月水金
+    },
+    timeSchedule: [
+      {
+        time: "10:00",
+        description: "讃岐うどんの歴史と特徴の説明",
+      },
+      {
+        time: "10:30",
+        description: "うどん打ち体験",
+      },
+      {
+        time: "11:45",
+        description: "試食",
+      },
+      {
+        time: "12:30",
+        description: "解散",
+      },
+    ],
+    precautions: [
+      "エプロンをご持参ください。",
+      "アレルギーをお持ちの方は事前にお申し出ください。",
+      "体験で作ったうどんはお持ち帰りいただけます。",
+    ],
+    host: {
+      name: "香川誠一",
+      bio: "讃岐うどんの技術を継承する職人。40年以上の経験を活かし、伝統の技を分かりやすく伝えています。",
+      image:
+        "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+    },
+    status: "open",
+    createdAt: "2024-01-01T09:00:00+09:00",
+    updatedAt: "2024-01-01T09:00:00+09:00",
+  },
+  {
+    id: "activity6",
+    title: "盆栽×Web3×地方創生トーク",
+    description:
+      "盆栽の聖地・高松で、伝統的な盆栽文化とWeb3技術を組み合わせた新しい地方創生の可能性について語り合います。盆栽職人とIT技術者が共に未来を描くユニークな対話の場です。",
+    communityId: "neo88",
+    price: 3000,
+    duration: 120,
+    location: {
+      name: "高松盆栽センター",
+      address: "香川県高松市鬼無町佐藤123",
+      prefecture: "香川県",
+      city: "高松市",
+      lat: 34.3266,
+      lng: 134.0588,
+    },
+    images: [
+      "/images/activities/bonsai-web3.jpg",
+      "/images/activities/bonsai-garden.jpg",
+      "/images/activities/bonsai-workshop.jpg",
+    ],
+    capacity: 15,
+    schedule: {
+      startTime: "14:00",
+      endTime: "16:00",
+      daysOfWeek: [4], // 木曜のみ
+    },
+    timeSchedule: [
+      {
+        time: "14:00",
+        description: "盆栽の歴史と現状",
+      },
+      {
+        time: "14:45",
+        description: "Web3と地方創生",
+      },
+      {
+        time: "15:30",
+        description: "ディスカッション",
+      },
+      {
+        time: "16:00",
+        description: "解散",
+      },
+    ],
+    precautions: [
+      "PCやスマートフォンをご持参ください。",
+      "Web3の知識は不要です。",
+      "盆栽園の見学も可能です。",
+    ],
+    host: {
+      name: "木下智也",
+      bio: "盆栽職人の家系に生まれ、IT技術を活用した伝統文化の発信に取り組んでいます。",
+      image:
+        "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+    },
+    status: "open",
+    createdAt: "2024-01-01T09:00:00+09:00",
+    updatedAt: "2024-01-01T09:00:00+09:00",
+  },
+  {
+    id: "activity7",
+    title: "森の恵みで草木染め 上質オリジナルストール作り",
+    description:
+      "四国の秘境で、地元の「やまんば」から草木染めを学びます。森で採取した植物を使って、世界に一つだけのストールを作り上げる体験です。",
+    communityId: "neo88",
+    price: 5500,
+    duration: 240,
+    location: {
+      name: "森の工房まほろば",
+      address: "愛媛県西予市野村町野村12-34",
+      prefecture: "愛媛県",
+      city: "西予市",
+      lat: 33.3666,
+      lng: 132.6588,
+    },
+    images: [
+      "/images/activities/forest-dyeing.jpg",
+      "/images/activities/dyeing-workshop.jpg",
+      "/images/activities/stole-making.jpg",
+    ],
+    capacity: 6,
+    schedule: {
+      startTime: "10:00",
+      endTime: "14:00",
+      daysOfWeek: [3, 4, 5], // 水木金
+    },
+    timeSchedule: [
+      {
+        time: "10:00",
+        description: "森での素材採取",
+      },
+      {
+        time: "11:30",
+        description: "染料作り",
+      },
+      {
+        time: "13:00",
+        description: "染色作業",
+      },
+      {
+        time: "14:00",
+        description: "解散",
+      },
+    ],
+    precautions: [
+      "汚れても良い服装でお越しください。",
+      "雨天決行です。",
+      "軽装でお越しください。",
+    ],
+    host: {
+      name: "森田はるか",
+      bio: "20年以上草木染めを研究。地域の植物を活かした染色技法を確立しました。",
+      image:
+        "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=3270&auto=format&fit=crop",
+    },
+    status: "open",
+    createdAt: "2024-01-01T09:00:00+09:00",
+    updatedAt: "2024-01-01T09:00:00+09:00",
+  },
+  {
+    id: "activity8",
+    title: "リノベーション進行中、空き家拝見ツアー",
+    description:
+      "吉野川市山川町でリノベーションした古民家、リノベーション中の空き家や旧店舗などを回ります。地域課題の一つである「空き家」を使った活動ツアーとなっており、町の歴史や環境をどう組み合わせてプロジェクトを作っているのか、どういう人たちが運営や作業を行っているのかリアル体験記として初開催します。",
+    communityId: "neo88",
+    price: 3000,
+    duration: 180,
+    location: {
+      name: "リノベーション物件",
+      address: "徳島県吉野川市山川町建石151",
+      prefecture: "徳島県",
+      city: "吉野川市",
+      lat: 34.0666,
+      lng: 134.2588,
+    },
+    images: [
+      "/images/activities/kumu.jpg",
+      "/images/activities/renovation-work.jpg",
+      "/images/activities/renovation-house.jpg",
+    ],
+    capacity: 5,
+    schedule: {
+      startTime: "13:30",
+      endTime: "16:30",
+      daysOfWeek: [6],
+    },
+    timeSchedule: [
+      {
+        time: "13:30",
+        description: "集合・オリエンテーション",
+      },
+      {
+        time: "14:00",
+        description: "リノベーション物件見学",
+      },
+      {
+        time: "15:30",
+        description: "意見交換会",
+      },
+      {
+        time: "16:30",
+        description: "解散",
+      },
+    ],
+    precautions: [
+      "動きやすい服装でお越しください",
+      "歩きやすい靴をご着用ください",
+      "雨天決行です",
+    ],
+    host: {
+      name: "谷内尾 恵",
+      image:
+        "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+      bio: "多摩美術大学 大学院卒業後、フリーランスアーティストとして活動。2024年4月から一般社団法人ネイテック吉野川に市地域おこし協力隊としてkumu projectで地域活動を行っている。",
+    },
+    status: "open",
+    createdAt: "2024-01-01T09:00:00+09:00",
+    updatedAt: "2024-01-01T09:00:00+09:00",
+  },
+  {
+    id: "activity9",
+    title: "NBQ -鍋＆BBQ- 体験",
+    description:
+      "徳島県美馬市脇町うだつの町並みエリア内にあるゲストハウス「のどけや」のもつ鍋。地元肉屋さんから仕入れしたもつ、地元農家さんから直接届いた野菜などの食材を使った鍋を堪能できます！",
+    communityId: "neo88",
+    price: 4500,
+    duration: 120,
+    location: {
+      name: "のどけや本館",
+      address: "徳島県美馬市脇町大字脇町117-1",
+      prefecture: "徳島県",
+      city: "美馬市",
+      lat: 34.0744,
+      lng: 134.1525,
+    },
+    images: [
+      "/images/activities/nbq.jpg",
+      "/images/activities/nbq-ingredients.jpg",
+      "/images/activities/nbq-guesthouse.jpg",
+    ],
+    capacity: 4,
+    schedule: {
+      startTime: "18:00",
+      endTime: "20:00",
+      daysOfWeek: [5, 6],
+    },
+    timeSchedule: [
+      {
+        time: "18:00",
+        description: "集合・食材説明",
+      },
+      {
+        time: "18:30",
+        description: "調理開始",
+      },
+      {
+        time: "19:00",
+        description: "食事タイム",
+      },
+      {
+        time: "20:00",
+        description: "解散",
+      },
+    ],
+    precautions: [
+      "アレルギーをお持ちの方は事前にお申し出ください",
+      "お酒の持ち込みは可能です",
+      "当日のキャンセルはご遠慮ください",
+    ],
+    host: {
+      name: "柴田 義帆",
+      image:
+        "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+      bio: "ゲストハウスのどけや代表。大阪府門真市出身。10年前に徳島県美馬市へ移住してゲストハウス「のどけや」をオープン。ITの会社を立ち上げて、プラットフォーム開発やミートアップ、四国シェアサミット2019を主催。",
+    },
+    status: "open",
+    createdAt: "2024-01-01T09:00:00+09:00",
+    updatedAt: "2024-01-01T09:00:00+09:00",
+  },
+];
+
+export const mockArticles: Article[] = [
+  {
+    id: "article-1",
+    title: "地元の魅力を再発見！四万十川でのカヌー体験レポート",
+    description:
+      "四万十川でのカヌー体験を通じて、地域の自然の素晴らしさと、それを守り続ける地元の人々の思いに触れました。",
+    content:
+      "四万十川でのカヌー体験は、私にとって忘れられない思い出となりました...",
+    type: "activity_report",
+    thumbnail:
+      "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.shimanto-kankou.com%2Fwp%2Fwp-content%2Fuploads%2F2017%2F07%2Fkawarakko_ph004.jpg&f=1&nofb=1&ipt=82fe845b6d6574ad4b95daa9bb2b42fb519a83bf92c4793663cfa4a61d13bc73&ipo=images",
+    publishedAt: "2025-02-01T09:00:00Z",
+    author: {
+      name: "田中 美咲",
+      image: "/placeholder.svg",
+      bio: "地域の魅力を発信するライター",
+    },
+    relatedActivityId: "activity-1",
+    tags: ["四万十川", "カヌー", "自然体験", "高知"],
+    status: "published",
+    createdAt: "2025-01-30T15:00:00Z",
+    updatedAt: "2025-02-01T09:00:00Z",
+  },
+  {
+    id: "article-2",
+    title: "伝統を守り続ける職人の想い - 土佐打刃物職人 中村さんインタビュー",
+    description:
+      "400年以上の歴史を持つ土佐打刃物。その伝統を受け継ぎ、現代に活かす職人の想いに迫ります。",
+    content:
+      "土佐打刃物の伝統を受け継ぐ中村工房を訪ね、三代目の中村匠司さんにお話を伺いました...",
+    type: "interview",
+    thumbnail:
+      "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fbaseec-img-mng.akamaized.net%2Fimages%2Fuser%2Fblog%2F1414651%2Fblog%2Fb11f85dddf9ddce18d2af08ffad68c13.jpg%3Fimformat%3Dgeneric%26q%3D90%26im%3DResize%2Cwidth%3D2048%2Ctype%3Ddownsize&f=1&nofb=1&ipt=816c3c01006454529db8301eadb46afd5ecee58080e52c6036d7b3e135ba13cc&ipo=images",
+    publishedAt: "2025-02-03T10:00:00Z",
+    author: {
+      name: "山本 健一",
+      image: "/placeholder.svg",
+      bio: "伝統工芸研究家",
+    },
+    relatedUserId: "user-2",
+    tags: ["土佐打刃物", "伝統工芸", "職人", "高知"],
+    status: "published",
+    createdAt: "2025-02-02T15:00:00Z",
+    updatedAt: "2025-02-03T10:00:00Z",
+  },
+];
+
+// mockOpportunitiesからEVENTとQUESTを分離
+export const mockEvents = mockOpportunities.filter(
+  (opportunity) => opportunity.type === "EVENT"
+);
+
+export const mockQuests = mockOpportunities.filter(
+  (opportunity) => opportunity.type === "QUEST"
+);

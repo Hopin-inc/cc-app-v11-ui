@@ -3,13 +3,16 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Opportunity, Community } from "@/types";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Camera, X } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { AvatarGroup } from "@/components/ui/avatar-group";
 import { cn } from "@/lib/utils";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { format } from "date-fns";
 import { ja } from "date-fns/locale";
+import { useState } from "react";
+import { CURRENT_USER } from "@/lib/data";
+import { Button } from "@/components/ui/button";
 
 type TimelineProps = {
   groupedOpportunities: Record<string, Opportunity[]>;
@@ -24,6 +27,30 @@ export const Timeline = ({
   communities,
   sortDirection = "asc",
 }: TimelineProps) => {
+  const [selectedImages, setSelectedImages] = useState<
+    { url: string; caption?: string }[]
+  >([]);
+  const [uploadImages, setUploadImages] = useState<File[]>([]);
+  const [caption, setCaption] = useState("");
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      const files = Array.from(e.target.files);
+      setUploadImages(files);
+    }
+  };
+
+  const removeImage = (index: number) => {
+    setUploadImages((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  const handleUpload = () => {
+    // TODO: 写真アップロード処理
+    console.log({ uploadImages, caption });
+    setUploadImages([]);
+    setCaption("");
+  };
+
   return (
     <div className="space-y-8">
       {Object.entries(groupedOpportunities)
@@ -98,51 +125,249 @@ export const Timeline = ({
                         {/* Images */}
                         {opportunity.images &&
                           opportunity.images.length > 0 && (
-                            <div
-                              className={cn(
-                                "w-full",
-                                opportunity.images.length >= 3
-                                  ? "flex overflow-x-auto snap-x snap-mandatory scrollbar-hide -mx-4 px-4"
-                                  : "grid grid-cols-2 gap-2"
-                              )}
-                            >
-                              {opportunity.images.map((image, index) => (
-                                <Dialog key={index}>
+                            <>
+                              <div
+                                className={cn("w-full grid grid-cols-2 gap-2")}
+                              >
+                                {opportunity.images
+                                  .slice(0, 4)
+                                  .map((image, index) => (
+                                    <Dialog key={index}>
+                                      <DialogTrigger asChild>
+                                        <button
+                                          className={cn(
+                                            "relative overflow-hidden rounded-md hover:opacity-90 transition-opacity aspect-[4/3]",
+                                            index === 3 &&
+                                              opportunity.images &&
+                                              opportunity.images.length > 4 &&
+                                              "relative"
+                                          )}
+                                        >
+                                          <Image
+                                            src={image.url}
+                                            alt={
+                                              image.caption || opportunity.title
+                                            }
+                                            fill
+                                            className="object-cover transition-transform duration-200 hover:scale-[1.2] hover:opacity-90"
+                                          />
+                                          {index === 3 &&
+                                            opportunity.images &&
+                                            opportunity.images.length > 4 && (
+                                              <div
+                                                className="absolute inset-0 bg-black/60 flex items-center justify-center"
+                                                onClick={(e) => {
+                                                  e.preventDefault();
+                                                  e.stopPropagation();
+                                                  if (opportunity.images) {
+                                                    setSelectedImages(
+                                                      opportunity.images
+                                                    );
+                                                  }
+                                                }}
+                                              >
+                                                <span className="text-white font-medium">
+                                                  +
+                                                  {opportunity.images.length -
+                                                    4}
+                                                  枚
+                                                </span>
+                                              </div>
+                                            )}
+                                        </button>
+                                      </DialogTrigger>
+                                      <DialogContent>
+                                        <div className="relative aspect-[4/3]">
+                                          <Image
+                                            src={image.url}
+                                            alt={
+                                              image.caption || opportunity.title
+                                            }
+                                            fill
+                                            className="object-contain"
+                                          />
+                                        </div>
+                                        {image.caption && (
+                                          <p className="text-sm text-muted-foreground mt-2">
+                                            {image.caption}
+                                          </p>
+                                        )}
+                                      </DialogContent>
+                                    </Dialog>
+                                  ))}
+                              </div>
+                              {/* 写真アップロードボタン - 参加済みの場合のみ表示 */}
+                              {opportunity.participants?.some(
+                                (p) => p.id === CURRENT_USER.id
+                              ) && (
+                                <Dialog>
                                   <DialogTrigger asChild>
-                                    <button
-                                      className={cn(
-                                        "relative overflow-hidden rounded-md hover:opacity-90 transition-opacity",
-                                        (opportunity?.images ?? []).length >= 3
-                                          ? "min-w-[240px] aspect-[4/3] snap-center shrink-0 first:ml-0 mr-2"
-                                          : "aspect-[4/3]"
-                                      )}
+                                    <Button
+                                      variant="outline"
+                                      className="w-full mt-2 bg-background/80 backdrop-blur-sm hover:bg-background/90 transition-all duration-200"
                                     >
-                                      <Image
-                                        src={image.url}
-                                        alt={image.caption || opportunity.title}
-                                        fill
-                                        className="object-cover transition-transform duration-200 hover:scale-[1.2] hover:opacity-90"
-                                      />
-                                    </button>
+                                      <Camera className="w-4 h-4 mr-2" />
+                                      写真を追加
+                                    </Button>
                                   </DialogTrigger>
-                                  <DialogContent>
-                                    <div className="relative aspect-[4/3]">
-                                      <Image
-                                        src={image.url}
-                                        alt={image.caption || opportunity.title}
-                                        fill
-                                        className="object-contain"
-                                      />
+                                  <DialogContent className="sm:max-w-2xl">
+                                    <div className="space-y-6">
+                                      <div>
+                                        <h3 className="text-xl font-medium">
+                                          活動の写真を追加
+                                        </h3>
+                                        <p className="text-sm text-muted-foreground mt-1">
+                                          {opportunity.title}
+                                          での思い出の写真を共有しましょう
+                                        </p>
+                                      </div>
+
+                                      {uploadImages.length === 0 ? (
+                                        <div
+                                          className={cn(
+                                            "flex items-center justify-center w-full h-48 border-2 border-dashed rounded-xl",
+                                            "border-muted-foreground/25 hover:border-muted-foreground/50 transition-all duration-200",
+                                            "bg-muted/50 hover:bg-muted/80"
+                                          )}
+                                        >
+                                          <label
+                                            htmlFor="file-upload"
+                                            className="flex flex-col items-center justify-center w-full h-full cursor-pointer p-6"
+                                          >
+                                            <div className="w-12 h-12 rounded-full bg-background flex items-center justify-center mb-3">
+                                              <Camera className="w-6 h-6 text-muted-foreground" />
+                                            </div>
+                                            <span className="text-base font-medium mb-1">
+                                              写真をドラッグ＆ドロップ
+                                            </span>
+                                            <span className="text-sm text-muted-foreground">
+                                              または クリックして写真を選択
+                                            </span>
+                                            <input
+                                              id="file-upload"
+                                              type="file"
+                                              className="hidden"
+                                              accept="image/*"
+                                              multiple
+                                              onChange={handleFileChange}
+                                            />
+                                          </label>
+                                        </div>
+                                      ) : (
+                                        <div className="space-y-4">
+                                          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                                            {uploadImages.map((file, index) => (
+                                              <div
+                                                key={index}
+                                                className="relative aspect-[4/3] group"
+                                              >
+                                                <Image
+                                                  src={URL.createObjectURL(
+                                                    file
+                                                  )}
+                                                  alt={file.name}
+                                                  fill
+                                                  className="object-cover rounded-lg"
+                                                />
+                                                <button
+                                                  onClick={() =>
+                                                    removeImage(index)
+                                                  }
+                                                  className="absolute -top-2 -right-2 w-6 h-6 bg-background border rounded-full flex items-center justify-center shadow-sm opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+                                                >
+                                                  <X className="w-4 h-4" />
+                                                </button>
+                                              </div>
+                                            ))}
+                                            <label
+                                              htmlFor="file-upload"
+                                              className={cn(
+                                                "relative aspect-[4/3] rounded-lg border-2 border-dashed",
+                                                "border-muted-foreground/25 hover:border-muted-foreground/50",
+                                                "flex items-center justify-center cursor-pointer",
+                                                "bg-muted/50 hover:bg-muted/80 transition-all duration-200"
+                                              )}
+                                            >
+                                              <div className="flex flex-col items-center">
+                                                <Camera className="w-6 h-6 text-muted-foreground mb-1" />
+                                                <span className="text-sm text-muted-foreground">
+                                                  追加
+                                                </span>
+                                              </div>
+                                              <input
+                                                id="file-upload"
+                                                type="file"
+                                                className="hidden"
+                                                accept="image/*"
+                                                multiple
+                                                onChange={handleFileChange}
+                                              />
+                                            </label>
+                                          </div>
+                                          <div className="space-y-4">
+                                            <textarea
+                                              placeholder="キャプションを入力（任意）"
+                                              className="w-full px-3 py-2 border rounded-lg resize-none h-24"
+                                              value={caption}
+                                              onChange={(e) =>
+                                                setCaption(e.target.value)
+                                              }
+                                            />
+                                            <div className="flex justify-end gap-3">
+                                              <Button
+                                                variant="outline"
+                                                onClick={() => {
+                                                  setUploadImages([]);
+                                                  setCaption("");
+                                                }}
+                                              >
+                                                キャンセル
+                                              </Button>
+                                              <Button onClick={handleUpload}>
+                                                アップロード
+                                              </Button>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      )}
                                     </div>
-                                    {image.caption && (
-                                      <p className="text-sm text-muted-foreground mt-2">
-                                        {image.caption}
-                                      </p>
-                                    )}
                                   </DialogContent>
                                 </Dialog>
-                              ))}
-                            </div>
+                              )}
+                              <Dialog
+                                open={selectedImages === opportunity.images}
+                                onOpenChange={(open) => {
+                                  if (!open) setSelectedImages([]);
+                                }}
+                              >
+                                <DialogContent className="max-w-4xl">
+                                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 max-h-[80vh] overflow-y-auto p-4">
+                                    {opportunity.images.map((image, index) => (
+                                      <div
+                                        key={index}
+                                        className="relative aspect-[4/3]"
+                                      >
+                                        <Image
+                                          src={image.url}
+                                          alt={
+                                            image.caption || opportunity.title
+                                          }
+                                          fill
+                                          className="object-cover rounded-md"
+                                        />
+                                        {image.caption && (
+                                          <div className="absolute bottom-0 left-0 right-0 bg-black/60 p-2">
+                                            <p className="text-sm text-white">
+                                              {image.caption}
+                                            </p>
+                                          </div>
+                                        )}
+                                      </div>
+                                    ))}
+                                  </div>
+                                </DialogContent>
+                              </Dialog>
+                            </>
                           )}
 
                         {/* Participants */}
